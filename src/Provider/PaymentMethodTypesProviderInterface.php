@@ -9,8 +9,6 @@ use Sylius\Component\Core\Model\OrderInterface;
 interface PaymentMethodTypesProviderInterface
 {
     /**
-     * @param OrderInterface $order
-     *
      * @return string[]
      */
     public function getPaymentMethodTypes(OrderInterface $order): array;

@@ -10,29 +10,25 @@ final class DetailsProvider implements DetailsProviderInterface
 {
     /** @var CustomerEmailProviderInterface */
     private $customerEmailProvider;
+
     /** @var LineItemsProviderInterface */
     private $lineItemsProvider;
+
     /** @var PaymentMethodTypesProviderInterface */
     private $paymentMethodTypesProvider;
 
-    /**
-     * @param CustomerEmailProviderInterface $customerEmailProvider
-     * @param LineItemsProviderInterface $lineItemsProvider
-     * @param PaymentMethodTypesProviderInterface $paymentMethodTypesProvider
-     */
     public function __construct(
         CustomerEmailProviderInterface $customerEmailProvider,
         LineItemsProviderInterface $lineItemsProvider,
         PaymentMethodTypesProviderInterface $paymentMethodTypesProvider
-    )
-    {
+    ) {
         $this->customerEmailProvider = $customerEmailProvider;
         $this->lineItemsProvider = $lineItemsProvider;
         $this->paymentMethodTypesProvider = $paymentMethodTypesProvider;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDetails(OrderInterface $order): array
     {

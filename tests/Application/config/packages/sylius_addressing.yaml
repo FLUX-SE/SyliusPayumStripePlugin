@@ -1,0 +1,5 @@
+sylius_addressing:
+  resources:
+    address:
+      classes:
+        model: Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Application\Entity\Address

@@ -12,16 +12,13 @@ final class PayumGatewayConfigOverride implements CompilerPassInterface
     /** @var array */
     private $gatewayConfigs;
 
-    /**
-     * @param array $gatewayConfigs
-     */
     public function __construct(array $gatewayConfigs)
     {
         $this->gatewayConfigs = $gatewayConfigs;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {

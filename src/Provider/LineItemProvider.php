@@ -11,16 +11,13 @@ final class LineItemProvider implements LineItemProviderInterface
     /** @var LineItemImageProviderInterface */
     private $itemImageProvider;
 
-    /**
-     * @param LineItemImageProviderInterface $lineItemImageProvider
-     */
     public function __construct(LineItemImageProviderInterface $lineItemImageProvider)
     {
         $this->itemImageProvider = $lineItemImageProvider;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLineItem(OrderItemInterface $orderItem): ?array
     {

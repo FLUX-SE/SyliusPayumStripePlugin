@@ -1,0 +1,5 @@
+sylius_channel:
+  resources:
+    channel:
+      classes:
+        model: Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Application\Entity\Channel

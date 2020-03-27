@@ -16,9 +16,6 @@ final class ConvertPaymentAction implements ActionInterface
     /** @var DetailsProviderInterface */
     private $detailsProvider;
 
-    /**
-     * @param DetailsProviderInterface $detailsProvider
-     */
     public function __construct(DetailsProviderInterface $detailsProvider)
     {
         $this->detailsProvider = $detailsProvider;

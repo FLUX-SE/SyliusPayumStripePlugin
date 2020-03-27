@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="true" />
+
+        <service id="prometee_sylius_payum_stripe_checkout_session.context.setup.stripe"
+                 class="Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Context\Setup\StripeContext" public="true">
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="sylius.repository.payment_method"/>
+            <argument type="service" id="sylius.fixture.example_factory.payment_method"/>
+            <argument type="service" id="sylius.manager.payment_method"/>
+        </service>
+
+        <service id="prometee_sylius_payum_stripe_checkout_session.page.admin.payment_method.create"
+                 class="Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\Admin\PaymentMethod\CreatePage">
+            <argument type="service" id="behat.mink.default_session" />
+            <argument type="service" id="behat.mink.parameters" />
+            <argument type="service" id="router.default" />
+            <argument type="string">sylius_admin_payment_method_create</argument>
+        </service>
+
+        <service id="prometee_sylius_payum_stripe_checkout_session.page_checkout.external"
+                 class="Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\External\StripeCheckoutPage"
+                 parent="sylius.behat.page" public="true">
+            <argument type="service" id="sylius.repository.payment_security_token" />
+            <argument type="service" id="test.client" />
+        </service>
+
+        <service id="prometee_sylius_payum_stripe_checkout_session.context.ui.admin.managing_payment_methods"
+                 class="Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Context\Ui\Admin\ManagingPaymentMethodsContext" public="true">
+            <argument type="service" id="prometee_sylius_payum_stripe_checkout_session.page.admin.payment_method.create" />
+        </service>
+
+        <service id="prometee_sylius_payum_stripe_checkout_session.context.ui.shop_stripe"
+                 class="Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Context\Ui\Shop\StripeShopContext" public="true">
+            <argument type="service" id="sylius.behat.page.shop.checkout.complete"/>
+            <argument type="service" id="sylius.behat.page.shop.order.show"/>
+            <argument type="service" id="prometee_sylius_payum_stripe_checkout_session.page_checkout.external"/>
+        </service>
+    </services>
+</container>

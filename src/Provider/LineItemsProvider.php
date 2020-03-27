@@ -11,22 +11,18 @@ final class LineItemsProvider implements LineItemsProviderInterface
     /** @var LineItemProviderInterface */
     private $lineItemProvider;
 
-    /**
-     * @param LineItemProviderInterface $lineItemProvider
-     */
     public function __construct(LineItemProviderInterface $lineItemProvider)
     {
         $this->lineItemProvider = $lineItemProvider;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLineItems(OrderInterface $order): ?array
     {
         $lineItems = [];
         foreach ($order->getItems() as $orderItem) {
-
             $lineItem = $this->lineItemProvider->getLineItem($orderItem);
             if (null !== $lineItem) {
                 $lineItems[] = $lineItem;

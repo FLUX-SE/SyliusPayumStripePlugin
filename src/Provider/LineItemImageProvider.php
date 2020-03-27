@@ -20,24 +20,18 @@ final class LineItemImageProvider implements LineItemImageProviderInterface
     /** @var string */
     private $fallbackImage;
 
-    /**
-     * @param FilterExtension $filterExtension
-     * @param string $filterName
-     * @param string $fallbackImage
-     */
     public function __construct(
         FilterExtension $filterExtension,
         string $filterName,
         string $fallbackImage
-    )
-    {
+    ) {
         $this->filterExtension = $filterExtension;
         $this->filterName = $filterName;
         $this->fallbackImage = $fallbackImage;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getImageUrl(OrderItemInterface $orderItem): ?string
     {
@@ -51,7 +45,7 @@ final class LineItemImageProvider implements LineItemImageProviderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getImageUrlFromProduct(ProductInterface $product): ?string
     {

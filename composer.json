@@ -6,7 +6,7 @@
     "require": {
         "php": "^7.2",
         "prometee/payum-stripe-checkout-session-bundle": "^1.0",
-        "sylius/sylius": "^1.3"
+        "sylius/sylius": "^1.5"
     },
     "require-dev": {
         "behat/behat": "^3.4",

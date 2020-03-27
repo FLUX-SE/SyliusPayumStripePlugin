@@ -9,12 +9,12 @@ use Sylius\Component\Core\Model\OrderInterface;
 final class PaymentMethodTypesProvider implements PaymentMethodTypesProviderInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getPaymentMethodTypes(OrderInterface $order): array
     {
         return [
-            'card'
+            'card',
         ];
     }
 }

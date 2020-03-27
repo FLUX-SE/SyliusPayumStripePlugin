@@ -25,9 +25,6 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    /**
-     * @param ArrayNodeDefinition $node
-     */
     protected function addGlobalSection(ArrayNodeDefinition $node)
     {
         $node

@@ -8,10 +8,5 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 interface CustomerEmailProviderInterface
 {
-    /**
-     * @param OrderInterface $order
-     *
-     * @return string|null
-     */
     public function getCustomerEmail(OrderInterface $order): ?string;
 }
