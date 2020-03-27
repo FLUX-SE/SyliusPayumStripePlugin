@@ -1,0 +1,4 @@
+prometee_stripe_checkout_session_plugin:
+    stripe:
+        webhook_secret_keys:
+            not_blank: Please enter stripe webhook secret key.

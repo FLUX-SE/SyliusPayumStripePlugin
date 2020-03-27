@@ -1,0 +1,7 @@
+prometee_stripe_checkout_session_plugin:
+    payum_gateway_factory:
+        stripe_checkout_session: Stripe Checkout Session (with SCA support)
+    form:
+        gateway_configuration:
+            stripe:
+                webhook_secret_keys: Webhook secret keys

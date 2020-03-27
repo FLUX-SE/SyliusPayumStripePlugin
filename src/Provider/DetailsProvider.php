@@ -1,0 +1,55 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider;
+
+use Sylius\Component\Core\Model\OrderInterface;
+
+final class DetailsProvider implements DetailsProviderInterface
+{
+    /** @var CustomerEmailProviderInterface */
+    private $customerEmailProvider;
+    /** @var LineItemsProviderInterface */
+    private $lineItemsProvider;
+    /** @var PaymentMethodTypesProviderInterface */
+    private $paymentMethodTypesProvider;
+
+    /**
+     * @param CustomerEmailProviderInterface $customerEmailProvider
+     * @param LineItemsProviderInterface $lineItemsProvider
+     * @param PaymentMethodTypesProviderInterface $paymentMethodTypesProvider
+     */
+    public function __construct(
+        CustomerEmailProviderInterface $customerEmailProvider,
+        LineItemsProviderInterface $lineItemsProvider,
+        PaymentMethodTypesProviderInterface $paymentMethodTypesProvider
+    )
+    {
+        $this->customerEmailProvider = $customerEmailProvider;
+        $this->lineItemsProvider = $lineItemsProvider;
+        $this->paymentMethodTypesProvider = $paymentMethodTypesProvider;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDetails(OrderInterface $order): array
+    {
+        $details = [];
+
+        $customerEmail = $this->customerEmailProvider->getCustomerEmail($order);
+        if (null !== $customerEmail) {
+            $details['customer_email'] = $customerEmail;
+        }
+
+        $lineItems = $this->lineItemsProvider->getLineItems($order);
+        if (null !== $lineItems) {
+            $details['line_items'] = $lineItems;
+        }
+
+        $details['payment_method_types'] = $this->paymentMethodTypesProvider->getPaymentMethodTypes($order);
+
+        return $details;
+    }
+}

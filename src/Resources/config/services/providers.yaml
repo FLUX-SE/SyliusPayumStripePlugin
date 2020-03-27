@@ -1,0 +1,30 @@
+services:
+    prometee.sylius_payum_stripe_checkout_session.provider.details:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\DetailsProvider
+        arguments:
+            $customerEmailProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.customer_email'
+            $lineItemsProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.line_items'
+            $paymentMethodTypesProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.payment_method_types'
+    
+    prometee.sylius_payum_stripe_checkout_session.provider.line_items:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemsProvider
+        arguments:
+            $lineItemProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.line_item'
+            
+    prometee.sylius_payum_stripe_checkout_session.provider.line_item:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemProvider
+        arguments:
+            $lineItemImageProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.line_item_image'
+            
+    prometee.sylius_payum_stripe_checkout_session.provider.line_item_image:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemImageProvider
+        arguments:
+            $filterExtension: '@liip_imagine.templating.filter_extension'
+            $filterName: '%prometee_sylius_payum_stripe_checkout_session.line_item_image.imagine_filter%'
+            $fallbackImage: '%prometee_sylius_payum_stripe_checkout_session.line_item_image.fallback_image%'
+            
+    prometee.sylius_payum_stripe_checkout_session.provider.customer_email:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\CustomerEmailProvider
+            
+    prometee.sylius_payum_stripe_checkout_session.provider.payment_method_types:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\PaymentMethodTypesProvider
