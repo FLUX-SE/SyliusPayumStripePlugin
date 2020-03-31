@@ -8,7 +8,7 @@ Feature: Adding a new Stripe payment method
     Given the store operates on a channel named "US" in "USD" currency
     And I am logged in as an administrator
 
-  @ui
+  @ui @javascript
   Scenario: Adding a new stripe payment method
     Given I want to create a new Stripe payment method
     When I name it "Stripe Checkout Session" in "English (United States)"

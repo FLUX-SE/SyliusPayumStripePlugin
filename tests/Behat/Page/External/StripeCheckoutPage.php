@@ -18,11 +18,20 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
     /** @var HttpKernelBrowser */
     private $client;
 
-    public function __construct(RepositoryInterface $securityTokenRepository, HttpKernelBrowser $client, Session $session, array $minkParameters = [])
+    /**
+     * @param HttpKernelBrowser $client
+     */
+    public function setClient(HttpKernelBrowser $client): void
     {
-        parent::__construct($session, $minkParameters);
-        $this->securityTokenRepository = $securityTokenRepository;
         $this->client = $client;
+    }
+
+    /**
+     * @param RepositoryInterface $securityTokenRepository
+     */
+    public function setSecurityTokenRepository(RepositoryInterface $securityTokenRepository): void
+    {
+        $this->securityTokenRepository = $securityTokenRepository;
     }
 
     /**

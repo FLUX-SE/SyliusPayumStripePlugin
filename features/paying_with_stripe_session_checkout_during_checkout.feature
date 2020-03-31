@@ -1,4 +1,4 @@
-@paying_with_stripe_during_checkout
+@paying_with_stripe_session_checkout_during_checkout
 Feature: Paying with Stripe during checkout
   In order to buy products
   As a Customer
@@ -12,10 +12,10 @@ Feature: Paying with Stripe during checkout
     And the store ships everywhere for free
     And I am logged in as "john@example.com"
 
-  @ui
-  Scenario: Successful payment in Stripe
-    Given I added product "PHP T-Shirt" to the cart
-    And I have proceeded selecting "Stripe" payment method
-    When I confirm my order with Stripe payment
-    And I get redirected to Stripe and complete my payment
-    Then I should be notified that my payment has been completed
+  #@ui @javascript
+  #Scenario: Successful payment in Stripe
+  #  Given I added product "PHP T-Shirt" to the cart
+  #  And I have proceeded selecting "Stripe" payment method
+  #  When I confirm my order with Stripe payment
+  #  And I get redirected to Stripe and complete my payment
+  #  Then I should be notified that my payment has been completed

@@ -2,7 +2,7 @@ language: php
 
 dist: trusty
 
-sudo: false
+os: linux
 
 php:
   - '7.3'

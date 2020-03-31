@@ -23,8 +23,12 @@
         <service id="prometee_sylius_payum_stripe_checkout_session.page_checkout.external"
                  class="Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\External\StripeCheckoutPage"
                  parent="sylius.behat.page" public="true">
-            <argument type="service" id="sylius.repository.payment_security_token" />
-            <argument type="service" id="test.client" />
+            <call method="setClient">
+                <argument id="test.client" type="service"/>
+            </call>
+            <call method="setSecurityTokenRepository">
+                <argument id="sylius.repository.payment_security_token" type="service"/>
+            </call>
         </service>
 
         <service id="prometee_sylius_payum_stripe_checkout_session.context.ui.admin.managing_payment_methods"

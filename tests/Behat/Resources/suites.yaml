@@ -25,10 +25,9 @@ default:
                 - sylius.behat.context.ui.admin.notification
                 - sylius.behat.context.ui.shop.locale
                 - prometee_sylius_payum_stripe_checkout_session.context.ui.admin.managing_payment_methods
-
             filters:
-                tags: "@managing_payment_method"
-        paying_with_stripe_during_checkout:
+                tags: "@managing_payment_method && @ui"
+        paying_with_stripe_session_checkout_during_checkout:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
                 - sylius.behat.context.transform.address
@@ -69,6 +68,5 @@ default:
                 - sylius.behat.context.ui.shop.checkout.thank_you
 
                 - prometee_sylius_payum_stripe_checkout_session.context.ui.shop_stripe
-
             filters:
-                  tags: "@paying_with_stripe_during_checkout && @ui"
+                tags: "@paying_with_stripe_session_checkout_during_checkout && @ui"
