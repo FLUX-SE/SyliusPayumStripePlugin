@@ -17,11 +17,48 @@ Install using Composer :
 $ composer require prometee/sylius-payum-stripe-checkout-session-plugin
 ```
 
-## Usage
+## Configuration
 
-```php
+### API keys
 
-```
+Get your `publishable_key` and your `secret_key` on your Stripe account :
+
+https://dashboard.stripe.com/test/apikeys
+
+### Webhook key
+Then get a `webhook_secret_key` configured with at least two events : 
+`payment_intent.canceled` and `checkout.session.completed`
+
+https://dashboard.stripe.com/test/webhooks
+
+### Sylius configuration
+
+Go to the admin area, log in, then click on the left menu item "CONFIGURATION > Payment methods".
+Create a new payment method type "Stripe Checkout Session (with SCA support)" :
+
+![Create a new payment method][docs-assets-create-payment-method]
+
+Then a form will be displayed, fill-in the required fields :
+
+ 1. the "code" field (ex: "stripe_session_checkout_with_sca").
+ 2. choose which channels this payment method will be affected to.
+ 3. the gateway configuration ([need info from here](#api-keys)) :
+ 
+    ![Gateway Configuration][docs-assets-gateway-configuration]
+    
+    _NOTE1: You can add as many webhook secret keys as you need here, however generic usage need only one._
+    
+    _NOTE2: the screenshot contains false test credentials._
+ 4. give to this payment method a display name (and a description) for each languages you need
+ 
+ Finally click on the "Create" button to save your new payment method.
+
+## Advanced usages
+
+See documentation here : https://github.com/Prometee/PayumStripeCheckoutSession/blob/master/README.md
+
+[docs-assets-create-payment-method]: docs/assets/create-payment-method.png
+[docs-assets-gateway-configuration]: docs/assets/gateway-configuration.png
 
 [ico-version]: https://img.shields.io/packagist/v/Prometee/sylius-payum-stripe-checkout-session-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
