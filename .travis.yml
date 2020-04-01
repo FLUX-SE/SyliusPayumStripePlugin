@@ -1,12 +1,21 @@
 language: php
 
-dist: trusty
-
 os: linux
 
 php:
   - '7.3'
   - '7.4'
+
+services:
+  - mysql
+  - xvfb
+
+addons:
+  apt:
+    sources:
+      - ppa:google-chrome
+    packages:
+      - google-chrome-stable
 
 cache:
   yarn: true
