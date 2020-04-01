@@ -80,6 +80,6 @@ See documentation here : https://github.com/Prometee/PayumStripeCheckoutSession/
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/Prometee/SyliusPayumStripeCheckoutSessionPlugin.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/prometee/sylius-payum-stripe-checkout-session-plugin
-[link-travis]: https://travis-ci.org/Prometee/PayumStripeCheckoutSessionPlugin
+[link-travis]: https://travis-ci.org/Prometee/SyliusPayumStripeCheckoutSessionPlugin
 [link-scrutinizer]: https://scrutinizer-ci.com/g/Prometee/SyliusPayumStripeCheckoutSessionPlugin/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/Prometee/SyliusPayumStripeCheckoutSessionPlugin

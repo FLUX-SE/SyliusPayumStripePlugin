@@ -12,10 +12,10 @@ Feature: Paying with Stripe during checkout
     And the store ships everywhere for free
     And I am logged in as "john@example.com"
 
-  #@ui @javascript
-  #Scenario: Successful payment in Stripe
-  #  Given I added product "PHP T-Shirt" to the cart
-  #  And I have proceeded selecting "Stripe" payment method
-  #  When I confirm my order with Stripe payment
-  #  And I get redirected to Stripe and complete my payment
-  #  Then I should be notified that my payment has been completed
+  @ui @javascript
+  Scenario: Successful payment in Stripe
+    Given I added product "PHP T-Shirt" to the cart
+    And I have proceeded selecting "Stripe" payment method
+    When I confirm my order with Stripe payment
+    And I get redirected to Stripe and complete my payment
+    Then I should be notified that my payment has been completed

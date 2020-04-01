@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\External;
 
-use Behat\Mink\Session;
 use FriendsOfBehat\PageObjectExtension\Page\Page;
 use Payum\Core\Security\TokenInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
@@ -18,17 +17,11 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
     /** @var HttpKernelBrowser */
     private $client;
 
-    /**
-     * @param HttpKernelBrowser $client
-     */
     public function setClient(HttpKernelBrowser $client): void
     {
         $this->client = $client;
     }
 
-    /**
-     * @param RepositoryInterface $securityTokenRepository
-     */
     public function setSecurityTokenRepository(RepositoryInterface $securityTokenRepository): void
     {
         $this->securityTokenRepository = $securityTokenRepository;

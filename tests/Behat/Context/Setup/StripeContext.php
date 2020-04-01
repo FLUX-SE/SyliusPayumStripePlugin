@@ -39,9 +39,6 @@ class StripeContext implements Context
 
     /**
      * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe payment gateway
-     *
-     * @param string $paymentMethodName
-     * @param string $paymentMethodCode
      */
     public function theStoreHasAPaymentMethodWithACodeAndStripePaymentGateway(
         string $paymentMethodName,

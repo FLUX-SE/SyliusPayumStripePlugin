@@ -45,17 +45,13 @@ before_script:
   - (cd tests/Application && bin/console cache:warmup -vvv)
   - (cd tests/Application && yarn build)
 
-  # Configure display
-  - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1680x1050x16
-  - export DISPLAY=:99
-
   # Download Symfony command
   - wget https://get.symfony.com/cli/installer -O - | bash
 
   # Download and configure ChromeDriver
   - |
-    if [ ! -f $SYLIUS_CACHE_DIR/chromedriver ] || [ "$($SYLIUS_CACHE_DIR/chromedriver --version | grep -c 2.34)" = "0" ]; then
-        curl http://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip > chromedriver.zip
+    if [ ! -f $SYLIUS_CACHE_DIR/chromedriver ] || [ "$($SYLIUS_CACHE_DIR/chromedriver --version | grep -c 80.0.3987.106)" = "0" ]; then
+        curl http://chromedriver.storage.googleapis.com/80.0.3987.106/chromedriver_linux64.zip > chromedriver.zip
         unzip chromedriver.zip
         rm chromedriver.zip
         chmod +x chromedriver
@@ -67,8 +63,8 @@ before_script:
 
   # Download and configure Selenium
   - |
-    if [ ! -f $SYLIUS_CACHE_DIR/selenium.jar ] || [ "$(java -jar $SYLIUS_CACHE_DIR/selenium.jar --version | grep -c 3.5.0)" = "0" ]; then
-        curl http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.0.jar > selenium.jar
+    if [ ! -f $SYLIUS_CACHE_DIR/selenium.jar ] || [ "$(java -jar $SYLIUS_CACHE_DIR/selenium.jar --version | grep -c 3.141)" = "0" ]; then
+        curl http://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar > selenium.jar
         mv selenium.jar $SYLIUS_CACHE_DIR
     fi
 
