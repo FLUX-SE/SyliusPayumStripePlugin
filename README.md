@@ -17,6 +17,20 @@ Install using Composer :
 $ composer require prometee/sylius-payum-stripe-checkout-session-plugin
 ```
 
+Enable this plugin :
+
+```php
+<?php
+
+# config/bundles.php
+
+return [
+    // ...
+    Prometee\SyliusPayumStripeCheckoutSessionPlugin\PrometeeSyliusPayumStripeCheckoutSessionPlugin::class => ['all' => true],
+    // ...
+];
+```
+
 ## Configuration
 
 ### API keys
