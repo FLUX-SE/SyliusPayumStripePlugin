@@ -7,6 +7,7 @@ default:
             verbose: true
             paths: false
             snippets: false
+
     extensions:
         Lakion\Behat\MinkDebugExtension:
             directory: etc/build
@@ -36,7 +37,7 @@ default:
                                     - "--no-sandbox"
                             extra_capabilities:
                                 unexpectedAlertBehaviour: accept
-                                chromeOptions:
+                                goog:chromeOptions:
                                     w3c: false # https://github.com/Sylius/Sylius/issues/10561
                 firefox:
                     selenium2:
