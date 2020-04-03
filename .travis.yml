@@ -65,7 +65,7 @@ before_script:
     fi
 
   # Run ChromeDriver
-  - $SYLIUS_CACHE_DIR/chromedriver > /dev/null 2>&1 &
+  #- $SYLIUS_CACHE_DIR/chromedriver > /dev/null 2>&1 &
 
   # Download and configure Selenium
   - |
