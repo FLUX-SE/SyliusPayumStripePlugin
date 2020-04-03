@@ -4,72 +4,129 @@ declare(strict_types=1);
 
 namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\External;
 
+use Behat\Mink\Exception\DriverException;
+use Behat\Mink\Session;
 use FriendsOfBehat\PageObjectExtension\Page\Page;
 use Payum\Core\Security\TokenInterface;
+use RuntimeException;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpKernel\HttpKernelBrowser;
+use Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\Shop\PayumNotifyPageInterface;
 
 final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterface
 {
     /** @var RepositoryInterface */
     private $securityTokenRepository;
-
     /** @var HttpKernelBrowser */
     private $client;
+    /** @var PayumNotifyPageInterface */
+    private $payumNotifyPage;
 
-    public function setClient(HttpKernelBrowser $client): void
+    /**
+     * @param Session $session
+     * @param $minkParameters
+     * @param RepositoryInterface $securityTokenRepository
+     * @param HttpKernelBrowser $client
+     * @param PayumNotifyPageInterface $payumNotifyPage
+     */
+    public function __construct(
+        Session $session,
+        $minkParameters,
+        RepositoryInterface $securityTokenRepository,
+        HttpKernelBrowser $client,
+        PayumNotifyPageInterface $payumNotifyPage
+    )
     {
-        $this->client = $client;
-    }
+        parent::__construct($session, $minkParameters);
 
-    public function setSecurityTokenRepository(RepositoryInterface $securityTokenRepository): void
-    {
         $this->securityTokenRepository = $securityTokenRepository;
+        $this->client = $client;
+        $this->payumNotifyPage = $payumNotifyPage;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws DriverException
+     */
+    public function capture(): void
+    {
+        $afterToken = $this->findToken();
+
+        $this->getDriver()->visit($afterToken->getTargetUrl());
+    }
+
+    /**
+     * @param string $payload
+     *
+     * @return string[]
+     */
+    private function generateSignature(string $payload): array
+    {
+        $now = time();
+        $webhookSecretKey = 'whsec_test';
+
+        $signedPayload = sprintf('%s.%s', $now, $payload);
+        $signature = hash_hmac('sha256', $signedPayload, $webhookSecretKey);
+
+        $sigHeader = sprintf('t=%s,', $now);
+        $sigHeader .= sprintf('v1=%s,', $signature);
+        // Useless but here to tests legacy too
+        $sigHeader .= 'v0=6ffbb59b2300aae63f272406069a9788598b792a944a07aba816edb039989a39';
+
+        return [
+            'HTTP_STRIPE_SIGNATURE' => $sigHeader,
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function pay($data = [])
+    public function notify(string $content): void
     {
-        $this->getDriver()->visit($this->findToken()->getAfterUrl() . '?' . http_build_query($data));
+        $notifyToken = $this->findToken(false);
+
+        $notifyUrl = $this->payumNotifyPage->getNotifyUrl([
+            'gateway' => 'stripe_checkout_session'
+        ]);
+
+        $payload = sprintf($content, $notifyToken->getHash());
+        $this->client->request(
+            'POST',
+            $notifyUrl,
+            [],
+            [],
+            $this->generateSignature($payload),
+            $payload
+        );
     }
 
     /**
-     * {@inheritdoc}
+     * @param bool $afterType
+     *
+     * @return TokenInterface
      */
-    public function notify(array $data): void
+    private function findToken(bool $afterType = true): TokenInterface
     {
-        $notifyToken = $this->findToken('notify');
-        $this->client->request('GET', $notifyToken->getAfterUrl(), $data);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function cancel()
-    {
-        $this->getDriver()->visit($this->findToken()->getTargetUrl());
-    }
-
-    private function findToken(string $type = 'capture'): TokenInterface
-    {
-        $tokens = [];
         /** @var TokenInterface $token */
         foreach ($this->securityTokenRepository->findAll() as $token) {
-            if (strpos($token->getTargetUrl(), $type)) {
-                $tokens[] = $token;
+            $isAnAfterToken = null === $token->getAfterUrl() && null !== $token->getTargetUrl();
+            if (($afterType && $isAnAfterToken) || (!$afterType && !$isAnAfterToken)) {
+                return $token;
             }
         }
-        if (count($tokens) > 0) {
-            return end($tokens);
-        }
 
-        throw new \RuntimeException("Cannot find $type token, check if you are after proper checkout steps");
+        throw new RuntimeException(sprintf(
+            'Cannot find the %s, check if you are after proper checkout steps',
+            $afterType ? 'after token' : 'token'
+        ));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function getUrl(array $urlParameters = []): string
     {
-        return 'http://localhost';
+        return 'https://stripe.com';
     }
 }

@@ -12,7 +12,7 @@ Feature: Paying with Stripe during checkout
     And the store ships everywhere for free
     And I am logged in as "john@example.com"
 
-  @ui @javascript
+  @ui
   Scenario: Successful payment in Stripe
     Given I added product "PHP T-Shirt" to the cart
     And I have proceeded selecting "Stripe" payment method

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+
+        <service id="tests.prometee.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.create_session"
+                 class="Prometee\PayumStripeCheckoutSession\Action\Api\Resource\CreateSessionAction" public="true">
+            <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
+        </service>
+
+        <service id="tests.prometee.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.retrieve_payment_intent"
+                 class="Prometee\PayumStripeCheckoutSession\Action\Api\Resource\RetrievePaymentIntentAction" public="true">
+            <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
+        </service>
+
+        <service id="tests.prometee.sylius_payum_stripe_checkout_session_plugin.behat.mocker.stripe_session_checkout_mocker"
+                 class="Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Mocker\StripeSessionCheckoutMocker">
+            <argument type="service" id="sylius.behat.mocker"/>
+        </service>
+
+    </services>
+</container>

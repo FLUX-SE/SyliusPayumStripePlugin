@@ -4,21 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\External;
 
-use Behat\Mink\Exception\DriverException;
-use Behat\Mink\Exception\UnsupportedDriverActionException;
 use FriendsOfBehat\PageObjectExtension\Page\PageInterface;
 
 interface StripeCheckoutPageInterface extends PageInterface
 {
-    /**
-     * @throws UnsupportedDriverActionException
-     * @throws DriverException
-     */
-    public function pay();
+    public function capture(): void;
 
     /**
-     * @throws UnsupportedDriverActionException
-     * @throws DriverException
+     * @param string $content
      */
-    public function cancel();
+    public function notify(string $content): void;
 }

@@ -2,6 +2,11 @@ imports:
     - tests/Behat/Resources/suites.yaml
 
 default:
+    formatters:
+        pretty:
+            verbose: true
+            paths: false
+            snippets: false
     extensions:
         Lakion\Behat\MinkDebugExtension:
             directory: etc/build
@@ -10,7 +15,7 @@ default:
 
         Behat\MinkExtension:
             files_path: "%paths.base%/vendor/sylius/sylius/src/Sylius/Behat/Resources/fixtures/"
-            base_url: "http://localhost:8080/"
+            base_url: "https://localhost:8080/"
             default_session: symfony
             javascript_session: chrome
             sessions:
@@ -29,6 +34,10 @@ default:
                                     - "--start-fullscreen"
                                     - "--start-maximized"
                                     - "--no-sandbox"
+                            extra_capabilities:
+                                unexpectedAlertBehaviour: accept
+                                chromeOptions:
+                                    w3c: false # https://github.com/Sylius/Sylius/issues/10561
                 firefox:
                     selenium2:
                         browser: firefox

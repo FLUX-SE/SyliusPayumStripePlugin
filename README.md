@@ -40,8 +40,16 @@ Get your `publishable_key` and your `secret_key` on your Stripe account :
 https://dashboard.stripe.com/test/apikeys
 
 ### Webhook key
-Then get a `webhook_secret_key` configured with at least two events : 
-`payment_intent.canceled` and `checkout.session.completed`
+Then get a `webhook_secret_key` configured with at least two events :
+ 
+ - `payment_intent.canceled`
+ - `checkout.session.completed`
+
+The URL to fill is the route named `payum_notify_do_unsafe`, here is an example :
+
+```
+http://localhost/payment/notify/unsafe/stripe_checkout_session
+```
 
 https://dashboard.stripe.com/test/webhooks
 

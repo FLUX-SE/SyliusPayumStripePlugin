@@ -51,10 +51,10 @@ class StripeContext implements Context
             'Stripe Checkout Session'
         );
         $paymentMethod->getGatewayConfig()->setConfig([
-            'publishable_key' => 'test_publishable_key',
-            'secret_key' => 'test_secret_key',
+            'publishable_key' => 'pk_test_publishablekey',
+            'secret_key' => 'sk_test_secretkey',
             'webhook_secret_keys' => [
-                'test_webhook_secret_key',
+                'whsec_test',
             ],
         ]);
         $this->paymentMethodManager->flush();

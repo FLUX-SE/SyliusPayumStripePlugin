@@ -9,6 +9,7 @@
         "sylius/sylius": "^1.5"
     },
     "require-dev": {
+        "ext-json": "*",
         "behat/behat": "^3.4",
         "behat/mink": "^1.7@dev",
         "behat/mink-browserkit-driver": "^1.3",
