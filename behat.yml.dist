@@ -29,12 +29,14 @@ default:
                             browserName: chrome
                             browser: chrome
                             version: ""
-                            marionette: null # https://github.com/Behat/MinkExtension/pull/311
                             chrome:
                                 switches:
                                     - "--start-fullscreen"
                                     - "--start-maximized"
                                     - "--no-sandbox"
+                                    - "--headless"
+                                    - "--disable-gpu"
+                                    - "--ignore-certificate-errors"
                             extra_capabilities:
                                 unexpectedAlertBehaviour: accept
                                 goog:chromeOptions:
