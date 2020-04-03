@@ -1,5 +1,6 @@
 language: php
 
+dist: trusty
 os: linux
 
 php:
@@ -8,15 +9,19 @@ php:
 
 services:
   - mysql
-  - xvfb
+  - memcached
 
 addons:
-  chrome: stable
+  apt:
+    sources:
+      - mysql-5.7-trusty
 
 cache:
   yarn: true
   directories:
     - ~/.composer/cache/files
+    - ~/.cache/pip
+    - node_modules
     - $SYLIUS_CACHE_DIR
 
 env:
@@ -43,6 +48,10 @@ before_script:
 
   # Download Symfony command
   - wget https://get.symfony.com/cli/installer -O - | bash
+
+  # Configure display
+  - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2880x1800x16
+  - export DISPLAY=:99
 
   # Download and configure ChromeDriver
   - |
@@ -76,8 +85,8 @@ script:
   - vendor/bin/ecs check .
   - vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 
-  - vendor/bin/phpunit
-  - vendor/bin/phpspec run
+  #- vendor/bin/phpunit
+  #- vendor/bin/phpspec run
   - vendor/bin/behat --strict -vvv --no-interaction || vendor/bin/behat --strict -vvv --no-interaction --rerun
 
 after_failure:
