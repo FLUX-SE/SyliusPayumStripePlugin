@@ -54,6 +54,9 @@ before_script:
         mv chromedriver $SYLIUS_CACHE_DIR
     fi
 
+  # Run ChromeDriver
+  - $SYLIUS_CACHE_DIR/chromedriver > /dev/null 2>&1 &
+
   # Download and configure Selenium
   - |
     if [ ! -f $SYLIUS_CACHE_DIR/selenium.jar ] || [ "$(java -jar $SYLIUS_CACHE_DIR/selenium.jar --version | grep -c 3.141)" = "0" ]; then
