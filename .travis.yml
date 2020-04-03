@@ -36,6 +36,7 @@ before_install:
   - mkdir -p "${SYLIUS_CACHE_DIR}"
 
 install:
+  - composer require "ext-gd:*" --ignore-platform-reqs
   - composer install --no-interaction --prefer-dist
   - (cd tests/Application && yarn install)
 
