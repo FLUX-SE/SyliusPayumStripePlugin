@@ -17,17 +17,11 @@ final class StripeSessionCheckoutMocker
     /** @var MockerInterface */
     private $mocker;
 
-    /**
-     * @param MockerInterface $mocker
-     */
     public function __construct(MockerInterface $mocker)
     {
         $this->mocker = $mocker;
     }
 
-    /**
-     * @param callable $action
-     */
     public function mockCreatePayment(callable $action): void
     {
         $model = [
@@ -65,9 +59,6 @@ final class StripeSessionCheckoutMocker
         $this->mocker->unmockAll();
     }
 
-    /**
-     * @param callable $action
-     */
     public function mockSuccessfulPayment(callable $action): void
     {
         $model = [

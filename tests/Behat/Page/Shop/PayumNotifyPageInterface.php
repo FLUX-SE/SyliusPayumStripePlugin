@@ -8,10 +8,5 @@ use FriendsOfBehat\PageObjectExtension\Page\SymfonyPageInterface;
 
 interface PayumNotifyPageInterface extends SymfonyPageInterface
 {
-    /**
-     * @param array $urlParameters
-     *
-     * @return string
-     */
     public function getNotifyUrl(array $urlParameters): string;
 }

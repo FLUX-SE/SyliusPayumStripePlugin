@@ -10,8 +10,5 @@ interface StripeCheckoutPageInterface extends PageInterface
 {
     public function capture(): void;
 
-    /**
-     * @param string $content
-     */
     public function notify(string $content): void;
 }

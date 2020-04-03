@@ -17,17 +17,15 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
 {
     /** @var RepositoryInterface */
     private $securityTokenRepository;
+
     /** @var HttpKernelBrowser */
     private $client;
+
     /** @var PayumNotifyPageInterface */
     private $payumNotifyPage;
 
     /**
-     * @param Session $session
      * @param $minkParameters
-     * @param RepositoryInterface $securityTokenRepository
-     * @param HttpKernelBrowser $client
-     * @param PayumNotifyPageInterface $payumNotifyPage
      */
     public function __construct(
         Session $session,
@@ -35,8 +33,7 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
         RepositoryInterface $securityTokenRepository,
         HttpKernelBrowser $client,
         PayumNotifyPageInterface $payumNotifyPage
-    )
-    {
+    ) {
         parent::__construct($session, $minkParameters);
 
         $this->securityTokenRepository = $securityTokenRepository;
@@ -57,8 +54,6 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
     }
 
     /**
-     * @param string $payload
-     *
      * @return string[]
      */
     private function generateSignature(string $payload): array
@@ -87,7 +82,7 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
         $notifyToken = $this->findToken(false);
 
         $notifyUrl = $this->payumNotifyPage->getNotifyUrl([
-            'gateway' => 'stripe_checkout_session'
+            'gateway' => 'stripe_checkout_session',
         ]);
 
         $payload = sprintf($content, $notifyToken->getHash());
@@ -101,11 +96,6 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
         );
     }
 
-    /**
-     * @param bool $afterType
-     *
-     * @return TokenInterface
-     */
     private function findToken(bool $afterType = true): TokenInterface
     {
         /** @var TokenInterface $token */
@@ -123,7 +113,7 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getUrl(array $urlParameters = []): string
     {

@@ -14,24 +14,20 @@ class PayumNotifyPage extends SymfonyPage implements PayumNotifyPageInterface
     private $routeName;
 
     /**
-     * @param Session $session
      * @param $minkParameters
-     * @param RouterInterface $router
-     * @param string $routeName
      */
     public function __construct(
         Session $session,
         $minkParameters,
         RouterInterface $router,
         string $routeName
-    )
-    {
+    ) {
         parent::__construct($session, $minkParameters, $router);
         $this->routeName = $routeName;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getNotifyUrl(array $urlParameters): string
     {
@@ -39,7 +35,7 @@ class PayumNotifyPage extends SymfonyPage implements PayumNotifyPageInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRouteName(): string
     {

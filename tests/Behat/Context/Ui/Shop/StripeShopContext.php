@@ -15,10 +15,13 @@ class StripeShopContext extends MinkContext implements Context
 {
     /** @var StripeSessionCheckoutMocker */
     private $stripeSessionCheckoutMocker;
+
     /** @var CompletePageInterface */
     private $summaryPage;
+
     /** @var ShowPageInterface */
     private $orderDetails;
+
     /** @var StripeCheckoutPage */
     private $paymentPage;
 
@@ -49,30 +52,29 @@ class StripeShopContext extends MinkContext implements Context
      */
     public function iGetRedirectedToStripe(): void
     {
-        $this->stripeSessionCheckoutMocker->mockSuccessfulPayment(function() {
+        $this->stripeSessionCheckoutMocker->mockSuccessfulPayment(function () {
             $jsonEvent = [
-                "id" => "evt_00000000000000",
-                "type" => "checkout.session.completed",
-                "object" => "event",
-                "data" => [
-                    "object" => [
-                        "id" => "cs_00000000000000",
-                        "object" => "checkout.session",
-                        "payment_intent" => "pi_00000000000000",
-                        "metadata" => [
-                            "token_hash" => "%s"
-                        ]
-                    ]
-                ]
+                'id' => 'evt_00000000000000',
+                'type' => 'checkout.session.completed',
+                'object' => 'event',
+                'data' => [
+                    'object' => [
+                        'id' => 'cs_00000000000000',
+                        'object' => 'checkout.session',
+                        'payment_intent' => 'pi_00000000000000',
+                        'metadata' => [
+                            'token_hash' => '%s',
+                        ],
+                    ],
+                ],
             ];
             $payload = json_encode($jsonEvent);
 
             $this->paymentPage->notify($payload);
         });
 
-        $this->stripeSessionCheckoutMocker->mockSuccessfulPayment(function() {
+        $this->stripeSessionCheckoutMocker->mockSuccessfulPayment(function () {
             $this->paymentPage->capture();
         });
-
     }
 }
