@@ -5,7 +5,7 @@ os: linux
 
 php:
   - '7.3'
-  - '7.4'
+  #- '7.4'
 
 services:
   - mysql
@@ -36,7 +36,6 @@ before_install:
   - mkdir -p "${SYLIUS_CACHE_DIR}"
 
 install:
-  - composer require "ext-gd:*" --ignore-platform-reqs
   - composer install --no-interaction --prefer-dist
   - (cd tests/Application && yarn install)
 
