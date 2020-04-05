@@ -100,16 +100,17 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
     {
         /** @var TokenInterface $token */
         foreach ($this->securityTokenRepository->findAll() as $token) {
-            $isAnAfterToken = null === $token->getAfterUrl() && null !== $token->getTargetUrl();
-            if (($afterType && $isAnAfterToken) || (!$afterType && !$isAnAfterToken)) {
+
+            if ($afterType && null === $token->getAfterUrl()) {
+                return $token;
+            }
+
+            if (!$afterType && null !== $token->getAfterUrl()) {
                 return $token;
             }
         }
 
-        throw new RuntimeException(sprintf(
-            'Cannot find the %s, check if you are after proper checkout steps',
-            $afterType ? 'after token' : 'token'
-        ));
+        throw new RuntimeException('Cannot find token, check if you are after proper checkout steps');
     }
 
     /**
