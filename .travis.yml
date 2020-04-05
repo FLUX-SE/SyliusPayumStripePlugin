@@ -1,20 +1,16 @@
 language: php
 
-dist: trusty
 os: linux
 
-php:
-  - '7.3'
-  #- '7.4'
+dist: xenial
 
 services:
   - mysql
+  - xvfb
   - memcached
 
 addons:
-  apt:
-    sources:
-      - mysql-5.7-trusty
+  chrome: stable
 
 cache:
   yarn: true
@@ -29,6 +25,16 @@ env:
     - APP_ENV=test
     - SYLIUS_CACHE_DIR=$HOME/.sylius-cache
     - SYLIUS_BUILD_DIR=etc/build
+    - CHROME_DRIVER_VERSION=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+    - SELENIUM_STANDALONE_VERSION=3.141.59
+    - SELENIUM_SUBDIR_VERSION=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
+
+jobs:
+  include:
+    -
+      php: 7.3
+    -
+      php: 7.4
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -49,32 +55,25 @@ before_script:
   # Download Symfony command
   - wget https://get.symfony.com/cli/installer -O - | bash
 
-  # Configure display
-  - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 2880x1800x16
-  - export DISPLAY=:99
-
   # Download and configure ChromeDriver
   - |
-    if [ ! -f $SYLIUS_CACHE_DIR/chromedriver ] || [ "$($SYLIUS_CACHE_DIR/chromedriver --version | grep -c 2.34)" = "0" ]; then
-        curl http://chromedriver.storage.googleapis.com/2.34/chromedriver_linux64.zip > chromedriver.zip
+    if [ ! -f $SYLIUS_CACHE_DIR/chromedriver ] || [ "$($SYLIUS_CACHE_DIR/chromedriver --version | grep -c $CHROME_DRIVER_VERSION)" = "0" ]; then
+        curl http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip > chromedriver.zip
         unzip chromedriver.zip
         rm chromedriver.zip
         chmod +x chromedriver
         mv chromedriver $SYLIUS_CACHE_DIR
     fi
 
-  # Run ChromeDriver
-  #- $SYLIUS_CACHE_DIR/chromedriver > /dev/null 2>&1 &
-
   # Download and configure Selenium
   - |
-    if [ ! -f $SYLIUS_CACHE_DIR/selenium.jar ] || [ "$(java -jar $SYLIUS_CACHE_DIR/selenium.jar --version | grep -c 3.4.0)" = "0" ]; then
-        curl http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar > selenium.jar
+    if [ ! -f $SYLIUS_CACHE_DIR/selenium.jar ] || [ "$(java -jar $SYLIUS_CACHE_DIR/selenium.jar --version | grep -c $SELENIUM_SUBDIR_VERSION)" = "0" ]; then
+        curl http://selenium-release.storage.googleapis.com/$SELENIUM_SUBDIR_VERSION/selenium-server-standalone-$SELENIUM_STANDALONE_VERSION.jar > selenium.jar
         mv selenium.jar $SYLIUS_CACHE_DIR
     fi
 
   # Run Selenium
-  - java -Dwebdriver.chrome.driver=$SYLIUS_CACHE_DIR/chromedriver -jar $SYLIUS_CACHE_DIR/selenium.jar > /dev/null 2>&1 &
+  - java -Dwebdriver.chrome.driver=$SYLIUS_CACHE_DIR/chromedriver -jar $SYLIUS_CACHE_DIR/selenium.jar -debug -log ${SYLIUS_BUILD_DIR}/selenium.log &
 
   # Run webserver
   - (cd tests/Application && /home/travis/.symfony/bin/symfony server:ca:install)
