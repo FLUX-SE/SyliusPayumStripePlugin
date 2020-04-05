@@ -20,7 +20,7 @@ final class PayumGatewayConfigOverride implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $builder = $container->getDefinition('payum.builder');
         foreach ($this->gatewayConfigs as $gatewayName => $factoryConfig) {

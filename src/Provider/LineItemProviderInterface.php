@@ -9,7 +9,9 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 interface LineItemProviderInterface
 {
     /**
-     * @return string[]|null
+     * @param OrderItemInterface $orderItem
+     *
+     * @return array|null
      */
     public function getLineItem(OrderItemInterface $orderItem): ?array;
 }

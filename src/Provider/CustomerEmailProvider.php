@@ -18,6 +18,6 @@ final class CustomerEmailProvider implements CustomerEmailProviderInterface
             return null;
         }
 
-        return $order->getCustomer()->getEmail();
+        return $customer->getEmail();
     }
 }

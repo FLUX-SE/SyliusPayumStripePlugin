@@ -13,7 +13,7 @@ class PrometeeSyliusPayumStripeCheckoutSessionPlugin extends Bundle
 {
     use SyliusPluginTrait;
 
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new PayumGatewayConfigOverride([
             'stripe_checkout_session' => [

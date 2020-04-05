@@ -17,7 +17,7 @@ class PrometeeSyliusPayumStripeCheckoutSessionExtension extends Extension
      *
      * @throws Exception
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configs = $this->processConfiguration($this->getConfiguration([], $container), $configs);
 

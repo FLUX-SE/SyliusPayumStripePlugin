@@ -56,7 +56,7 @@ final class LineItemImageProvider implements LineItemImageProviderInterface
             $path = $first->getPath();
         }
 
-        if ($product->getImages()->first()) {
+        if (false !== $product->getImages()->first()) {
             /** @var ProductImageInterface $first */
             $first = $product->getImages()->first();
             $path = $first->getPath();
@@ -70,7 +70,7 @@ final class LineItemImageProvider implements LineItemImageProviderInterface
         $url = $this->filterExtension->filter($path, $this->filterName);
 
         // Localhost images are not displayed by Stripe because they cache it on a CDN
-        if (preg_match('#//localhost#', $url)) {
+        if (false !== preg_match('#//localhost#', $url)) {
             $url = $this->fallbackImage;
         }
 

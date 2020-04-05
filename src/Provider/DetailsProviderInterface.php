@@ -9,7 +9,9 @@ use Sylius\Component\Core\Model\OrderInterface;
 interface DetailsProviderInterface
 {
     /**
-     * @return string[]
+     * @param OrderInterface $order
+     *
+     * @return array
      */
     public function getDetails(OrderInterface $order): array;
 }
