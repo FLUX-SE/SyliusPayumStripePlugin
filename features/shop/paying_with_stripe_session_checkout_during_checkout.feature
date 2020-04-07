@@ -19,3 +19,43 @@ Feature: Paying with Stripe during checkout
     When I confirm my order with Stripe payment
     And I get redirected to Stripe and complete my payment
     Then I should be notified that my payment has been completed
+
+  @ui
+  Scenario: Cancelling the payment
+    Given I added product "PHP T-Shirt" to the cart
+    And I have proceeded selecting "Stripe" payment method
+    When I confirm my order with Stripe payment
+    And I cancel my Stripe payment
+    Then I should be notified that my payment has been cancelled
+    And I should be able to pay again
+
+  @ui
+  Scenario: Retrying the payment with success
+    Given I added product "PHP T-Shirt" to the cart
+    And I have proceeded selecting "Stripe" payment method
+    And I have confirmed my order with Stripe payment
+    But I have cancelled Stripe payment
+    When I try to pay again Stripe payment
+    And I get redirected to Stripe and complete my payment
+    Then I should be notified that my payment has been completed
+    And I should see the thank you page
+
+  @ui
+  Scenario: Retrying the payment and failing
+    Given I added product "PHP T-Shirt" to the cart
+    And I have proceeded selecting "Stripe" payment method
+    And I have confirmed my order with Stripe payment
+    But I have cancelled Stripe payment
+    When I try to pay again Stripe payment
+    And I cancel my Stripe payment
+    Then I should be notified that my payment has been cancelled
+    And I should be able to pay again
+
+  @ui
+  Scenario: Cancelling the payment
+    Given I added product "PHP T-Shirt" to the cart
+    And I have proceeded selecting "Stripe" payment method
+    When I confirm my order with Stripe payment
+    And I never fill any credit card field on my Stripe payment
+    Then I should be notified that my payment has been cancelled
+    And I should be able to pay again

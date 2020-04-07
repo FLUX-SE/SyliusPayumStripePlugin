@@ -59,12 +59,40 @@ final class StripeSessionCheckoutMocker
         $this->mocker->unmockAll();
     }
 
-    public function mockSuccessfulPayment(callable $action): void
+    public function mockCancelledPayment(
+        callable $notifyAction,
+        callable $captureAction
+    ): void
+    {
+        $this->mockPaymentIntentSync($notifyAction, PaymentIntent::STATUS_CANCELED);
+        $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_CANCELED);
+    }
+
+    public function mockSuccessfulPayment(
+        callable $notifyAction,
+        callable $captureAction
+    ): void
+    {
+        $this->mockPaymentIntentSync($notifyAction, PaymentIntent::STATUS_SUCCEEDED);
+        $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_SUCCEEDED);
+    }
+
+    /**
+     * @param callable $captureAction
+     *
+     * @see https://stripe.com/docs/payments/intents#payment-intent
+     */
+    public function mockPaymentIntentRequiredStatus(callable $captureAction)
+    {
+        $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD);
+    }
+
+    public function mockPaymentIntentSync(callable $action, string $status): void
     {
         $model = [
             'id' => 'pi_1',
             'object' => PaymentIntent::OBJECT_NAME,
-            'status' => PaymentIntent::STATUS_SUCCEEDED,
+            'status' => $status,
         ];
 
         $mock = $this->mocker->mockService('tests.prometee.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.retrieve_payment_intent', AbstractRetrieveAction::class);
