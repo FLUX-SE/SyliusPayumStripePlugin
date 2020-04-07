@@ -26,6 +26,11 @@ final class StripeSessionCheckoutMocker
     {
         $model = [
             'id' => 'sess_1',
+            'object' => Session::OBJECT_NAME,
+            'payment_intent' => 'pi_1',
+            'metadata' => [
+                'token_hash' => '',
+            ],
         ];
 
         $mock = $this->mocker->mockService('tests.prometee.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.create_session', AbstractCreateAction::class);
@@ -50,11 +55,13 @@ final class StripeSessionCheckoutMocker
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (CreateSession $request) use ($model) {
+                $rModel = $request->getModel();
+                $model['metadata']['token_hash'] = $rModel['metadata']['token_hash'];
                 $request->setApiResource(Session::constructFrom($model));
             })
         ;
 
-        $action();
+        $this->mockPaymentIntentRequiresPaymentMethodStatus($action);
 
         $this->mocker->unmockAll();
     }
@@ -62,8 +69,7 @@ final class StripeSessionCheckoutMocker
     public function mockCancelledPayment(
         callable $notifyAction,
         callable $captureAction
-    ): void
-    {
+    ): void {
         $this->mockPaymentIntentSync($notifyAction, PaymentIntent::STATUS_CANCELED);
         $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_CANCELED);
     }
@@ -71,18 +77,15 @@ final class StripeSessionCheckoutMocker
     public function mockSuccessfulPayment(
         callable $notifyAction,
         callable $captureAction
-    ): void
-    {
+    ): void {
         $this->mockPaymentIntentSync($notifyAction, PaymentIntent::STATUS_SUCCEEDED);
         $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_SUCCEEDED);
     }
 
     /**
-     * @param callable $captureAction
-     *
      * @see https://stripe.com/docs/payments/intents#payment-intent
      */
-    public function mockPaymentIntentRequiredStatus(callable $captureAction)
+    public function mockPaymentIntentRequiresPaymentMethodStatus(callable $captureAction)
     {
         $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD);
     }

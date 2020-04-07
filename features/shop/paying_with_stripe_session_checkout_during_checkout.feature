@@ -52,10 +52,9 @@ Feature: Paying with Stripe during checkout
     And I should be able to pay again
 
   @ui
-  Scenario: Cancelling the payment
+  Scenario: Never pay on Stripe and click on "go back"
     Given I added product "PHP T-Shirt" to the cart
     And I have proceeded selecting "Stripe" payment method
     When I confirm my order with Stripe payment
-    And I never fill any credit card field on my Stripe payment
-    Then I should be notified that my payment has been cancelled
+    And I click on "go back" during my Stripe payment
     And I should be able to pay again

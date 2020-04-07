@@ -124,11 +124,11 @@ class StripeShopContext extends MinkContext implements Context
     }
 
     /**
-     * @Given /^I never fill any credit card field on my Stripe payment$/
+     * @When /^I click on "go back" during my Stripe payment$/
      */
-    public function iNeverFillAnyCreditCardFieldOnMyStripePayment()
+    public function IClickOnGoBackDuringMyStripePayment()
     {
-        $this->stripeSessionCheckoutMocker->mockPaymentIntentRequiredStatus(function() {
+        $this->stripeSessionCheckoutMocker->mockPaymentIntentRequiresPaymentMethodStatus(function () {
             $this->paymentPage->capture();
         });
     }
