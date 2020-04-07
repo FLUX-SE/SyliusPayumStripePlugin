@@ -9,12 +9,12 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 
 final class LineItemProvider implements LineItemProviderInterface
 {
-    /** @var LineItemImageProviderInterface */
-    private $itemImageProvider;
+    /** @var LineItemImagesProviderInterface */
+    private $lineItemImagesProvider;
 
-    public function __construct(LineItemImageProviderInterface $lineItemImageProvider)
+    public function __construct(LineItemImagesProviderInterface $lineItemImagesProvider)
     {
-        $this->itemImageProvider = $lineItemImageProvider;
+        $this->lineItemImagesProvider = $lineItemImagesProvider;
     }
 
     /**
@@ -29,18 +29,12 @@ final class LineItemProvider implements LineItemProviderInterface
             return null;
         }
 
-        $imageUrl = $this->itemImageProvider->getImageUrl($orderItem);
-        $images = [];
-        if (null !== $imageUrl) {
-            $images[] = $imageUrl;
-        }
-
         return [
             'amount' => $orderItem->getTotal(),
             'currency' => $order->getCurrencyCode(),
             'name' => $orderItem->getVariantName() ?? $orderItem->getProductName(),
             'quantity' => $orderItem->getQuantity(),
-            'images' => $images,
+            'images' => $this->lineItemImagesProvider->getImageUrls($orderItem),
         ];
     }
 }

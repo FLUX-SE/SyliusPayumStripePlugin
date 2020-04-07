@@ -9,7 +9,7 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
-final class LineItemImageProvider implements LineItemImageProviderInterface
+final class LineItemImagesProvider implements LineItemImagesProviderInterface
 {
     /** @var FilterExtension */
     private $filterExtension;
@@ -33,28 +33,25 @@ final class LineItemImageProvider implements LineItemImageProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getImageUrl(OrderItemInterface $orderItem): ?string
+    public function getImageUrls(OrderItemInterface $orderItem): array
     {
         $product = $orderItem->getProduct();
 
         if (null === $product) {
-            return null;
+            return [];
         }
 
-        return $this->getImageUrlFromProduct($product);
+        return [
+            $this->getImageUrlFromProduct($product),
+        ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getImageUrlFromProduct(ProductInterface $product): ?string
+    public function getImageUrlFromProduct(ProductInterface $product): string
     {
         $path = $this->fallbackImage;
-        if (false === $product->getImagesByType('main')->isEmpty()) {
-            /** @var ProductImageInterface $first */
-            $first = $product->getImagesByType('main')->first();
-            $path = $first->getPath();
-        }
 
         if (false !== $product->getImages()->first()) {
             /** @var ProductImageInterface $first */
@@ -70,7 +67,7 @@ final class LineItemImageProvider implements LineItemImageProviderInterface
         $url = $this->filterExtension->filter($path, $this->filterName);
 
         // Localhost images are not displayed by Stripe because they cache it on a CDN
-        if (false !== preg_match('#//localhost#', $url)) {
+        if (0 !== preg_match('#//localhost#', $url)) {
             $url = $this->fallbackImage;
         }
 

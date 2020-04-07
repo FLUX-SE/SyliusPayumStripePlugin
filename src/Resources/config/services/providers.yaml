@@ -14,10 +14,10 @@ services:
     prometee.sylius_payum_stripe_checkout_session.provider.line_item:
         class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemProvider
         arguments:
-            $lineItemImageProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.line_item_image'
+            $lineItemImageProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.line_item_images'
             
-    prometee.sylius_payum_stripe_checkout_session.provider.line_item_image:
-        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemImageProvider
+    prometee.sylius_payum_stripe_checkout_session.provider.line_item_images:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemImagesProvider
         arguments:
             $filterExtension: '@liip_imagine.templating.filter_extension'
             $filterName: '%prometee_sylius_payum_stripe_checkout_session.line_item_image.imagine_filter%'

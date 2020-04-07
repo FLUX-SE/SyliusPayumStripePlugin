@@ -100,7 +100,6 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
     {
         /** @var TokenInterface $token */
         foreach ($this->securityTokenRepository->findAll() as $token) {
-
             if ($afterType && null === $token->getAfterUrl()) {
                 return $token;
             }
