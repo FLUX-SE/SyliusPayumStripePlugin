@@ -12,9 +12,15 @@ final class LineItemProvider implements LineItemProviderInterface
     /** @var LineItemImagesProviderInterface */
     private $lineItemImagesProvider;
 
-    public function __construct(LineItemImagesProviderInterface $lineItemImagesProvider)
-    {
+    /** @var LinetItemNameProviderInterface */
+    private $lineItemNameProvider;
+
+    public function __construct(
+        LineItemImagesProviderInterface $lineItemImagesProvider,
+        LinetItemNameProviderInterface $lineItemNameProvider
+    ) {
         $this->lineItemImagesProvider = $lineItemImagesProvider;
+        $this->lineItemNameProvider = $lineItemNameProvider;
     }
 
     /**
@@ -32,7 +38,7 @@ final class LineItemProvider implements LineItemProviderInterface
         return [
             'amount' => $orderItem->getTotal(),
             'currency' => $order->getCurrencyCode(),
-            'name' => $orderItem->getVariantName() ?? $orderItem->getProductName(),
+            'name' => $this->lineItemNameProvider->getItemName($orderItem),
             'quantity' => $orderItem->getQuantity(),
             'images' => $this->lineItemImagesProvider->getImageUrls($orderItem),
         ];

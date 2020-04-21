@@ -15,14 +15,18 @@ services:
         class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemProvider
         arguments:
             $lineItemImagesProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.line_item_images'
-            
+            $lineItemNameProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.line_item_name'
+
     prometee.sylius_payum_stripe_checkout_session.provider.line_item_images:
         class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemImagesProvider
         arguments:
             $filterExtension: '@liip_imagine.templating.filter_extension'
             $filterName: '%prometee_sylius_payum_stripe_checkout_session.line_item_image.imagine_filter%'
             $fallbackImage: '%prometee_sylius_payum_stripe_checkout_session.line_item_image.fallback_image%'
-            
+
+    prometee.sylius_payum_stripe_checkout_session.provider.line_item_name:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LinetItemNameProvider
+
     prometee.sylius_payum_stripe_checkout_session.provider.customer_email:
         class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\CustomerEmailProvider
             
