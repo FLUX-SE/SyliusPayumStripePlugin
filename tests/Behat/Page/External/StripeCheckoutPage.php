@@ -48,9 +48,9 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
      */
     public function capture(): void
     {
-        $afterToken = $this->findToken();
+        $captureToken = $this->findToken();
 
-        $this->getDriver()->visit($afterToken->getTargetUrl());
+        $this->getDriver()->visit($captureToken->getTargetUrl());
     }
 
     /**
@@ -79,7 +79,7 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
      */
     public function notify(string $content): void
     {
-        $notifyToken = $this->findToken(false);
+        $notifyToken = $this->findToken('notify');
 
         $notifyUrl = $this->payumNotifyPage->getNotifyUrl([
             'gateway' => 'stripe_checkout_session',
@@ -96,20 +96,21 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
         );
     }
 
-    private function findToken(bool $afterType = true): TokenInterface
+    private function findToken(string $type = 'capture'): TokenInterface
     {
+        $foundToken = null;
         /** @var TokenInterface $token */
         foreach ($this->securityTokenRepository->findAll() as $token) {
-            if ($afterType && null === $token->getAfterUrl()) {
-                return $token;
-            }
-
-            if (!$afterType && null !== $token->getAfterUrl()) {
-                return $token;
+            if (false !== strpos($token->getTargetUrl(), $type)) {
+                $foundToken = $token;
             }
         }
 
-        throw new RuntimeException('Cannot find token, check if you are after proper checkout steps');
+        if (null === $foundToken) {
+            throw new RuntimeException('Cannot find token, check if you are after proper checkout steps');
+        }
+
+        return $foundToken;
     }
 
     /**

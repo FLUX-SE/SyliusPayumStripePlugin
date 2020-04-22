@@ -8,7 +8,6 @@ use Behat\Behat\Context\Context;
 use Behat\MinkExtension\Context\MinkContext;
 use Stripe\Checkout\Session;
 use Stripe\Event;
-use Stripe\PaymentIntent;
 use Sylius\Behat\Page\Shop\Checkout\CompletePageInterface;
 use Sylius\Behat\Page\Shop\Order\ShowPageInterface;
 use Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Mocker\StripeSessionCheckoutMocker;
@@ -84,31 +83,22 @@ class StripeShopContext extends MinkContext implements Context
     }
 
     /**
-     * @When I cancel my Stripe payment
-     * @Given I have cancelled Stripe payment
+     * @When I get redirected to Stripe and complete my payment without webhooks
      */
-    public function iCancelMyStripePayment()
+    public function iGetRedirectedToStripeWithoutWebhooks(): void
+    {
+        $this->stripeSessionCheckoutMocker->mockSuccessfulPaymentWithoutWebhooks(function () {
+            $this->paymentPage->capture();
+        });
+    }
+
+    /**
+     * @Given I have clicked on "go back" during my Stripe payment
+     * @When I click on "go back" during my Stripe payment
+     */
+    public function iClickOnGoBackDuringMyStripePayment()
     {
         $this->stripeSessionCheckoutMocker->mockCancelledPayment(function () {
-            $jsonEvent = [
-                'id' => 'evt_11111111111111',
-                'type' => Event::PAYMENT_INTENT_CANCELED,
-                'object' => 'event',
-                'data' => [
-                    'object' => [
-                        'id' => 'pi_00000000000000',
-                        'object' => PaymentIntent::OBJECT_NAME,
-                        'metadata' => [
-                            'token_hash' => '%s',
-                        ],
-                    ],
-                ],
-            ];
-            $payload = json_encode($jsonEvent);
-
-            $this->paymentPage->notify($payload);
-        },
-        function () {
             $this->paymentPage->capture();
         });
     }
@@ -120,16 +110,6 @@ class StripeShopContext extends MinkContext implements Context
     {
         $this->stripeSessionCheckoutMocker->mockCreatePayment(function () {
             $this->orderDetails->pay();
-        });
-    }
-
-    /**
-     * @When /^I click on "go back" during my Stripe payment$/
-     */
-    public function IClickOnGoBackDuringMyStripePayment()
-    {
-        $this->stripeSessionCheckoutMocker->mockPaymentIntentRequiresPaymentMethodStatus(function () {
-            $this->paymentPage->capture();
         });
     }
 }

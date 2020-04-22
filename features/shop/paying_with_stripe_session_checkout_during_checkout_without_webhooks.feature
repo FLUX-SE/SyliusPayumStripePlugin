@@ -2,7 +2,7 @@
 Feature: Paying with Stripe during checkout
   In order to buy products
   As a Customer
-  I want to be able to pay with "Stripe Checkout Session" payment gateway
+  I want to be able to pay with "Stripe Checkout Session" payment gateway without webhooks
 
   Background:
     Given the store operates on a single channel in "United States"
@@ -13,15 +13,15 @@ Feature: Paying with Stripe during checkout
     And I am logged in as "john@example.com"
 
   @ui
-  Scenario: Successful payment in Stripe
+  Scenario: Successful payment in Stripe without webhooks
     Given I added product "PHP T-Shirt" to the cart
     And I have proceeded selecting "Stripe" payment method
     When I confirm my order with Stripe payment
-    And I get redirected to Stripe and complete my payment
+    And I get redirected to Stripe and complete my payment without webhooks
     Then I should be notified that my payment has been completed
 
   @ui
-  Scenario: Cancelling the payment
+  Scenario: Cancelling the payment without webhooks
     Given I added product "PHP T-Shirt" to the cart
     And I have proceeded selecting "Stripe" payment method
     When I confirm my order with Stripe payment
@@ -30,18 +30,18 @@ Feature: Paying with Stripe during checkout
     And I should be able to pay again
 
   @ui
-  Scenario: Retrying the payment with success
+  Scenario: Retrying the payment with success without webhooks
     Given I added product "PHP T-Shirt" to the cart
     And I have proceeded selecting "Stripe" payment method
     And I have confirmed my order with Stripe payment
     But I have clicked on "go back" during my Stripe payment
     When I try to pay again Stripe payment
-    And I get redirected to Stripe and complete my payment
+    And I get redirected to Stripe and complete my payment without webhooks
     Then I should be notified that my payment has been completed
     And I should see the thank you page
 
   @ui
-  Scenario: Retrying the payment and failing
+  Scenario: Retrying the payment and failing without webhooks
     Given I added product "PHP T-Shirt" to the cart
     And I have proceeded selecting "Stripe" payment method
     And I have confirmed my order with Stripe payment

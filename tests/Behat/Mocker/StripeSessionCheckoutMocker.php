@@ -67,11 +67,9 @@ final class StripeSessionCheckoutMocker
     }
 
     public function mockCancelledPayment(
-        callable $notifyAction,
         callable $captureAction
     ): void {
-        $this->mockPaymentIntentSync($notifyAction, PaymentIntent::STATUS_CANCELED);
-        $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_CANCELED);
+        $this->mockPaymentIntentRequiresPaymentMethodStatus($captureAction);
     }
 
     public function mockSuccessfulPayment(
@@ -82,10 +80,16 @@ final class StripeSessionCheckoutMocker
         $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_SUCCEEDED);
     }
 
+    public function mockSuccessfulPaymentWithoutWebhooks(
+        callable $captureAction
+    ): void {
+        $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_SUCCEEDED);
+    }
+
     /**
      * @see https://stripe.com/docs/payments/intents#payment-intent
      */
-    public function mockPaymentIntentRequiresPaymentMethodStatus(callable $captureAction)
+    public function mockPaymentIntentRequiresPaymentMethodStatus(callable $captureAction): void
     {
         $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD);
     }
