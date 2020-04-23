@@ -5,7 +5,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
-        "prometee/payum-stripe-checkout-session-bundle": "^1.0",
+        "prometee/payum-stripe-checkout-session-bundle": "^1.1",
         "sylius/sylius": "^1.5"
     },
     "require-dev": {

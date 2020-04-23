@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Mocker;
 
-use Prometee\PayumStripeCheckoutSession\Action\Api\Resource\AbstractCreateAction;
-use Prometee\PayumStripeCheckoutSession\Action\Api\Resource\AbstractRetrieveAction;
-use Prometee\PayumStripeCheckoutSession\Request\Api\Resource\CreateSession;
-use Prometee\PayumStripeCheckoutSession\Request\Api\Resource\RetrievePaymentIntent;
+use Prometee\PayumStripe\Action\Api\Resource\AbstractCreateAction;
+use Prometee\PayumStripe\Action\Api\Resource\AbstractRetrieveAction;
+use Prometee\PayumStripe\Request\Api\Resource\CreateSession;
+use Prometee\PayumStripe\Request\Api\Resource\RetrievePaymentIntent;
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
 use Sylius\Behat\Service\Mocker\MockerInterface;
