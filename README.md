@@ -66,7 +66,7 @@ your webhook key :
 First login to your Stripe account (needed every 90 days) :
 
 ```bash
-strip login
+stripe login
 ```
 
 Then start to listen for the 2 required events, forwarding request to you local server :
