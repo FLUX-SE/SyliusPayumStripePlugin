@@ -36,10 +36,13 @@ final class LineItemProvider implements LineItemProviderInterface
         }
 
         return [
-            'amount' => $orderItem->getTotal() / $orderItem->getQuantity(),
+            'amount' => $orderItem->getTotal(),
             'currency' => $order->getCurrencyCode(),
-            'name' => $this->lineItemNameProvider->getItemName($orderItem),
-            'quantity' => $orderItem->getQuantity(),
+            'name' => sprintf('%s x %s',
+                $orderItem->getQuantity(),
+                $this->lineItemNameProvider->getItemName($orderItem)
+            ),
+            'quantity' => 1,
             'images' => $this->lineItemImagesProvider->getImageUrls($orderItem),
         ];
     }
