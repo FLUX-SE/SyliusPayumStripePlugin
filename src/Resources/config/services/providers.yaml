@@ -10,6 +10,7 @@ services:
         class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemsProvider
         arguments:
             $lineItemProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.line_item'
+            $shippingLineItemProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.shipping_line_item'
             
     prometee.sylius_payum_stripe_checkout_session.provider.line_item:
         class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemProvider
@@ -26,6 +27,14 @@ services:
 
     prometee.sylius_payum_stripe_checkout_session.provider.line_item_name:
         class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LinetItemNameProvider
+
+    prometee.sylius_payum_stripe_checkout_session.provider.shipping_line_item:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\ShippingLineItemProvider
+        arguments:
+            $shippingLineItemProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.shipping_line_item_name'
+
+    prometee.sylius_payum_stripe_checkout_session.provider.shipping_line_item_name:
+        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\ShippingLineItemNameProvider
 
     prometee.sylius_payum_stripe_checkout_session.provider.customer_email:
         class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\CustomerEmailProvider

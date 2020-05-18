@@ -9,14 +9,20 @@ use PhpSpec\ObjectBehavior;
 use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemProviderInterface;
 use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemsProvider;
 use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemsProviderInterface;
+use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\ShippingLineItemProviderInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
 class LineItemsProviderSpec extends ObjectBehavior
 {
-    public function let(LineItemProviderInterface $lineItemProvider): void
-    {
-        $this->beConstructedWith($lineItemProvider);
+    public function let(
+        LineItemProviderInterface $lineItemProvider,
+        ShippingLineItemProviderInterface $shippingLineItemProvider
+    ): void {
+        $this->beConstructedWith(
+            $lineItemProvider,
+            $shippingLineItemProvider
+        );
     }
 
     public function it_is_initializable(): void
@@ -28,7 +34,8 @@ class LineItemsProviderSpec extends ObjectBehavior
     public function it_get_line_items(
         OrderInterface $order,
         OrderItemInterface $orderItem,
-        LineItemProviderInterface $lineItemProvider
+        LineItemProviderInterface $lineItemProvider,
+        ShippingLineItemProviderInterface $shippingLineItemProvider
     ): void {
         $lineItem = [];
         $orderItems = new ArrayCollection([
@@ -36,6 +43,7 @@ class LineItemsProviderSpec extends ObjectBehavior
         ]);
         $order->getItems()->willReturn($orderItems);
         $lineItemProvider->getLineItem($orderItem)->willReturn($lineItem);
+        $shippingLineItemProvider->getLineItem($order)->willReturn(null);
 
         $this->getLineItems($order)->shouldReturn([
             $lineItem,
@@ -43,10 +51,12 @@ class LineItemsProviderSpec extends ObjectBehavior
     }
 
     public function it_get_empty_line_items(
-        OrderInterface $order
+        OrderInterface $order,
+        ShippingLineItemProviderInterface $shippingLineItemProvider
     ): void {
         $orderItems = new ArrayCollection([]);
         $order->getItems()->willReturn($orderItems);
+        $shippingLineItemProvider->getLineItem($order)->willReturn(null);
 
         $this->getLineItems($order)->shouldReturn([]);
     }

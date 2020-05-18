@@ -11,9 +11,15 @@ final class LineItemsProvider implements LineItemsProviderInterface
     /** @var LineItemProviderInterface */
     private $lineItemProvider;
 
-    public function __construct(LineItemProviderInterface $lineItemProvider)
-    {
+    /** @var ShippingLineItemProviderInterface */
+    private $shippingLineItemProvider;
+
+    public function __construct(
+        LineItemProviderInterface $lineItemProvider,
+        ShippingLineItemProviderInterface $shippingLineItemProvider
+    ) {
         $this->lineItemProvider = $lineItemProvider;
+        $this->shippingLineItemProvider = $shippingLineItemProvider;
     }
 
     /**
@@ -27,6 +33,11 @@ final class LineItemsProvider implements LineItemsProviderInterface
             if (null !== $lineItem) {
                 $lineItems[] = $lineItem;
             }
+        }
+
+        $lineItem = $this->shippingLineItemProvider->getLineItem($order);
+        if (null !== $lineItem) {
+            $lineItems[] = $lineItem;
         }
 
         return $lineItems;
