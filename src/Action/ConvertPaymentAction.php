@@ -24,7 +24,7 @@ final class ConvertPaymentAction implements ActionInterface
     /**
      * {@inheritdoc}
      *
-     * @param Convert $request
+     * @param Convert|mixed $request
      */
     public function execute($request): void
     {
