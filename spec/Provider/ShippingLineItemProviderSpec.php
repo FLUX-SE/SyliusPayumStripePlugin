@@ -30,7 +30,6 @@ class ShippingLineItemProviderSpec extends ObjectBehavior
         OrderInterface $order,
         ShippingLineItemNameProviderInterface $shippingLineItemNameProvider
     ): void {
-
         $shippingLineItemNameProvider->getItemName($order)->willReturn('My shipping method');
         $order->getShippingTotal()->willReturn(1000);
         $order->getCurrencyCode()->willReturn('USD');
@@ -39,7 +38,7 @@ class ShippingLineItemProviderSpec extends ObjectBehavior
             'amount' => 1000,
             'currency' => 'USD',
             'name' => 'My shipping method',
-            'quantity' => 1
+            'quantity' => 1,
         ]);
     }
 
