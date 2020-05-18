@@ -36,7 +36,7 @@ final class LineItemProvider implements LineItemProviderInterface
         }
 
         return [
-            'amount' => $orderItem->getTotal(),
+            'amount' => $orderItem->getTotal()/$orderItem->getQuantity(),
             'currency' => $order->getCurrencyCode(),
             'name' => $this->lineItemNameProvider->getItemName($orderItem),
             'quantity' => $orderItem->getQuantity(),

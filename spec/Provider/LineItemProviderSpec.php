@@ -76,6 +76,28 @@ class LineItemProviderSpec extends ObjectBehavior
         ]);
     }
 
+    public function it_get_line_item_when_quantity_is_greater_than_1(
+        OrderItemInterface $orderItem,
+        OrderInterface $order,
+        LineItemImagesProviderInterface $lineItemImagesProvider,
+        LinetItemNameProviderInterface $lineItemNameProvider
+    ): void {
+        $orderItem->getOrder()->willReturn($order);
+        $orderItem->getTotal()->willReturn(1000);
+        $orderItem->getQuantity()->willReturn(2);
+        $order->getCurrencyCode()->willReturn('USD');
+        $lineItemImagesProvider->getImageUrls($orderItem)->willReturn([]);
+        $lineItemNameProvider->getItemName($orderItem)->willReturn('My item name');
+
+        $this->getLineItem($orderItem)->shouldReturn([
+            'amount' => 500,
+            'currency' => 'USD',
+            'name' => 'My item name',
+            'quantity' => 2,
+            'images' => [],
+        ]);
+    }
+
     public function it_get_line_item_with_null_order(
         OrderItemInterface $orderItem
     ): void {
