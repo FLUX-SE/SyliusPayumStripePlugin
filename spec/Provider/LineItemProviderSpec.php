@@ -38,7 +38,6 @@ class LineItemProviderSpec extends ObjectBehavior
     ): void {
         $orderItem->getOrder()->willReturn($order);
         $orderItem->getTotal()->willReturn(1000);
-        $orderItem->getQuantity()->willReturn(1);
         $order->getCurrencyCode()->willReturn('USD');
         $lineItemImagesProvider->getImageUrls($orderItem)->willReturn(['/path/image.jpg']);
         $lineItemNameProvider->getItemName($orderItem)->willReturn('1x - My item name');
@@ -62,7 +61,6 @@ class LineItemProviderSpec extends ObjectBehavior
     ): void {
         $orderItem->getOrder()->willReturn($order);
         $orderItem->getTotal()->willReturn(1000);
-        $orderItem->getQuantity()->willReturn(1);
         $order->getCurrencyCode()->willReturn('USD');
         $lineItemImagesProvider->getImageUrls($orderItem)->willReturn([]);
         $lineItemNameProvider->getItemName($orderItem)->willReturn('1x - My item name');
@@ -84,7 +82,6 @@ class LineItemProviderSpec extends ObjectBehavior
     ): void {
         $orderItem->getOrder()->willReturn($order);
         $orderItem->getTotal()->willReturn(1000);
-        $orderItem->getQuantity()->willReturn(2);
         $order->getCurrencyCode()->willReturn('USD');
         $lineItemImagesProvider->getImageUrls($orderItem)->willReturn([]);
         $lineItemNameProvider->getItemName($orderItem)->willReturn('2x - My item name');
