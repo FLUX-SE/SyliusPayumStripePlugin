@@ -21,18 +21,20 @@ class LinetItemNameProviderSpec extends ObjectBehavior
     public function it_get_item_name(
         OrderItemInterface $orderItem
     ): void {
+        $orderItem->getQuantity()->willReturn(1);
         $orderItem->getProductName()->willReturn('My Product');
 
-        $this->getItemName($orderItem)->shouldReturn('My Product');
+        $this->getItemName($orderItem)->shouldReturn('1x - My Product');
     }
 
     public function it_get_item_name_with_variant_name(
         OrderItemInterface $orderItem
     ): void {
         $orderItem->getProductName()->willReturn(null);
+        $orderItem->getQuantity()->willReturn(1);
         $orderItem->getVariantName()->willReturn('My variant name');
 
-        $this->getItemName($orderItem)->shouldReturn('My variant name');
+        $this->getItemName($orderItem)->shouldReturn('1x - My variant name');
     }
 
     public function it_throw_logic_exception_when_get_item_name_without_variant_name_or_product_name(
