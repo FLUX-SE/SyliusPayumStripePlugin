@@ -46,7 +46,7 @@ class LineItemProviderSpec extends ObjectBehavior
         $this->getLineItem($orderItem)->shouldReturn([
             'amount' => 1000,
             'currency' => 'USD',
-            'name' => 'My item name',
+            'name' => '1 x My item name',
             'quantity' => 1,
             'images' => [
                 '/path/image.jpg',
@@ -70,7 +70,7 @@ class LineItemProviderSpec extends ObjectBehavior
         $this->getLineItem($orderItem)->shouldReturn([
             'amount' => 1000,
             'currency' => 'USD',
-            'name' => 'My item name',
+            'name' => '1 x My item name',
             'quantity' => 1,
             'images' => [],
         ]);
@@ -83,17 +83,17 @@ class LineItemProviderSpec extends ObjectBehavior
         LinetItemNameProviderInterface $lineItemNameProvider
     ): void {
         $orderItem->getOrder()->willReturn($order);
-        $orderItem->getTotal()->willReturn(1000);
+        $orderItem->getTotal()->willReturn(2000);
         $orderItem->getQuantity()->willReturn(2);
         $order->getCurrencyCode()->willReturn('USD');
         $lineItemImagesProvider->getImageUrls($orderItem)->willReturn([]);
         $lineItemNameProvider->getItemName($orderItem)->willReturn('My item name');
 
         $this->getLineItem($orderItem)->shouldReturn([
-            'amount' => 500,
+            'amount' => 2000,
             'currency' => 'USD',
-            'name' => 'My item name',
-            'quantity' => 2,
+            'name' => '2 x My item name',
+            'quantity' => 1,
             'images' => [],
         ]);
     }
