@@ -48,7 +48,7 @@ Then get a `webhook_secret_key` configured with at least two events :
 The URL to fill is the route named `payum_notify_do_unsafe`, here is an example :
 
 ```
-http://localhost/payment/notify/unsafe/stripe_checkout_session
+http://localhost/payment/notify/unsafe/stripe_session_checkout_with_sca
 ```
 
 https://dashboard.stripe.com/test/webhooks
@@ -74,7 +74,7 @@ Then start to listen for the 2 required events, forwarding request to you local 
 ```bash
 stripe listen \
     --events checkout.session.completed,payment_intent.canceled \
-    --forward-to https://localhost/payment/notify/unsafe/stripe_checkout_session
+    --forward-to https://localhost/payment/notify/unsafe/stripe_session_checkout_with_sca
 ```
 
 > Replace the --forward-to argument value with the right one you need.
