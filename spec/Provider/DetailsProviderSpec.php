@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace spec\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider;
+namespace spec\FluxSE\SyliusPayumStripePlugin\Provider;
 
+use FluxSE\SyliusPayumStripePlugin\Provider\CustomerEmailProviderInterface;
+use FluxSE\SyliusPayumStripePlugin\Provider\DetailsProvider;
+use FluxSE\SyliusPayumStripePlugin\Provider\DetailsProviderInterface;
+use FluxSE\SyliusPayumStripePlugin\Provider\LineItemsProviderInterface;
+use FluxSE\SyliusPayumStripePlugin\Provider\PaymentMethodTypesProviderInterface;
 use PhpSpec\ObjectBehavior;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\CustomerEmailProviderInterface;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\DetailsProvider;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\DetailsProviderInterface;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemsProviderInterface;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\PaymentMethodTypesProviderInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
 class DetailsProviderSpec extends ObjectBehavior

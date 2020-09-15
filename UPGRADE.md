@@ -1,0 +1,16 @@
+# UPGRADE FROM `v1.1.2` TO `v1.2.0`
+
+* **BC BREAK**: This Sylius plugin has been renamed from
+ `SyliusPayumStripeCheckoutSessionPlugin` to `SyliusPayumStripePlugin`
+ to handle more than one gateway from Stripe.
+* **BC BREAK**: Rename the namespace (vendor and plugin name) from 
+ `Prometee\SyliusPayumStripeCheckoutSessionPlugin` to `FluxSE\SyliusPayumStripePlugin`
+* **BC BREAK**: Rename the config root name from 
+ `prometee_sylius_payum_stripe_session_checkout` to `flux_se_sylius_payum_stripe
+* **BC BREAK**: Rename the parameters from 
+ `prometee_sylius_payum_stripe_checkout_session.*` to `flux_se_sylius_payum_stripe.*`
+* **BC BREAK**: Rename the service names from 
+ `prometee_sylius_payum_stripe_checkout_session.*` to `flux_se.sylius_payum_stripe.*` 
+ `prometee.sylius_payum_stripe_checkout_session.*` to `flux_se.sylius_payum_stripe.*`
+* **BC BREAK**: Rename translation root name from
+ `prometee_stripe_checkout_session_plugin` to `flux_se_sylius_payum_stripe`

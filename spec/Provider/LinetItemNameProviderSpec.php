@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace spec\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider;
+namespace spec\FluxSE\SyliusPayumStripePlugin\Provider;
 
+use FluxSE\SyliusPayumStripePlugin\Provider\LinetItemNameProvider;
+use FluxSE\SyliusPayumStripePlugin\Provider\LinetItemNameProviderInterface;
 use LogicException;
 use PhpSpec\ObjectBehavior;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LinetItemNameProvider;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LinetItemNameProviderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
 class LinetItemNameProviderSpec extends ObjectBehavior

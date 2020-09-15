@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace spec\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider;
+namespace spec\FluxSE\SyliusPayumStripePlugin\Provider;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use FluxSE\SyliusPayumStripePlugin\Provider\LineItemImagesProvider;
+use FluxSE\SyliusPayumStripePlugin\Provider\LineItemImagesProviderInterface;
 use Liip\ImagineBundle\Templating\FilterExtension;
 use PhpSpec\ObjectBehavior;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemImagesProvider;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\LineItemImagesProviderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;

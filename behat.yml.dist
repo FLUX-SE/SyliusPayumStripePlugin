@@ -46,6 +46,6 @@ default:
         FriendsOfBehat\SymfonyExtension:
             bootstrap: tests/Application/config/bootstrap.php
             kernel:
-                class: Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Application\Kernel
+                class: Tests\FluxSE\SyliusPayumStripePlugin\Application\Kernel
 
         FriendsOfBehat\VariadicExtension: ~

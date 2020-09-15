@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace spec\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider;
+namespace spec\FluxSE\SyliusPayumStripePlugin\Provider;
 
+use FluxSE\SyliusPayumStripePlugin\Provider\PaymentMethodTypesProvider;
+use FluxSE\SyliusPayumStripePlugin\Provider\PaymentMethodTypesProviderInterface;
 use PhpSpec\ObjectBehavior;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\PaymentMethodTypesProvider;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\PaymentMethodTypesProviderInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
 class PaymentMethodTypesProviderSpec extends ObjectBehavior

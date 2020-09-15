@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\SyliusPayumStripeCheckoutSessionPlugin\DependencyInjection;
+namespace FluxSE\SyliusPayumStripePlugin\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -10,7 +10,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public const CONFIG_ROOT_NAME = 'prometee_sylius_payum_stripe_session_checkout';
+    public const CONFIG_ROOT_NAME = 'flux_se_sylius_payum_stripe';
 
     /**
      * {@inheritdoc}

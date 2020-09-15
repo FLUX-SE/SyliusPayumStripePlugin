@@ -1,8 +1,8 @@
 <?php
 
 use Symfony\Component\ErrorHandler\Debug;
-use Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Application\Kernel;
 use Symfony\Component\HttpFoundation\Request;
+use Tests\FluxSE\SyliusPayumStripePlugin\Application\Kernel;
 
 require dirname(__DIR__).'/config/bootstrap.php';
 

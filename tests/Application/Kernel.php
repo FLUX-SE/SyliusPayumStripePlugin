@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Application;
+namespace Tests\FluxSE\SyliusPayumStripePlugin\Application;
 
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;

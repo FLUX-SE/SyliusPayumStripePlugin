@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\SyliusPayumStripeCheckoutSessionPlugin\DependencyInjection\Compiler;
+namespace FluxSE\SyliusPayumStripePlugin\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

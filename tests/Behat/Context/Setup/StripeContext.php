@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Context\Setup;
+namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
 use Doctrine\Common\Persistence\ObjectManager;

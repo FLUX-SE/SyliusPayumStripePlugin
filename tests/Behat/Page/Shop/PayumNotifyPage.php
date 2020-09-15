@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\Shop;
+namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Shop;
 
 use Behat\Mink\Session;
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;

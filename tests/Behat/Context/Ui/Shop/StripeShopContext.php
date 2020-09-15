@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Context\Ui\Shop;
+namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
 use Behat\MinkExtension\Context\MinkContext;
@@ -10,8 +10,8 @@ use Stripe\Checkout\Session;
 use Stripe\Event;
 use Sylius\Behat\Page\Shop\Checkout\CompletePageInterface;
 use Sylius\Behat\Page\Shop\Order\ShowPageInterface;
-use Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Mocker\StripeSessionCheckoutMocker;
-use Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\External\StripeCheckoutPage;
+use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeSessionCheckoutMocker;
+use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripeCheckoutPage;
 
 class StripeShopContext extends MinkContext implements Context
 {

@@ -52,6 +52,6 @@ return [
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true, 'test_cached' => true],
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true, 'test_cached' => true],
     FriendsOfBehat\SymfonyExtension\Bundle\FriendsOfBehatSymfonyExtensionBundle::class => ['test' => true, 'test_cached' => true],
-    Prometee\PayumStripeCheckoutSessionBundle\PrometeePayumStripeCheckoutSessionBundle::class => ['all' => true],
-    Prometee\SyliusPayumStripeCheckoutSessionPlugin\PrometeeSyliusPayumStripeCheckoutSessionPlugin::class => ['all' => true],
+    FluxSE\PayumStripeBundle\FluxSEPayumStripeBundle::class => ['all' => true],
+    FluxSE\SyliusPayumStripePlugin\FluxSESyliusPayumStripePlugin::class => ['all' => true],
 ];

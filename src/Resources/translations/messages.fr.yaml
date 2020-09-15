@@ -1,4 +1,4 @@
-prometee_stripe_checkout_session_plugin:
+flux_se_sylius_payum_stripe_plugin:
     payum_gateway_factory:
         stripe_checkout_session: Stripe Checkout Session (avec support SCA)
     form:

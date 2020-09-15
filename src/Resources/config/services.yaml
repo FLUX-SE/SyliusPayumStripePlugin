@@ -2,16 +2,16 @@ imports:
     - { resource: 'services/providers.yaml' }
 
 services:
-    prometee_sylius_payum_stripe_checkout_session.form.type.gateway_configuration.stripe_checkout_session:
-        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Form\Type\StripeCheckoutSessionGatewayConfigurationType
+    flux_se.sylius_payum_stripe.form.type.gateway_configuration.stripe_checkout_session:
+        class: FluxSE\SyliusPayumStripePlugin\Form\Type\StripeCheckoutSessionGatewayConfigurationType
         tags:
-            - { name: sylius.gateway_configuration_type, type: stripe_checkout_session, label: prometee_stripe_checkout_session_plugin.payum_gateway_factory.stripe_checkout_session }
+            - { name: sylius.gateway_configuration_type, type: stripe_checkout_session, label: flux_se_sylius_payum_stripe_plugin.payum_gateway_factory.stripe_checkout_session }
             - { name: form.type }
 
-    prometee_sylius_payum_stripe_checkout_session.action.convert_payment:
+    flux_se.sylius_payum_stripe.action.convert_payment:
         public: true
-        class: Prometee\SyliusPayumStripeCheckoutSessionPlugin\Action\ConvertPaymentAction
+        class: FluxSE\SyliusPayumStripePlugin\Action\ConvertPaymentAction
         arguments:
-            $detailsProvider: '@prometee.sylius_payum_stripe_checkout_session.provider.details'
+            $detailsProvider: '@flux_se.sylius_payum_stripe.provider.details'
         tags:
-            - { name: payum.action, factory: stripe_checkout_session, alias: prometee.sylius_payum_stripe_checkout_session.convert_payment }
+            - { name: payum.action, factory: stripe_checkout_session, alias: flux_se.sylius_payum_stripe.convert_payment }

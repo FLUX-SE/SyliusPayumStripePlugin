@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\SyliusPayumStripeCheckoutSessionPlugin\Form\Type;
+namespace FluxSE\SyliusPayumStripePlugin\Form\Type;
 
 use Sylius\Bundle\PayumBundle\Form\Type\StripeGatewayConfigurationType as BaseStripeGatewayConfigurationType;
 use Symfony\Component\Form\AbstractType;
@@ -22,10 +22,10 @@ class StripeCheckoutSessionGatewayConfigurationType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'delete_empty' => true,
-                'label' => 'prometee_stripe_checkout_session_plugin.form.gateway_configuration.stripe.webhook_secret_keys',
+                'label' => 'flux_se_sylius_payum_stripe_plugin.form.gateway_configuration.stripe.webhook_secret_keys',
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'prometee_stripe_checkout_session_plugin.stripe.webhook_secret_keys.not_blank',
+                        'message' => 'flux_se_sylius_payum_stripe_plugin.stripe.webhook_secret_keys.not_blank',
                         'groups' => 'sylius',
                     ]),
                 ],

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider;
+namespace FluxSE\SyliusPayumStripePlugin\Provider;
 
 use Liip\ImagineBundle\Templating\FilterExtension;
 use Sylius\Component\Core\Model\OrderItemInterface;
