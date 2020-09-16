@@ -8,6 +8,7 @@ use Liip\ImagineBundle\Templating\FilterExtension;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Webmozart\Assert\Assert;
 
 final class LineItemImagesProvider implements LineItemImagesProviderInterface
 {
@@ -57,6 +58,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
             /** @var ProductImageInterface $first */
             $first = $product->getImages()->first();
             $path = $first->getPath();
+            Assert::notNull($path, 'The first product image path should not be null !');
         }
 
         return $this->getUrlFromPath($path);
@@ -66,7 +68,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
     {
         $url = $this->filterExtension->filter($path, $this->filterName);
 
-        // Localhost images are not displayed by Stripe because they cache it on a CDN
+        // Localhost images are not displayed by Stripe because it cache it on a CDN
         if (0 !== preg_match('#//localhost#', $url)) {
             $url = $this->fallbackImage;
         }

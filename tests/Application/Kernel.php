@@ -30,38 +30,26 @@ final class Kernel extends BaseKernel
 
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCacheDir(): string
     {
         return $this->getProjectDir() . '/var/cache/' . $this->environment;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLogDir(): string
     {
         return $this->getProjectDir() . '/var/log';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function registerBundles(): iterable
     {
         $contents = require $this->getProjectDir() . '/config/bundles.php';
         foreach ($contents as $class => $envs) {
-            if ($envs[$this->environment] ?? $envs['all'] ?? false) {
+            if (isset($envs['all']) || isset($envs[$this->environment])) {
                 yield new $class();
             }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $container->addResource(new FileResource($this->getProjectDir() . '/config/bundles.php'));
@@ -74,9 +62,6 @@ final class Kernel extends BaseKernel
         $loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
         $confDir = $this->getProjectDir() . '/config';
@@ -86,9 +71,6 @@ final class Kernel extends BaseKernel
         $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getContainerBaseClass(): string
     {
         if ($this->isTestEnvironment()) {
@@ -98,9 +80,6 @@ final class Kernel extends BaseKernel
         return parent::getContainerBaseClass();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getContainerLoader(ContainerInterface $container): LoaderInterface
     {
         /** @var ContainerBuilder $container */
@@ -120,9 +99,6 @@ final class Kernel extends BaseKernel
         return new DelegatingLoader($resolver);
     }
 
-    /**
-     * @return bool
-     */
     private function isTestEnvironment(): bool
     {
         return 0 === strpos($this->getEnvironment(), 'test');

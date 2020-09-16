@@ -24,9 +24,6 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
     /** @var PayumNotifyPageInterface */
     private $payumNotifyPage;
 
-    /**
-     * @param $minkParameters
-     */
     public function __construct(
         Session $session,
         $minkParameters,
@@ -42,8 +39,6 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws DriverException
      */
     public function capture(): void
