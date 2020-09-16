@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace spec\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider;
+namespace spec\FluxSE\SyliusPayumStripePlugin\Provider;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use FluxSE\SyliusPayumStripePlugin\Provider\ShippingLineItemNameProvider;
+use FluxSE\SyliusPayumStripePlugin\Provider\ShippingLineItemNameProviderInterface;
 use PhpSpec\ObjectBehavior;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\ShippingLineItemNameProvider;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\ShippingLineItemNameProviderInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;

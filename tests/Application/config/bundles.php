@@ -52,6 +52,11 @@ return [
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true, 'test_cached' => true],
     Symfony\Bundle\WebProfilerBundle\WebProfilerBundle::class => ['dev' => true, 'test' => true, 'test_cached' => true],
     FriendsOfBehat\SymfonyExtension\Bundle\FriendsOfBehatSymfonyExtensionBundle::class => ['test' => true, 'test_cached' => true],
-    Prometee\PayumStripeCheckoutSessionBundle\PrometeePayumStripeCheckoutSessionBundle::class => ['all' => true],
-    Prometee\SyliusPayumStripeCheckoutSessionPlugin\PrometeeSyliusPayumStripeCheckoutSessionPlugin::class => ['all' => true],
+    ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
+    Sylius\Bundle\ApiBundle\SyliusApiBundle::class => ['all' => true],
+    Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
+    SyliusLabs\DoctrineMigrationsExtraBundle\SyliusLabsDoctrineMigrationsExtraBundle::class => ['all' => true],
+    Symplify\ConsoleColorDiff\ConsoleColorDiffBundle::class => ['dev' => true, 'test' => true],
+    FluxSE\PayumStripeBundle\FluxSEPayumStripeBundle::class => ['all' => true],
+    FluxSE\SyliusPayumStripePlugin\FluxSESyliusPayumStripePlugin::class => ['all' => true],
 ];

@@ -14,7 +14,7 @@ See https://stripe.com/docs/payments/checkout for more information.
 Install using Composer :
 
 ```
-$ composer require prometee/sylius-payum-stripe-checkout-session-plugin
+$ composer require flux-se/sylius-payum-stripe-plugin
 ```
 
 Enable this plugin :
@@ -26,7 +26,7 @@ Enable this plugin :
 
 return [
     // ...
-    Prometee\SyliusPayumStripeCheckoutSessionPlugin\PrometeeSyliusPayumStripeCheckoutSessionPlugin::class => ['all' => true],
+    FluxSE\SyliusPayumStripePlugin\FluxSESyliusPayumStripePlugin::class => ['all' => true],
     // ...
 ];
 ```
@@ -97,23 +97,23 @@ Then a form will be displayed, fill-in the required fields :
     _NOTE1: You can add as many webhook secret keys as you need here, however generic usage need only one._
     
     _NOTE2: the screenshot contains false test credentials._
- 4. give to this payment method a display name (and a description) for each languages you need
+ 4. give to this payment method a display name (and a description) for each language you need
  
- Finally click on the "Create" button to save your new payment method.
+ Finally, click on the "Create" button to save your new payment method.
 
 ## Advanced usages
 
-See documentation here : https://github.com/Prometee/PayumStripeCheckoutSession/blob/master/README.md
+See documentation here : https://github.com/FLUX-SE/PayumStripe/blob/master/README.md
 
 [docs-assets-create-payment-method]: docs/assets/create-payment-method.png
 [docs-assets-gateway-configuration]: docs/assets/gateway-configuration.png
 
-[ico-version]: https://img.shields.io/packagist/v/Prometee/sylius-payum-stripe-checkout-session-plugin.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/FluxSE/sylius-payum-stripe-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/Prometee/SyliusPayumStripeCheckoutSessionPlugin/master.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/Prometee/SyliusPayumStripeCheckoutSessionPlugin.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/FluxSE/SyliusPayumStripePlugin/master.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/FluxSE/SyliusPayumStripePlugin.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/prometee/sylius-payum-stripe-checkout-session-plugin
-[link-travis]: https://travis-ci.org/Prometee/SyliusPayumStripeCheckoutSessionPlugin
-[link-scrutinizer]: https://scrutinizer-ci.com/g/Prometee/SyliusPayumStripeCheckoutSessionPlugin/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/Prometee/SyliusPayumStripeCheckoutSessionPlugin
+[link-packagist]: https://packagist.org/packages/flux-se/sylius-payum-stripe-plugin
+[link-travis]: https://travis-ci.org/FluxSE/SyliusPayumStripePlugin
+[link-scrutinizer]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin

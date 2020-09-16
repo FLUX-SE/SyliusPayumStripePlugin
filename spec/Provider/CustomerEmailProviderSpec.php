@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace spec\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider;
+namespace spec\FluxSE\SyliusPayumStripePlugin\Provider;
 
+use FluxSE\SyliusPayumStripePlugin\Provider\CustomerEmailProvider;
+use FluxSE\SyliusPayumStripePlugin\Provider\CustomerEmailProviderInterface;
 use PhpSpec\ObjectBehavior;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\CustomerEmailProvider;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\CustomerEmailProviderInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 

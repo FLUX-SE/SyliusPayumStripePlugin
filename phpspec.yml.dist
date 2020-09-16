@@ -1,4 +1,4 @@
 suites:
     main:
-        namespace: Prometee\SyliusPayumStripeCheckoutSessionPlugin
-        psr4_prefix: Prometee\SyliusPayumStripeCheckoutSessionPlugin
+        namespace: FluxSE\SyliusPayumStripePlugin
+        psr4_prefix: FluxSE\SyliusPayumStripePlugin

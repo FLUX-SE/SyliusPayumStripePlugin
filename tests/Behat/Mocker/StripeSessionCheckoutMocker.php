@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Mocker;
+namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker;
 
-use Prometee\PayumStripe\Action\Api\Resource\AbstractCreateAction;
-use Prometee\PayumStripe\Action\Api\Resource\AbstractRetrieveAction;
-use Prometee\PayumStripe\Request\Api\Resource\CreateSession;
-use Prometee\PayumStripe\Request\Api\Resource\RetrievePaymentIntent;
+use FluxSE\PayumStripe\Action\Api\Resource\AbstractCreateAction;
+use FluxSE\PayumStripe\Action\Api\Resource\AbstractRetrieveAction;
+use FluxSE\PayumStripe\Request\Api\Resource\CreateSession;
+use FluxSE\PayumStripe\Request\Api\Resource\RetrievePaymentIntent;
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
 use Sylius\Behat\Service\Mocker\MockerInterface;
@@ -33,7 +33,7 @@ final class StripeSessionCheckoutMocker
             ],
         ];
 
-        $mock = $this->mocker->mockService('tests.prometee.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.create_session', AbstractCreateAction::class);
+        $mock = $this->mocker->mockService('tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.create_session', AbstractCreateAction::class);
 
         $mock
             ->shouldReceive('setApi')
@@ -102,7 +102,7 @@ final class StripeSessionCheckoutMocker
             'status' => $status,
         ];
 
-        $mock = $this->mocker->mockService('tests.prometee.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.retrieve_payment_intent', AbstractRetrieveAction::class);
+        $mock = $this->mocker->mockService('tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.retrieve_payment_intent', AbstractRetrieveAction::class);
 
         $mock
             ->shouldReceive('setApi')

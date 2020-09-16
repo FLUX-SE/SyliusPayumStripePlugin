@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\Admin\PaymentMethod;
+namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Admin\PaymentMethod;
 
 use Sylius\Behat\Page\Admin\PaymentMethod\CreatePageInterface as BaseCreatePageInterface;
 

@@ -2,12 +2,14 @@ language: php
 
 os: linux
 
-dist: xenial
+dist: bionic
+
+php:
+  - '7.3'
+  - '7.4'
 
 services:
   - mysql
-  - xvfb
-  - memcached
 
 addons:
   chrome: stable
@@ -16,8 +18,6 @@ cache:
   yarn: true
   directories:
     - ~/.composer/cache/files
-    - ~/.cache/pip
-    - node_modules
     - $SYLIUS_CACHE_DIR
 
 env:
@@ -25,16 +25,6 @@ env:
     - APP_ENV=test
     - SYLIUS_CACHE_DIR=$HOME/.sylius-cache
     - SYLIUS_BUILD_DIR=etc/build
-    - CHROME_DRIVER_VERSION=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-    - SELENIUM_STANDALONE_VERSION=3.141.59
-    - SELENIUM_SUBDIR_VERSION=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
-
-jobs:
-  include:
-    -
-      php: 7.3
-    -
-      php: 7.4
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -52,39 +42,28 @@ before_script:
   - (cd tests/Application && bin/console cache:warmup -vvv)
   - (cd tests/Application && yarn build)
 
-  # Download Symfony command
-  - wget https://get.symfony.com/cli/installer -O - | bash
-
-  # Download and configure ChromeDriver
+  # Download Symfony CLI
   - |
-    if [ ! -f $SYLIUS_CACHE_DIR/chromedriver ] || [ "$($SYLIUS_CACHE_DIR/chromedriver --version | grep -c $CHROME_DRIVER_VERSION)" = "0" ]; then
-        curl http://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip > chromedriver.zip
-        unzip chromedriver.zip
-        rm chromedriver.zip
-        chmod +x chromedriver
-        mv chromedriver $SYLIUS_CACHE_DIR
+    if [ ! -f $SYLIUS_CACHE_DIR/symfony ]; then
+        wget https://get.symfony.com/cli/installer -O - | bash
+        mv ~/.symfony/bin/symfony $SYLIUS_CACHE_DIR
     fi
+    php -v | head -n 1 | awk '{ print $2 }' > .php-version
+  # Install certificates
+  - $SYLIUS_CACHE_DIR/symfony server:ca:install
 
-  # Download and configure Selenium
-  - |
-    if [ ! -f $SYLIUS_CACHE_DIR/selenium.jar ] || [ "$(java -jar $SYLIUS_CACHE_DIR/selenium.jar --version | grep -c $SELENIUM_SUBDIR_VERSION)" = "0" ]; then
-        curl http://selenium-release.storage.googleapis.com/$SELENIUM_SUBDIR_VERSION/selenium-server-standalone-$SELENIUM_STANDALONE_VERSION.jar > selenium.jar
-        mv selenium.jar $SYLIUS_CACHE_DIR
-    fi
-
-  # Run Selenium
-  - java -Dwebdriver.chrome.driver=$SYLIUS_CACHE_DIR/chromedriver -jar $SYLIUS_CACHE_DIR/selenium.jar -debug -log ${SYLIUS_BUILD_DIR}/selenium.log &
+  # Run Chrome Headless
+  - google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1 > /dev/null 2>&1 &
 
   # Run webserver
-  - (cd tests/Application && /home/travis/.symfony/bin/symfony server:ca:install)
-  - (cd tests/Application && /home/travis/.symfony/bin/symfony server:start --port=8080 --dir=public --force-php-discovery --daemon)
+  - (cd tests/Application && $SYLIUS_CACHE_DIR/symfony server:start --port=8080 --dir=public --daemon)
 
 script:
   - composer validate --strict
   - vendor/bin/ecs check .
   - vendor/bin/phpstan analyse -c phpstan.neon -l max src/
 
-  #- vendor/bin/phpunit
+  - vendor/bin/phpunit
   - vendor/bin/phpspec run
   - vendor/bin/behat --strict -vvv --no-interaction || vendor/bin/behat --strict -vvv --no-interaction --rerun
 

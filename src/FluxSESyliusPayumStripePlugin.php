@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Prometee\SyliusPayumStripeCheckoutSessionPlugin;
+namespace FluxSE\SyliusPayumStripePlugin;
 
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\DependencyInjection\Compiler\PayumGatewayConfigOverride;
+use FluxSE\SyliusPayumStripePlugin\DependencyInjection\Compiler\PayumGatewayConfigOverride;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class PrometeeSyliusPayumStripeCheckoutSessionPlugin extends Bundle
+class FluxSESyliusPayumStripePlugin extends Bundle
 {
     use SyliusPluginTrait;
 

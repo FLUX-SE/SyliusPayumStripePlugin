@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prometee\SyliusPayumStripeCheckoutSessionPlugin\DependencyInjection;
+namespace FluxSE\SyliusPayumStripePlugin\DependencyInjection;
 
 use Exception;
 use Symfony\Component\Config\FileLocator;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class PrometeeSyliusPayumStripeCheckoutSessionExtension extends Extension
+class FluxSESyliusPayumStripeExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -22,11 +22,11 @@ class PrometeeSyliusPayumStripeCheckoutSessionExtension extends Extension
         $configs = $this->processConfiguration($this->getConfiguration([], $container), $configs);
 
         $container->setParameter(
-            'prometee_sylius_payum_stripe_checkout_session.line_item_image.imagine_filter',
+            'flux_se_sylius_payum_stripe.line_item_image.imagine_filter',
             $configs['line_item_image']['imagine_filter']
         );
         $container->setParameter(
-            'prometee_sylius_payum_stripe_checkout_session.line_item_image.fallback_image',
+            'flux_se_sylius_payum_stripe.line_item_image.fallback_image',
             $configs['line_item_image']['fallback_image']
         );
 

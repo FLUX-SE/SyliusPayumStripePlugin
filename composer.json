@@ -1,48 +1,58 @@
 {
-    "name": "prometee/sylius-payum-stripe-checkout-session-plugin",
+    "name": "flux-se/sylius-payum-stripe-plugin",
     "type": "sylius-plugin",
-    "description": "Payum Stripe checkout session gateway plugin for Sylius.",
+    "keywords": ["sylius", "sylius-plugin", "stripe", "payum", "gateway", "sca", "checkout", "session"],
+    "description": "Payum Stripe gateways plugin for Sylius.",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Francis HILAIRE",
+            "email": "Prometee@users.noreply.github.com"
+        }
+    ],
     "require": {
         "php": "^7.3",
-        "prometee/payum-stripe-checkout-session-bundle": "^1.1",
+        "flux-se/payum-stripe-bundle": "^1.2",
         "sylius/sylius": "^1.5"
     },
     "require-dev": {
         "ext-json": "*",
-        "behat/behat": "^3.4",
-        "behat/mink": "^1.8",
-        "behat/mink-browserkit-driver": "^1.3",
-        "behat/mink-extension": "^2.2",
-        "behat/mink-selenium2-driver": "^1.3",
+        "behat/behat": "^3.7",
+        "behat/mink-selenium2-driver": "^1.4",
+        "dmore/behat-chrome-extension": "^1.3",
+        "dmore/chrome-mink-driver": "^2.7",
+        "friends-of-behat/mink": "^1.8",
+        "friends-of-behat/mink-browserkit-driver": "^1.4",
+        "friends-of-behat/mink-extension": "^2.4",
         "friends-of-behat/page-object-extension": "^0.3",
         "friends-of-behat/suite-settings-extension": "^1.0",
-        "friends-of-behat/symfony-extension": "^2.0",
-        "friends-of-behat/variadic-extension": "^1.1",
-        "lakion/mink-debug-extension": "^1.2",
-        "phpspec/phpspec": "^6.0",
+        "friends-of-behat/symfony-extension": "^2.1",
+        "friends-of-behat/variadic-extension": "^1.3",
+        "lakion/mink-debug-extension": "^1.2.3",
+        "phpspec/phpspec": "^6.1",
         "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^0.12",
-        "phpstan/phpstan-doctrine": "^0.12",
-        "phpstan/phpstan-strict-rules": "^0.12",
-        "phpstan/phpstan-webmozart-assert": "^0.12",
+        "phpstan/phpstan": "0.12.25",
+        "phpstan/phpstan-doctrine": "0.12.13",
+        "phpstan/phpstan-strict-rules": "^0.12.0",
+        "phpstan/phpstan-webmozart-assert": "0.12.4",
         "phpunit/phpunit": "^8|^9",
         "sensiolabs/security-checker": "^6.0",
-        "sylius-labs/coding-standard": "^3.1",
-        "symfony/browser-kit": "^4.4|^5.0",
-        "symfony/debug-bundle": "^4.4|^5.0",
-        "symfony/dotenv": "^4.4|^5.0",
-        "symfony/intl": "^4.4|^5.0",
-        "symfony/web-profiler-bundle": "^4.4|^5.0"
+        "sylius-labs/coding-standard": "^3.2",
+        "symfony/browser-kit": "^4.4",
+        "symfony/debug-bundle": "^4.4",
+        "symfony/dotenv": "^4.4",
+        "symfony/intl": "^4.4",
+        "symfony/web-profiler-bundle": "^4.4",
+        "vimeo/psalm": "3.11.4"
     },
     "prefer-stable": true,
     "autoload": {
-        "psr-4": { "Prometee\\SyliusPayumStripeCheckoutSessionPlugin\\": "src/" }
+        "psr-4": { "FluxSE\\SyliusPayumStripePlugin\\": "src/" }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Prometee\\SyliusPayumStripeCheckoutSessionPlugin\\": "tests/",
-            "Tests\\Prometee\\SyliusPayumStripeCheckoutSessionPlugin\\App\\": "tests/Application/src/"
+            "Tests\\FluxSE\\SyliusPayumStripePlugin\\": "tests/",
+            "Tests\\FluxSE\\SyliusPayumStripePlugin\\App\\": "tests/Application/src/"
         }
     },
     "extra": {
@@ -50,10 +60,18 @@
             "dev-master": "1.1-dev"
         }
     },
-    "authors": [
-        {
-            "name": "Francis HILAIRE",
-            "email": "Prometee@users.noreply.github.com"
-        }
-    ]
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php bin/create_node_symlink.php"
+        ],
+        "post-update-cmd": [
+            "php bin/create_node_symlink.php"
+        ],
+        "post-create-project-cmd": [
+            "php bin/create_node_symlink.php"
+        ]
+    }
 }

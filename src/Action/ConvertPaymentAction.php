@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Prometee\SyliusPayumStripeCheckoutSessionPlugin\Action;
+namespace FluxSE\SyliusPayumStripePlugin\Action;
 
+use FluxSE\SyliusPayumStripePlugin\Provider\DetailsProviderInterface;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\Request\Convert;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\DetailsProviderInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace spec\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Action;
+namespace spec\FluxSE\SyliusPayumStripePlugin\Action;
 
+use FluxSE\SyliusPayumStripePlugin\Action\ConvertPaymentAction;
+use FluxSE\SyliusPayumStripePlugin\Provider\DetailsProviderInterface;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Request\Convert;
 use PhpSpec\ObjectBehavior;
 use PhpSpec\Wrapper\Collaborator;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Action\ConvertPaymentAction;
-use Prometee\SyliusPayumStripeCheckoutSessionPlugin\Provider\DetailsProviderInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Context\Ui\Admin;
+namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
 use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
-use Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Behat\Page\Admin\PaymentMethod\CreatePageInterface;
+use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Admin\PaymentMethod\CreatePageInterface;
 
 class ManagingPaymentMethodsContext implements Context
 {

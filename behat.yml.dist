@@ -1,11 +1,11 @@
 imports:
+    - vendor/sylius/sylius/src/Sylius/Behat/Resources/config/suites.yml
     - tests/Behat/Resources/suites.yaml
 
 default:
-    formatters:
-        pretty: true
-
     extensions:
+        DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
+
         Lakion\Behat\MinkDebugExtension:
             directory: etc/build
             clean_start: false
@@ -13,12 +13,16 @@ default:
 
         Behat\MinkExtension:
             files_path: "%paths.base%/vendor/sylius/sylius/src/Sylius/Behat/Resources/fixtures/"
-            base_url: "https://localhost:8080/"
+            base_url: "https://127.0.0.1:8080/"
             default_session: symfony
-            javascript_session: chrome
+            javascript_session: chrome_headless
             sessions:
                 symfony:
                     symfony: ~
+                chrome_headless:
+                    chrome:
+                        api_url: http://127.0.0.1:9222
+                        validate_certificate: false
                 chrome:
                     selenium2:
                         browser: chrome
@@ -26,18 +30,14 @@ default:
                             browserName: chrome
                             browser: chrome
                             version: ""
+                            marionette: null # https://github.com/Behat/MinkExtension/pull/311
                             chrome:
                                 switches:
-                                    - "--start-fullscreen"
-                                    - "--start-maximized"
-                                    - "--no-sandbox"
-                                    - "--headless"
-                                    - "--disable-gpu"
-                                    - "--ignore-certificate-errors"
+                                    - "start-fullscreen"
+                                    - "start-maximized"
+                                    - "no-sandbox"
                             extra_capabilities:
                                 unexpectedAlertBehaviour: accept
-                                goog:chromeOptions:
-                                    w3c: false # https://github.com/Sylius/Sylius/issues/10561
                 firefox:
                     selenium2:
                         browser: firefox
@@ -46,6 +46,10 @@ default:
         FriendsOfBehat\SymfonyExtension:
             bootstrap: tests/Application/config/bootstrap.php
             kernel:
-                class: Tests\Prometee\SyliusPayumStripeCheckoutSessionPlugin\Application\Kernel
+                class: Tests\FluxSE\SyliusPayumStripePlugin\Application\Kernel
 
         FriendsOfBehat\VariadicExtension: ~
+
+        FriendsOfBehat\SuiteSettingsExtension:
+            paths:
+                - "features"
