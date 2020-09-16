@@ -103,7 +103,7 @@ Then a form will be displayed, fill-in the required fields :
 
 ## Advanced usages
 
-See documentation here : https://github.com/FluxSE/PayumStripe/blob/master/README.md
+See documentation here : https://github.com/FLUX-SE/PayumStripe/blob/master/README.md
 
 [docs-assets-create-payment-method]: docs/assets/create-payment-method.png
 [docs-assets-gateway-configuration]: docs/assets/gateway-configuration.png
@@ -115,5 +115,5 @@ See documentation here : https://github.com/FluxSE/PayumStripe/blob/master/READM
 
 [link-packagist]: https://packagist.org/packages/flux-se/sylius-payum-stripe-plugin
 [link-travis]: https://travis-ci.org/FluxSE/SyliusPayumStripePlugin
-[link-scrutinizer]: https://scrutinizer-ci.com/g/FluxSE/SyliusPayumStripePlugin/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/FluxSE/SyliusPayumStripePlugin
+[link-scrutinizer]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin
