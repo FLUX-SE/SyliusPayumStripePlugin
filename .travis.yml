@@ -5,8 +5,8 @@ os: linux
 dist: bionic
 
 php:
-    - '7.3'
-    - '7.4'
+  - '7.3'
+  - '7.4'
 
 services:
   - mysql
@@ -25,9 +25,6 @@ env:
     - APP_ENV=test
     - SYLIUS_CACHE_DIR=$HOME/.sylius-cache
     - SYLIUS_BUILD_DIR=etc/build
-    - CHROME_DRIVER_VERSION=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-    - SELENIUM_STANDALONE_VERSION=3.141.59
-    - SELENIUM_SUBDIR_VERSION=$(echo "$SELENIUM_STANDALONE_VERSION" | cut -d"." -f-2)
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -45,21 +42,21 @@ before_script:
   - (cd tests/Application && bin/console cache:warmup -vvv)
   - (cd tests/Application && yarn build)
 
-      # Download Symfony CLI
-    - |
-        if [ ! -f $SYLIUS_CACHE_DIR/symfony ]; then
-            wget https://get.symfony.com/cli/installer -O - | bash
-            mv ~/.symfony/bin/symfony $SYLIUS_CACHE_DIR
-        fi
-        php -v | head -n 1 | awk '{ print $2 }' > .php-version
-    # Install certificates
-    - $SYLIUS_CACHE_DIR/symfony server:ca:install
+  # Download Symfony CLI
+  - |
+    if [ ! -f $SYLIUS_CACHE_DIR/symfony ]; then
+        wget https://get.symfony.com/cli/installer -O - | bash
+        mv ~/.symfony/bin/symfony $SYLIUS_CACHE_DIR
+    fi
+    php -v | head -n 1 | awk '{ print $2 }' > .php-version
+  # Install certificates
+  - $SYLIUS_CACHE_DIR/symfony server:ca:install
 
-    # Run Chrome Headless
-    - google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1 > /dev/null 2>&1 &
+  # Run Chrome Headless
+  - google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1 > /dev/null 2>&1 &
 
-    # Run webserver
-    - (cd tests/Application && $SYLIUS_CACHE_DIR/symfony server:start --port=8080 --dir=public --daemon)
+  # Run webserver
+  - (cd tests/Application && $SYLIUS_CACHE_DIR/symfony server:start --port=8080 --dir=public --daemon)
 
 script:
   - composer validate --strict
