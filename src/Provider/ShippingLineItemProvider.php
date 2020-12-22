@@ -16,9 +16,6 @@ final class ShippingLineItemProvider implements ShippingLineItemProviderInterfac
         $this->shippingLineItemProvider = $shippingLineItemProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLineItem(OrderInterface $order): ?array
     {
         $shippingTotal = $order->getShippingTotal();

@@ -31,9 +31,6 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
         $this->fallbackImage = $fallbackImage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getImageUrls(OrderItemInterface $orderItem): array
     {
         $product = $orderItem->getProduct();
@@ -47,9 +44,6 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getImageUrlFromProduct(ProductInterface $product): string
     {
         $path = $this->fallbackImage;

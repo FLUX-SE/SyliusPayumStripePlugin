@@ -23,9 +23,6 @@ final class LineItemProvider implements LineItemProviderInterface
         $this->lineItemNameProvider = $lineItemNameProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLineItem(OrderItemInterface $orderItem): ?array
     {
         /** @var OrderInterface|null $order */

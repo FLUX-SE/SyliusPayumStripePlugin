@@ -8,9 +8,6 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 final class ShippingLineItemNameProvider implements ShippingLineItemNameProviderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getItemName(OrderInterface $order): string
     {
         $shipmentNames = [];

@@ -8,9 +8,6 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 final class CustomerEmailProvider implements CustomerEmailProviderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getCustomerEmail(OrderInterface $order): ?string
     {
         $customer = $order->getCustomer();

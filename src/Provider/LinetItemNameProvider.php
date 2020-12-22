@@ -9,9 +9,6 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 
 class LinetItemNameProvider implements LinetItemNameProviderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getItemName(OrderItemInterface $orderItem): string
     {
         $itemName = $orderItem->getProductName() ?? $orderItem->getVariantName();

@@ -22,9 +22,6 @@ final class LineItemsProvider implements LineItemsProviderInterface
         $this->shippingLineItemProvider = $shippingLineItemProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLineItems(OrderInterface $order): ?array
     {
         $lineItems = [];

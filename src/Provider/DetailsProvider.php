@@ -27,9 +27,6 @@ final class DetailsProvider implements DetailsProviderInterface
         $this->paymentMethodTypesProvider = $paymentMethodTypesProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getDetails(OrderInterface $order): array
     {
         $details = [];
