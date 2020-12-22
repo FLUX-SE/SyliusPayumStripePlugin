@@ -108,10 +108,10 @@ See documentation here : https://github.com/FLUX-SE/PayumStripe/blob/master/READ
 [docs-assets-create-payment-method]: docs/assets/create-payment-method.png
 [docs-assets-gateway-configuration]: docs/assets/gateway-configuration.png
 
-[ico-version]: https://img.shields.io/packagist/v/FluxSE/sylius-payum-stripe-plugin.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/Flux-SE/sylius-payum-stripe-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/FluxSE/SyliusPayumStripePlugin/master.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/FluxSE/SyliusPayumStripePlugin.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/Flux-SE/SyliusPayumStripePlugin/master.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/Flux-SE/SyliusPayumStripePlugin.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/flux-se/sylius-payum-stripe-plugin
 [link-travis]: https://travis-ci.org/FluxSE/SyliusPayumStripePlugin
