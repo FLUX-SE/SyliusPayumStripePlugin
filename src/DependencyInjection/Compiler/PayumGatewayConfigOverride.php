@@ -9,17 +9,15 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class PayumGatewayConfigOverride implements CompilerPassInterface
 {
-    /** @var array */
+    /** @var array<string, array> */
     private $gatewayConfigs;
 
+    /** @param array<string, array> $gatewayConfigs */
     public function __construct(array $gatewayConfigs)
     {
         $this->gatewayConfigs = $gatewayConfigs;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container): void
     {
         $builder = $container->getDefinition('payum.builder');

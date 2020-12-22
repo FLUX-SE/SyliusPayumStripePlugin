@@ -13,15 +13,16 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 class FluxSESyliusPayumStripeExtension extends Extension
 {
     /**
-     * {@inheritdoc}
-     *
      * @throws Exception
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $configs = $this->processConfiguration($this->getConfiguration([], $container), $configs);
+        $configuration = $this->getConfiguration([], $container);
+        assert(null !== $configuration);
+        $configs = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter(
+
             'flux_se_sylius_payum_stripe.line_item_image.imagine_filter',
             $configs['line_item_image']['imagine_filter']
         );

@@ -10,6 +10,27 @@
         <directory name="src" />
         <ignoreFiles>
             <directory name="vendor" />
+            <file name="src/DependencyInjection/Configuration.php"/>
         </ignoreFiles>
     </projectFiles>
+
+    <issueHandlers>
+        <MixedArgument>
+            <errorLevel type="info">
+                <file name="src/Action/ConvertPaymentAction.php"/>
+            </errorLevel>
+        </MixedArgument>
+
+        <MoreSpecificImplementedParamType>
+            <errorLevel type="info">
+                <directory name="src/Action/"/>
+            </errorLevel>
+        </MoreSpecificImplementedParamType>
+
+        <MixedArrayAccess>
+            <errorLevel type="info">
+                <file name="src/DependencyInjection/FluxSESyliusPayumStripeExtension.php"/>
+            </errorLevel>
+        </MixedArrayAccess>
+    </issueHandlers>
 </psalm>

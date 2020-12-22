@@ -21,11 +21,7 @@ final class ConvertPaymentAction implements ActionInterface
         $this->detailsProvider = $detailsProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param Convert|mixed $request
-     */
+    /** @param Convert $request */
     public function execute($request): void
     {
         RequestNotSupportedException::assertSupports($this, $request);
@@ -40,9 +36,6 @@ final class ConvertPaymentAction implements ActionInterface
         $request->setResult($details);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports($request): bool
     {
         return
