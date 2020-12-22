@@ -11,6 +11,13 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 class PaymentMethodTypesProviderSpec extends ObjectBehavior
 {
+    public function let(): void
+    {
+        $this->beConstructedWith([
+            'card',
+        ]);
+    }
+
     public function it_is_initializable(): void
     {
         $this->shouldHaveType(PaymentMethodTypesProvider::class);

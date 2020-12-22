@@ -8,13 +8,19 @@ use Sylius\Component\Core\Model\OrderInterface;
 
 final class PaymentMethodTypesProvider implements PaymentMethodTypesProviderInterface
 {
+    /** @var string[] */
+    private $paymentMethodTypes;
+
     /**
-     * {@inheritdoc}
+     * @param string[] $paymentMethodTypes
      */
+    public function __construct(array $paymentMethodTypes)
+    {
+        $this->paymentMethodTypes = $paymentMethodTypes;
+    }
+
     public function getPaymentMethodTypes(OrderInterface $order): array
     {
-        return [
-            'card',
-        ];
+        return $this->paymentMethodTypes;
     }
 }
