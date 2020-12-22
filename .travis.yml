@@ -62,9 +62,9 @@ script:
   - composer validate --strict
   - vendor/bin/ecs check .
   - vendor/bin/phpstan analyse -c phpstan.neon -l max src/
-
-  - vendor/bin/phpunit
-  - vendor/bin/phpspec run
+  - vendor/bin/psalm
+  - vendor/bin/phpspec run --ansi -f progress --no-interaction
+  - vendor/bin/phpunit --colors=always
   - vendor/bin/behat --strict -vvv --no-interaction || vendor/bin/behat --strict -vvv --no-interaction --rerun
 
 after_failure:
