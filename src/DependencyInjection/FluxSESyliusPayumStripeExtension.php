@@ -22,7 +22,6 @@ class FluxSESyliusPayumStripeExtension extends Extension
         $configs = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter(
-
             'flux_se_sylius_payum_stripe.line_item_image.imagine_filter',
             $configs['line_item_image']['imagine_filter']
         );
