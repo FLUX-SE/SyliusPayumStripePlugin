@@ -45,9 +45,6 @@
         "symfony/web-profiler-bundle": "^4.4",
         "vimeo/psalm": "4.3.1"
     },
-    "conflict": {
-        "liip/imagine-bundle": "^2.4"
-    },
     "prefer-stable": true,
     "autoload": {
         "psr-4": { "FluxSE\\SyliusPayumStripePlugin\\": "src/" }
