@@ -1,6 +1,6 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
-![Build Status][ico-github-actions]
+[![Build Status][ico-github-actions]][link-github-actions]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Sylius Payum Stripe checkout session gateway plugin
@@ -115,4 +115,5 @@ See documentation here : https://github.com/FLUX-SE/PayumStripe/blob/master/READ
 
 [link-packagist]: https://packagist.org/packages/flux-se/sylius-payum-stripe-plugin
 [link-scrutinizer]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin/code-structure
+[link-github-actions]: https://github.com/FLUX-SE/SyliusPayumStripePlugin/actions?query=workflow%3A"Build"
 [link-code-quality]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin
