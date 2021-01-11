@@ -11,7 +11,6 @@
         }
     ],
     "require": {
-        "php": "^7.3",
         "flux-se/payum-stripe-bundle": "^1.2",
         "sylius/sylius": "^1.5"
     },
@@ -30,11 +29,10 @@
         "friends-of-behat/variadic-extension": "^1.3",
         "lakion/mink-debug-extension": "^2.0.0",
         "phpspec/phpspec": "^7.0",
-        "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "0.12.64",
-        "phpstan/phpstan-doctrine": "0.12.13",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-doctrine": "^0.12.26",
         "phpstan/phpstan-strict-rules": "^0.12.0",
-        "phpstan/phpstan-webmozart-assert": "0.12.7",
+        "phpstan/phpstan-webmozart-assert": "^0.12.7",
         "phpunit/phpunit": "^9.5",
         "sensiolabs/security-checker": "^6.0",
         "sylius-labs/coding-standard": "^3.2",
@@ -43,7 +41,7 @@
         "symfony/dotenv": "^4.4",
         "symfony/intl": "^4.4",
         "symfony/web-profiler-bundle": "^4.4",
-        "vimeo/psalm": "4.3.1"
+        "vimeo/psalm": "^4.3"
     },
     "prefer-stable": true,
     "autoload": {
