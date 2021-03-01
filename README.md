@@ -53,6 +53,10 @@ http://localhost/payment/notify/unsafe/stripe_session_checkout_with_sca
 
 https://dashboard.stripe.com/test/webhooks
 
+**/!\ Warning. Testing the webhooks with Stripe test webhook from the interface will always result in a 500 error such as the following one even if the webhook is correctly configured.**
+
+![image](https://user-images.githubusercontent.com/9363039/109535376-c99ecd00-7abc-11eb-9b26-9b634acc83ca.png)
+
 ### Test or dev environment
 
 Webhooks are triggered by Stripe on their server to your server.
