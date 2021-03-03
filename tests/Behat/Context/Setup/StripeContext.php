@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Setup;
 
 use Behat\Behat\Context\Context;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
@@ -22,14 +22,14 @@ class StripeContext implements Context
     /** @var ExampleFactoryInterface */
     private $paymentMethodExampleFactory;
 
-    /** @var ObjectManager */
+    /** @var EntityManagerInterface */
     private $paymentMethodManager;
 
     public function __construct(
         SharedStorageInterface $sharedStorage,
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         ExampleFactoryInterface $paymentMethodExampleFactory,
-        ObjectManager $paymentMethodManager
+        EntityManagerInterface $paymentMethodManager
     ) {
         $this->sharedStorage = $sharedStorage;
         $this->paymentMethodRepository = $paymentMethodRepository;
