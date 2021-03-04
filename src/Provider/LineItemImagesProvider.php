@@ -40,7 +40,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
         }
 
         $imageUrl = $this->getImageUrlFromProduct($product);
-        if (!$imageUrl) {
+        if ($imageUrl === "") {
             return [];
         }
 
@@ -66,7 +66,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
     private function getUrlFromPath(string $path): string
     {
         // if given path is empty, InvalidParameterException will be thrown in filter action
-        if (empty($path)) {
+        if ($path === "") {
             return $this->fallbackImage;
         }
 
