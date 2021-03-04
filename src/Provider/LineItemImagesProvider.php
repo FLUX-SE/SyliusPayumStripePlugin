@@ -39,8 +39,13 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
             return [];
         }
 
+        $imageUrl = $this->getImageUrlFromProduct($product);
+        if ($imageUrl === "") {
+            return [];
+        }
+
         return [
-            $this->getImageUrlFromProduct($product),
+            $imageUrl,
         ];
     }
 
@@ -60,7 +65,16 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
 
     private function getUrlFromPath(string $path): string
     {
-        $url = $this->filterExtension->filter($path, $this->filterName);
+        // if given path is empty, InvalidParameterException will be thrown in filter action
+        if ($path === "") {
+            return $this->fallbackImage;
+        }
+
+        try {
+            $url = $this->filterExtension->filter($path, $this->filterName);
+        } catch (\Exception $e) {
+            return $this->fallbackImage;
+        }
 
         // Localhost images are not displayed by Stripe because it cache it on a CDN
         if (0 !== preg_match('#//localhost#', $url)) {
