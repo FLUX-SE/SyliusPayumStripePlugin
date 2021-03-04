@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\Provider;
 
+use Exception;
 use Liip\ImagineBundle\Templating\FilterExtension;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
-use Webmozart\Assert\Assert;
 
 final class LineItemImagesProvider implements LineItemImagesProviderInterface
 {
@@ -21,14 +21,19 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
     /** @var string */
     private $fallbackImage;
 
+    /** @var string */
+    private $localhostPattern;
+
     public function __construct(
         FilterExtension $filterExtension,
         string $filterName,
-        string $fallbackImage
+        string $fallbackImage,
+        string $localhostPattern = '#//localhost#'
     ) {
         $this->filterExtension = $filterExtension;
         $this->filterName = $filterName;
         $this->fallbackImage = $fallbackImage;
+        $this->localhostPattern = $localhostPattern;
     }
 
     public function getImageUrls(OrderItemInterface $orderItem): array
@@ -40,7 +45,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
         }
 
         $imageUrl = $this->getImageUrlFromProduct($product);
-        if ($imageUrl === "") {
+        if ('' === $imageUrl) {
             return [];
         }
 
@@ -51,13 +56,21 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
 
     public function getImageUrlFromProduct(ProductInterface $product): string
     {
-        $path = $this->fallbackImage;
+        $path = '';
 
-        if (false !== $product->getImages()->first()) {
-            /** @var ProductImageInterface $first */
-            $first = $product->getImages()->first();
+        /** @var ProductImageInterface|false $firstImage */
+        $firstImage = $product->getImages()->first();
+        if (false !== $firstImage) {
+            $first = $firstImage;
             $path = $first->getPath();
-            Assert::notNull($path, 'The first product image path should not be null !');
+        }
+
+        if (null === $path) {
+            return $this->fallbackImage;
+        }
+
+        if ('' === $path) {
+            return $this->fallbackImage;
         }
 
         return $this->getUrlFromPath($path);
@@ -66,18 +79,17 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
     private function getUrlFromPath(string $path): string
     {
         // if given path is empty, InvalidParameterException will be thrown in filter action
-        if ($path === "") {
+        if ('' === $path) {
             return $this->fallbackImage;
         }
 
         try {
             $url = $this->filterExtension->filter($path, $this->filterName);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->fallbackImage;
         }
 
-        // Localhost images are not displayed by Stripe because it cache it on a CDN
-        if (0 !== preg_match('#//localhost#', $url)) {
+        if (0 !== preg_match($this->localhostPattern, $url)) {
             $url = $this->fallbackImage;
         }
 

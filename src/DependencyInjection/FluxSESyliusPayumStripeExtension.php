@@ -29,6 +29,10 @@ class FluxSESyliusPayumStripeExtension extends Extension
             'flux_se_sylius_payum_stripe.line_item_image.fallback_image',
             $configs['line_item_image']['fallback_image']
         );
+        $container->setParameter(
+            'flux_se_sylius_payum_stripe.line_item_image.localhost_pattern',
+            $configs['line_item_image']['localhost_pattern']
+        );
 
         $loader = new YamlFileLoader(
             $container,
