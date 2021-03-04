@@ -3,9 +3,9 @@
 [![Build Status][ico-github-actions]][link-github-actions]
 [![Quality Score][ico-code-quality]][link-code-quality]
 
-## Sylius Payum Stripe checkout session gateway plugin
+## Sylius Payum Stripe gateway plugin
 
-This plugin is designed to add a new gateway to Payum to support Stripe checkout session over Sylius plugin
+This plugin is designed to add a new gateway to Payum to support Stripe checkout session.
 
 See https://stripe.com/docs/payments/checkout for more information.
 
@@ -13,9 +13,11 @@ See https://stripe.com/docs/payments/checkout for more information.
 
 Install using Composer :
 
+```shell
+composer require flux-se/sylius-payum-stripe-plugin
 ```
-$ composer require flux-se/sylius-payum-stripe-plugin
-```
+
+> 💡 If the flex recipe has not been applied then follow the next step.
 
 Enable this plugin :
 
@@ -33,29 +35,73 @@ return [
 
 ## Configuration
 
+### Sylius configuration
+
+Go to the admin area, log in, then click on the left menu item "CONFIGURATION > Payment methods".
+Create a new payment method type "Stripe Checkout Session (with SCA support)" :
+
+![Create a new payment method][docs-assets-create-payment-method]
+
+Then a form will be displayed, fill-in the required fields :
+
+#### 1. the "code" field (ex: "stripe_session_checkout_with_sca").
+
+> 💡 The code will be the `gateway name`, it will be needed to build the right webhook URL later
+> (see [Webhook key](#webhook-key) section for more info).
+
+#### 2. choose which channels this payment method will be affected to.
+
+#### 3. the gateway configuration ([need info from here](#api-keys)) :
+
+   ![Gateway Configuration][docs-assets-gateway-configuration]
+
+   > _📖 NOTE1: You can add as many webhook secret keys as you need here, however generic usage need only one._
+
+   > _📖 NOTE2: the screenshot contains false test credentials._
+
+#### 4. give to this payment method a display name (and a description) for each language you need.
+
+Finally, click on the "Create" button to save your new payment method.
+
 ### API keys
 
-Get your `publishable_key` and your `secret_key` on your Stripe account :
+Get your `publishable_key` and your `secret_key` on your Stripe dashboard :
 
 https://dashboard.stripe.com/test/apikeys
 
 ### Webhook key
-Then get a `webhook_secret_key` configured with at least two events :
+
+Got to :
+
+https://dashboard.stripe.com/test/webhooks
+
+Then create a new endpoint with at least two events :
  
  - `payment_intent.canceled`
  - `checkout.session.completed`
 
-The URL to fill is the route named `payum_notify_do_unsafe`, here is an example :
+The URL to fill is the route named `payum_notify_do_unsafe` with the `gateway`
+param equal to the `gateway name` (Payment method code), here is an example :
 
 ```
-http://localhost/payment/notify/unsafe/stripe_session_checkout_with_sca
+https://localhost/payment/notify/unsafe/stripe_session_checkout_with_sca
 ```
 
-https://dashboard.stripe.com/test/webhooks
+> 📖 As you can see in this example the URL is dedicated to `localhost`, you will need to provide to
+> Stripe a public host name in order to get the webhooks working.
 
-**/!\ Warning. Testing the webhooks with Stripe test webhook from the interface will always result in a 500 error such as the following one even if the webhook is correctly configured.**
+> 📖 Use this command to now the exact structure of `payum_notify_do_unsafe` route
+> 
+> ```shell
+> bin/console debug:router payum_notify_do_unsafe
+> ```
 
-![image](https://user-images.githubusercontent.com/9363039/109535376-c99ecd00-7abc-11eb-9b26-9b634acc83ca.png)
+> 📖 Use this command to now the exact name of your gateway,
+> or just check the `code` of the payment method in the Sylius admin payment method index.
+> 
+> ```shell
+> bin/console debug:payum:gateway
+> ```
 
 ### Test or dev environment
 
@@ -69,41 +115,25 @@ your webhook key :
 
 First login to your Stripe account (needed every 90 days) :
 
-```bash
+```shell
 stripe login
 ```
 
-Then start to listen for the 2 required events, forwarding request to you local server :
+Then start to listen for the 2 required events, forwarding request to your local server :
 
-```bash
+```shell
 stripe listen \
     --events checkout.session.completed,payment_intent.canceled \
     --forward-to https://localhost/payment/notify/unsafe/stripe_session_checkout_with_sca
 ```
 
-> Replace the --forward-to argument value with the right one you need.
+> 💡 Replace the --forward-to argument value with the right one you need.
 
-### Sylius configuration
+When the command finishes a webhook secret key is displayed, copy it to your Payment method
+in the Sylius admin, and it will be ok.
 
-Go to the admin area, log in, then click on the left menu item "CONFIGURATION > Payment methods".
-Create a new payment method type "Stripe Checkout Session (with SCA support)" :
-
-![Create a new payment method][docs-assets-create-payment-method]
-
-Then a form will be displayed, fill-in the required fields :
-
- 1. the "code" field (ex: "stripe_session_checkout_with_sca").
- 2. choose which channels this payment method will be affected to.
- 3. the gateway configuration ([need info from here](#api-keys)) :
- 
-    ![Gateway Configuration][docs-assets-gateway-configuration]
-    
-    _NOTE1: You can add as many webhook secret keys as you need here, however generic usage need only one._
-    
-    _NOTE2: the screenshot contains false test credentials._
- 4. give to this payment method a display name (and a description) for each language you need
- 
- Finally, click on the "Create" button to save your new payment method.
+> ⚠️ Using `stripe trigger checkout.session.completed` will always result in a `500 error`,
+> because the test object will not embed any usable metadata.
 
 ## Advanced usages
 
