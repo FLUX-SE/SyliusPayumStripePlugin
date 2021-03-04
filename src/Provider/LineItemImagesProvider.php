@@ -39,8 +39,13 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
             return [];
         }
 
+        $imageUrl = $this->getImageUrlFromProduct($product);
+        if (!$imageUrl) {
+            return [];
+        }
+
         return [
-            $this->getImageUrlFromProduct($product),
+            $imageUrl,
         ];
     }
 
