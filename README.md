@@ -44,7 +44,7 @@ Create a new payment method type "Stripe Checkout Session (with SCA support)" :
 
 Then a form will be displayed, fill-in the required fields :
 
-#### 1. the "code" field (ex: "stripe_session_checkout_with_sca").
+#### 1. the "code" field (ex: "stripe_checkout_session_with_sca").
 
 > 💡 The code will be the `gateway name`, it will be needed to build the right webhook URL later
 > (see [Webhook key](#webhook-key) section for more info).
@@ -84,7 +84,7 @@ The URL to fill is the route named `payum_notify_do_unsafe` with the `gateway`
 param equal to the `gateway name` (Payment method code), here is an example :
 
 ```
-https://localhost/payment/notify/unsafe/stripe_session_checkout_with_sca
+https://localhost/payment/notify/unsafe/stripe_checkout_session_with_sca
 ```
 
 > 📖 As you can see in this example the URL is dedicated to `localhost`, you will need to provide to
@@ -124,7 +124,7 @@ Then start to listen for the 2 required events, forwarding request to your local
 ```shell
 stripe listen \
     --events checkout.session.completed,payment_intent.canceled \
-    --forward-to https://localhost/payment/notify/unsafe/stripe_session_checkout_with_sca
+    --forward-to https://localhost/payment/notify/unsafe/stripe_checkout_session_with_sca
 ```
 
 > 💡 Replace the --forward-to argument value with the right one you need.
