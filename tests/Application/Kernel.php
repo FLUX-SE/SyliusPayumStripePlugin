@@ -44,7 +44,11 @@ final class Kernel extends BaseKernel
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         foreach ($this->getConfigurationDirectories() as $confDir) {
-            $container->addResource(new FileResource($confDir . '/bundles.php'));
+            $bundlesFile = $confDir . '/bundles.php';
+            if (false === is_file($bundlesFile)) {
+                continue;
+            }
+            $container->addResource(new FileResource($bundlesFile));
         }
 
         $container->setParameter('container.dumper.inline_class_loader', true);
