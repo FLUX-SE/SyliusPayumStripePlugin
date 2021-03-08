@@ -33,7 +33,11 @@ final class Kernel extends BaseKernel
     public function registerBundles(): iterable
     {
         foreach ($this->getConfigurationDirectories() as $confDir) {
-            yield from $this->registerBundlesFromFile($confDir . '/bundles.php');
+            $bundlesFile = $confDir . '/bundles.php';
+            if (false === is_file($bundlesFile)) {
+                continue;
+            }
+            yield from $this->registerBundlesFromFile($bundlesFile);
         }
     }
 
