@@ -106,5 +106,6 @@ final class Kernel extends BaseKernel
     {
         yield $this->getProjectDir() . '/config';
         yield $this->getProjectDir() . '/config/sylius/' . SyliusKernel::MAJOR_VERSION . '.' . SyliusKernel::MINOR_VERSION;
+        yield $this->getProjectDir() . '/config/symfony/' . BaseKernel::MAJOR_VERSION . '.' . BaseKernel::MINOR_VERSION;
     }
 }
