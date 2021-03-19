@@ -60,7 +60,7 @@ final class ConvertPaymentActionSpec extends ObjectBehavior
      * @param Convert|Collaborator $request
      * @param Collaborator|PaymentInterface $payment
      */
-    function it_supports_only_convert_request_payment_source_and_array_to(
+    public function it_supports_only_convert_request_payment_source_and_array_to(
         Convert $request,
         PaymentInterface $payment
     ): void {
