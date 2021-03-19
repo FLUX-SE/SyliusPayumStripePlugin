@@ -12,8 +12,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set(Option::SKIP, [
         __DIR__ . '/vendor/*',
         __DIR__ . '/node_modules/*',
-        __DIR__ . '/tests/Application/var/*',
-        __DIR__ . '/tests/Application/config/bundles.php',
         __DIR__ . '/tests/Application/config/*/bundles.php',
+        __DIR__ . '/tests/Application/config/bundles.php',
+        __DIR__ . '/tests/Application/node_modules/*',
+        __DIR__ . '/tests/Application/var/*',
     ]);
 };
