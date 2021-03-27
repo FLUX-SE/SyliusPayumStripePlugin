@@ -90,7 +90,7 @@ https://localhost/payment/notify/unsafe/stripe_checkout_session_with_sca
 > 📖 As you can see in this example the URL is dedicated to `localhost`, you will need to provide to
 > Stripe a public host name in order to get the webhooks working.
 
-> 📖 Use this command to now the exact structure of `payum_notify_do_unsafe` route
+> 📖 Use this command to know the exact structure of `payum_notify_do_unsafe` route
 > 
 > ```shell
 > bin/console debug:router payum_notify_do_unsafe
