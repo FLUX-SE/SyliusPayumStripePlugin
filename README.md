@@ -96,7 +96,7 @@ https://localhost/payment/notify/unsafe/stripe_checkout_session_with_sca
 > bin/console debug:router payum_notify_do_unsafe
 > ```
 
-> 📖 Use this command to now the exact name of your gateway,
+> 📖 Use this command to know the exact name of your gateway,
 > or just check the `code` of the payment method in the Sylius admin payment method index.
 > 
 > ```shell
