@@ -32,5 +32,11 @@
                 <file name="src/DependencyInjection/FluxSESyliusPayumStripeExtension.php"/>
             </errorLevel>
         </MixedArrayAccess>
+
+        <DeprecatedClass>
+            <errorLevel type="info">
+                <file name="src/StateMachine/RefundOrderProcessor.php"/>
+            </errorLevel>
+        </DeprecatedClass>
     </issueHandlers>
 </psalm>

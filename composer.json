@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "flux-se/payum-stripe-bundle": "^2.0.0-RC",
+        "flux-se/payum-stripe-bundle": "^2.0-dev",
+        "flux-se/payum-stripe": "^2.0-dev",
         "sylius/sylius": "^1.5"
     },
     "require-dev": {
@@ -55,7 +56,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1-dev"
+            "dev-master": "2.0-dev"
         }
     },
     "config": {

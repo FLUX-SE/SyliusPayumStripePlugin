@@ -20,11 +20,11 @@ class LinetItemNameProvider implements LinetItemNameProviderInterface
         $variantName = (string) $orderItem->getVariantName();
         $productName = (string) $orderItem->getProductName();
 
-        if (empty($variantName)) {
+        if ('' === $variantName) {
             return $productName;
         }
 
-        if (empty($productName)) {
+        if ('' === $productName) {
             return $variantName;
         }
 
