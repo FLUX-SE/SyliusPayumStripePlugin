@@ -4,4 +4,6 @@ flux_se_sylius_payum_stripe_plugin:
     form:
         gateway_configuration:
             stripe:
+                publishable_key: Clé publique
+                secret_key: Clé secrète
                 webhook_secret_keys: Clés secrètes du webhook
