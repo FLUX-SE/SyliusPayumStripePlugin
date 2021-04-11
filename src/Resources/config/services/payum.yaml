@@ -1,0 +1,11 @@
+services:
+
+  flux_se.sylius_payum_stripe.action.convert_payment:
+    public: true
+    class: FluxSE\SyliusPayumStripePlugin\Action\ConvertPaymentAction
+    arguments:
+      $detailsProvider: '@flux_se.sylius_payum_stripe.provider.details'
+    tags:
+      - name: payum.action
+        factory: stripe_checkout_session
+        alias: flux_se.sylius_payum_stripe.convert_payment

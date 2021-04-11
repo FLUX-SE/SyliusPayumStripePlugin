@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class StripeCheckoutSessionGatewayConfigurationType extends AbstractType
+final class StripeCheckoutSessionGatewayConfigurationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -32,6 +33,9 @@ class StripeCheckoutSessionGatewayConfigurationType extends AbstractType
                         'groups' => 'sylius',
                     ]),
                 ],
+            ])
+            ->add('use_authorize', CheckboxType::class, [
+                'label' => 'flux_se_sylius_payum_stripe_plugin.form.gateway_configuration.stripe.use_authorize',
             ])
             ->add('webhook_secret_keys', CollectionType::class, [
                 'allow_add' => true,

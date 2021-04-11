@@ -1,17 +1,5 @@
 imports:
+    - { resource: 'services/gateway_configuration_types.yaml' }
+    - { resource: 'services/payum.yaml' }
     - { resource: 'services/providers.yaml' }
-
-services:
-    flux_se.sylius_payum_stripe.form.type.gateway_configuration.stripe_checkout_session:
-        class: FluxSE\SyliusPayumStripePlugin\Form\Type\StripeCheckoutSessionGatewayConfigurationType
-        tags:
-            - { name: sylius.gateway_configuration_type, type: stripe_checkout_session, label: flux_se_sylius_payum_stripe_plugin.payum_gateway_factory.stripe_checkout_session }
-            - { name: form.type }
-
-    flux_se.sylius_payum_stripe.action.convert_payment:
-        public: true
-        class: FluxSE\SyliusPayumStripePlugin\Action\ConvertPaymentAction
-        arguments:
-            $detailsProvider: '@flux_se.sylius_payum_stripe.provider.details'
-        tags:
-            - { name: payum.action, factory: stripe_checkout_session, alias: flux_se.sylius_payum_stripe.convert_payment }
+    - { resource: 'services/state_machine.yaml' }

@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 
-use Payum\Core\Request\Refund;
+use Payum\Core\Reply\HttpResponse;
+use Payum\Core\Request\Capture;
 use Sylius\Component\Core\Model\PaymentInterface;
+use Webmozart\Assert\Assert;
 
-final class RefundOrderProcessor extends AbstractOrderProcessor
+final class CompleteAuthorizedOrderProcessor extends AbstractOrderProcessor
 {
     public function __invoke(PaymentInterface $payment): void
     {
-        if (PaymentInterface::STATE_COMPLETED !== $payment->getState()) {
+        if (PaymentInterface::STATE_AUTHORIZED !== $payment->getState()) {
             return;
         }
 
@@ -24,7 +26,9 @@ final class RefundOrderProcessor extends AbstractOrderProcessor
         $gateway = $this->payum->getGateway($gatewayName);
         $token = $this->buildToken($gatewayName, $payment);
 
-        $request = new Refund($token);
-        $gateway->execute($request);
+        $request = new Capture($token);
+        $reply = $gateway->execute($request);
+
+        Assert::notInstanceOf($reply, HttpResponse::class);
     }
 }

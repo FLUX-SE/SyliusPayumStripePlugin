@@ -7,11 +7,11 @@ namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 use Payum\Core\Request\Refund;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-final class RefundOrderProcessor extends AbstractOrderProcessor
+final class CancelAuthorizedOrderProcessor extends AbstractOrderProcessor
 {
     public function __invoke(PaymentInterface $payment): void
     {
-        if (PaymentInterface::STATE_COMPLETED !== $payment->getState()) {
+        if (PaymentInterface::STATE_AUTHORIZED !== $payment->getState()) {
             return;
         }
 

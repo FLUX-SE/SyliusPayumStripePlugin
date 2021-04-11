@@ -1,0 +1,20 @@
+twig:
+  form_themes:
+    - '@FluxSESyliusPayumStripePlugin/Admin/PaymentMethod/Form/useAuthorize.html.twig'
+
+winzou_state_machine:
+  sylius_payment:
+    callbacks:
+      before:
+        flux_se.sylius_payum_stripe_refund:
+          on: ["refund"]
+          do: ["@flux_se.sylius_payum_stripe.state_machine.refund", "__invoke"]
+          args: ["object"]
+        flux_se.sylius_payum_stripe_cancel_authorized:
+          on: ["cancel"]
+          do: ["@flux_se.sylius_payum_stripe.state_machine.cancel_authorized", "__invoke"]
+          args: ["object"]
+        flux_se.sylius_payum_stripe_complete_authorized:
+          on: ["complete"]
+          do: ["@flux_se.sylius_payum_stripe.state_machine.complete_authorized", "__invoke"]
+          args: ["object"]
