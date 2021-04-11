@@ -1,11 +1,11 @@
-@managing_payment_method
+@managing_payment_methods
 Feature: Adding a new Stripe payment method
   In order to allow payment for orders, using the Stripe gateway
   As an Administrator
   I want to add new payment methods to the system
 
   Background:
-    Given the store operates on a channel named "US" in "USD" currency
+    Given the store operates on a single channel in "United States"
     And I am logged in as an administrator
 
   @ui @javascript

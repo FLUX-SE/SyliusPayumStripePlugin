@@ -35,8 +35,14 @@
 
         <DeprecatedClass>
             <errorLevel type="info">
-                <file name="src/StateMachine/RefundOrderProcessor.php"/>
+                <file name="src/StateMachine/AbstractOrderProcessor.php"/>
             </errorLevel>
         </DeprecatedClass>
+
+        <DeprecatedMethod>
+            <errorLevel type="info">
+                <file name="src/StateMachine/AbstractOrderProcessor.php"/>
+            </errorLevel>
+        </DeprecatedMethod>
     </issueHandlers>
 </psalm>

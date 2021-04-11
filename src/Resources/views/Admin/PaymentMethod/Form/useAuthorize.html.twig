@@ -1,0 +1,22 @@
+{% block _sylius_payment_method_gatewayConfig_config_use_authorize_label %}
+    {{ form_label(form) }}
+    <div class="ui icon negative orange message{{ form.vars.data ? '' : ' hidden' }}" id="{{ form.vars.id }}_info">
+        <i class="icon info circle"></i>
+        <div class="content">
+            {% autoescape false %}{{ 'flux_se_sylius_payum_stripe_plugin.form.gateway_configuration.stripe.help.use_authorize'|trans }}{% endautoescape %}
+        </div>
+    </div>
+    <script>
+        var input = document.getElementById('{{ form.vars.id }}');
+        var info = document.getElementById(input.id + '_info');
+        if (input) {
+            input.addEventListener('change', function() {
+                if (input.checked) {
+                    info.classList.remove('hidden');
+                } else {
+                    info.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+{% endblock %}

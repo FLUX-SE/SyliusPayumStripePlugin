@@ -32,6 +32,12 @@ return [
     // ...
 ];
 ```
+Creat the file `config/packages/flux_se_sylius_payum_stripe.yaml` and add the following content
+
+```yaml
+imports:
+  - { resource: "@FluxSESyliusPayumStripePlugin/Resources/config/config.yaml" }
+```
 
 ## Configuration
 
