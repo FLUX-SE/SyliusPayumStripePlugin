@@ -8,6 +8,7 @@ use FluxSE\SyliusPayumStripePlugin\Provider\LinetItemNameProvider;
 use FluxSE\SyliusPayumStripePlugin\Provider\LinetItemNameProviderInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderItemInterface;
+use Sylius\Component\Core\Model\ProductInterface;
 
 class LinetItemNameProviderSpec extends ObjectBehavior
 {
@@ -17,22 +18,44 @@ class LinetItemNameProviderSpec extends ObjectBehavior
         $this->shouldHaveType(LinetItemNameProviderInterface::class);
     }
 
-    public function it_get_item_name(
-        OrderItemInterface $orderItem
+    public function it_get_product_and_variant_name_when_product_has_options(
+        OrderItemInterface $orderItem,
+        ProductInterface $product
     ): void {
         $orderItem->getQuantity()->willReturn(1);
+        $orderItem->getProduct()->willReturn($product);
         $orderItem->getProductName()->willReturn('My Product');
         $orderItem->getVariantName()->willReturn('variant');
+
+        $product->hasOptions()->willReturn(true);
 
         $this->getItemName($orderItem)->shouldReturn('1x - My Product variant');
     }
 
-    public function it_get_item_name_with_variant_name(
-        OrderItemInterface $orderItem
+    public function it_get_product_and_variant_name_when_product_has_no_options(
+        OrderItemInterface $orderItem,
+        ProductInterface $product
     ): void {
         $orderItem->getQuantity()->willReturn(1);
+        $orderItem->getProduct()->willReturn($product);
+        $orderItem->getProductName()->willReturn('My Product');
+        $orderItem->getVariantName()->willReturn('variant');
+
+        $product->hasOptions()->willReturn(false);
+
+        $this->getItemName($orderItem)->shouldReturn('1x - variant');
+    }
+
+    public function it_get_item_name_with_variant_name(
+        OrderItemInterface $orderItem,
+        ProductInterface $product
+    ): void {
+        $orderItem->getQuantity()->willReturn(1);
+        $orderItem->getProduct()->willReturn($product);
         $orderItem->getProductName()->willReturn(null);
         $orderItem->getVariantName()->willReturn('My variant name');
+
+        $product->hasOptions()->willReturn(false);
 
         $this->getItemName($orderItem)->shouldReturn('1x - My variant name');
     }

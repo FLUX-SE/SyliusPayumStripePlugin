@@ -10,12 +10,12 @@ class LinetItemNameProvider implements LinetItemNameProviderInterface
 {
     public function getItemName(OrderItemInterface $orderItem): string
     {
-        $itemName = $this->buildProductName($orderItem);
+        $itemName = $this->buildItemName($orderItem);
 
         return sprintf('%sx - %s', $orderItem->getQuantity(), $itemName);
     }
 
-    protected function buildProductName(OrderItemInterface $orderItem): string
+    protected function buildItemName(OrderItemInterface $orderItem): string
     {
         $variantName = (string) $orderItem->getVariantName();
         $productName = (string) $orderItem->getProductName();
@@ -24,12 +24,14 @@ class LinetItemNameProvider implements LinetItemNameProviderInterface
             return $productName;
         }
 
-        if ('' === $productName) {
+        $product = $orderItem->getProduct();
+
+        if (null === $product) {
             return $variantName;
         }
 
-        if ($productName === $variantName) {
-            return $productName;
+        if (false === $product->hasOptions()) {
+            return $variantName;
         }
 
         return sprintf('%s %s', $productName, $variantName);
