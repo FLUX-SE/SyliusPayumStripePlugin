@@ -40,7 +40,8 @@
         "symfony/dotenv": "^4.4 || ^5.2",
         "symfony/intl": "^4.4 || ^5.2",
         "symfony/web-profiler-bundle": "^4.4 || ^5.2",
-        "vimeo/psalm": "^4.6.4"
+        "vimeo/psalm": "^4.6.4",
+        "friendsofsymfony/oauth-server-bundle": "^1.6 || >2.0.0-alpha.0 ^2.0@dev"
     },
     "autoload": {
         "psr-4": { "FluxSE\\SyliusPayumStripePlugin\\": "src/" }
