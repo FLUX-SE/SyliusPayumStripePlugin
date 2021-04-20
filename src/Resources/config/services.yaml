@@ -1,4 +1,5 @@
 imports:
+    - { resource: 'services/extensions.yaml' }
     - { resource: 'services/providers.yaml' }
 
 services:
