@@ -78,6 +78,7 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
         $payment->setDetails($details->getArrayCopy());
 
         $context->getGateway()->execute($status = new GetStatus($payment));
+        /** @var string $value */
         $value = $status->getValue();
         if ($payment->getState() !== $value && PaymentInterface::STATE_UNKNOWN !== $value) {
             $this->updatePaymentState($payment, $value);
@@ -88,7 +89,6 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
     {
         $stateMachine = $this->factory->get($payment, PaymentTransitions::GRAPH);
 
-        /** @var StateMachineInterface $stateMachine */
         Assert::isInstanceOf($stateMachine, StateMachineInterface::class);
 
         if (null !== $transition = $stateMachine->getTransitionToState($nextState)) {
