@@ -1,8 +1,0 @@
-services:
-  flux_se.sylius_payum_stripe.extension.update_payment_state:
-    public: true
-    class: FluxSE\SyliusPayumStripePlugin\Extension\UpdatePaymentStateExtension
-    arguments:
-      $factory: '@sm.factory'
-    tags:
-      - { name: payum.extension, factory: stripe_checkout_session, alias: flux_se.sylius_payum_stripe.extension.update_payment_state, prepend: true }

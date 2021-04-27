@@ -9,3 +9,14 @@ services:
       - name: payum.action
         factory: stripe_checkout_session
         alias: flux_se.sylius_payum_stripe.convert_payment
+
+  flux_se.sylius_payum_stripe.extension.update_payment_state:
+    public: true
+    class: FluxSE\SyliusPayumStripePlugin\Extension\UpdatePaymentStateExtension
+    arguments:
+      $factory: '@sm.factory'
+      $storage: '@payum.storage.sylius_component_core_model_payment'
+    tags:
+      - name: payum.extension
+        factory: stripe_checkout_session
+        alias: flux_se.sylius_payum_stripe.extension.update_payment_state
