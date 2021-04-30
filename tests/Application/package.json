@@ -2,7 +2,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.9.3",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "jquery.dirtyforms": "^2.0.0",
     "lightbox2": "^2.9.0",
     "semantic-ui-css": "^2.2.0",
@@ -29,7 +29,7 @@
     "gulp-if": "^2.0.0",
     "gulp-livereload": "^4.0.1",
     "gulp-order": "^1.1.1",
-    "gulp-sass": "^4.0.1",
+    "gulp-sass": "https://github.com/MrFlashAccount/gulp-sass",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglifycss": "^1.0.5",
     "merge-stream": "^1.0.0",
@@ -47,7 +47,8 @@
     "build": "gulp build",
     "gulp": "gulp build",
     "lint": "yarn lint:js",
-    "lint:js": "eslint gulpfile.babel.js"
+    "lint:js": "eslint gulpfile.babel.js",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
