@@ -18,7 +18,7 @@ use Sylius\Component\Resource\StateMachine\StateMachineInterface;
 use Webmozart\Assert\Assert;
 
 /**
- * Reproduction of \Payum\Core\Extension\StorageExtension for Sylius payments
+ * Reproduction of \Payum\Core\Extension\StorageExtension behaviour for Sylius payments
  */
 final class UpdatePaymentStateExtension implements ExtensionInterface
 {
