@@ -20,6 +20,7 @@ Feature: Paying with Stripe during checkout
     When I confirm my order with Stripe payment
     And I get redirected to Stripe and complete my payment without webhooks
     Then I should be notified that my payment has been completed
+    And I should see the thank you page
 
   @ui
   Scenario: Cancelling the payment without webhooks
@@ -27,8 +28,7 @@ Feature: Paying with Stripe during checkout
     And I have proceeded selecting "Stripe" payment method
     When I confirm my order with Stripe payment
     And I click on "go back" during my Stripe payment
-    Then I should be notified that my payment has been cancelled
-    And I should be able to pay again
+    Then I should be able to pay again
 
   @ui
   Scenario: Retrying the payment with success without webhooks
@@ -36,7 +36,7 @@ Feature: Paying with Stripe during checkout
     And I have proceeded selecting "Stripe" payment method
     And I have confirmed my order with Stripe payment
     But I have clicked on "go back" during my Stripe payment
-    When I try to pay again Stripe payment
+    When I try to pay again with Stripe payment
     And I get redirected to Stripe and complete my payment without webhooks
     Then I should be notified that my payment has been completed
     And I should see the thank you page
@@ -47,7 +47,6 @@ Feature: Paying with Stripe during checkout
     And I have proceeded selecting "Stripe" payment method
     And I have confirmed my order with Stripe payment
     But I have clicked on "go back" during my Stripe payment
-    When I try to pay again Stripe payment
+    When I try to pay again with Stripe payment
     And I click on "go back" during my Stripe payment
-    Then I should be notified that my payment has been cancelled
-    And I should be able to pay again
+    Then I should be able to pay again

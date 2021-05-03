@@ -10,12 +10,12 @@ use Stripe\Checkout\Session;
 use Stripe\Event;
 use Sylius\Behat\Page\Shop\Checkout\CompletePageInterface;
 use Sylius\Behat\Page\Shop\Order\ShowPageInterface;
-use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeSessionCheckoutMocker;
+use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeCheckoutSessionMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripeCheckoutPage;
 
 class StripeShopContext extends MinkContext implements Context
 {
-    /** @var StripeSessionCheckoutMocker */
+    /** @var StripeCheckoutSessionMocker */
     private $stripeSessionCheckoutMocker;
 
     /** @var CompletePageInterface */
@@ -28,7 +28,7 @@ class StripeShopContext extends MinkContext implements Context
     private $paymentPage;
 
     public function __construct(
-        StripeSessionCheckoutMocker $stripeSessionCheckoutMocker,
+        StripeCheckoutSessionMocker $stripeSessionCheckoutMocker,
         CompletePageInterface $summaryPage,
         ShowPageInterface $orderDetails,
         StripeCheckoutPage $paymentPage
@@ -77,7 +77,7 @@ class StripeShopContext extends MinkContext implements Context
                 $this->paymentPage->notify($payload);
             },
             function () {
-                $this->paymentPage->capture();
+                $this->paymentPage->captureAndAfterPay();
             }
         );
     }
@@ -88,7 +88,7 @@ class StripeShopContext extends MinkContext implements Context
     public function iGetRedirectedToStripeWithoutWebhooks(): void
     {
         $this->stripeSessionCheckoutMocker->mockSuccessfulPaymentWithoutWebhooks(function () {
-            $this->paymentPage->capture();
+            $this->paymentPage->captureAndAfterPay();
         });
     }
 
@@ -98,15 +98,15 @@ class StripeShopContext extends MinkContext implements Context
      */
     public function iClickOnGoBackDuringMyStripePayment()
     {
-        $this->stripeSessionCheckoutMocker->mockCancelledPayment(function () {
-            $this->paymentPage->capture();
+        $this->stripeSessionCheckoutMocker->mockGoBackPayment(function () {
+            $this->paymentPage->captureAndAfterPay();
         });
     }
 
     /**
-     * @When I try to pay again Stripe payment
+     * @When I try to pay again with Stripe payment
      */
-    public function iTryToPayAgainStripePayment(): void
+    public function iTryToPayAgainWithStripePayment(): void
     {
         $this->stripeSessionCheckoutMocker->mockCreatePayment(function () {
             $this->orderDetails->pay();

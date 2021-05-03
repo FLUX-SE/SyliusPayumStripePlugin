@@ -8,11 +8,12 @@ use FluxSE\PayumStripe\Action\Api\Resource\AbstractCreateAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractRetrieveAction;
 use FluxSE\PayumStripe\Request\Api\Resource\CreateSession;
 use FluxSE\PayumStripe\Request\Api\Resource\RetrievePaymentIntent;
+use Payum\Core\Bridge\Spl\ArrayObject;
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
 use Sylius\Behat\Service\Mocker\MockerInterface;
 
-final class StripeSessionCheckoutMocker
+final class StripeCheckoutSessionMocker
 {
     /** @var MockerInterface */
     private $mocker;
@@ -28,9 +29,6 @@ final class StripeSessionCheckoutMocker
             'id' => 'sess_1',
             'object' => Session::OBJECT_NAME,
             'payment_intent' => 'pi_1',
-            'metadata' => [
-                'token_hash' => '',
-            ],
         ];
 
         $mock = $this->mocker->mockService('tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.create_session', AbstractCreateAction::class);
@@ -46,7 +44,7 @@ final class StripeSessionCheckoutMocker
 
         $mock
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) use ($model) {
+            ->andReturnUsing(function ($request) {
                 return $request instanceof CreateSession;
             })
         ;
@@ -56,8 +54,8 @@ final class StripeSessionCheckoutMocker
             ->once()
             ->andReturnUsing(function (CreateSession $request) use ($model) {
                 $rModel = $request->getModel();
-                $model['metadata']['token_hash'] = $rModel['metadata']['token_hash'];
-                $request->setApiResource(Session::constructFrom($model));
+                $session = Session::constructFrom(array_merge($model, $rModel->getArrayCopy()));
+                $request->setApiResource($session);
             })
         ;
 
@@ -66,32 +64,32 @@ final class StripeSessionCheckoutMocker
         $this->mocker->unmockAll();
     }
 
-    public function mockCancelledPayment(
-        callable $captureAction
+    public function mockGoBackPayment(
+        callable $action
     ): void {
-        $this->mockPaymentIntentRequiresPaymentMethodStatus($captureAction);
+        $this->mockPaymentIntentRequiresPaymentMethodStatus($action);
     }
 
     public function mockSuccessfulPayment(
         callable $notifyAction,
-        callable $captureAction
+        callable $action
     ): void {
         $this->mockPaymentIntentSync($notifyAction, PaymentIntent::STATUS_SUCCEEDED);
-        $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_SUCCEEDED);
+        $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_SUCCEEDED);
     }
 
     public function mockSuccessfulPaymentWithoutWebhooks(
-        callable $captureAction
+        callable $action
     ): void {
-        $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_SUCCEEDED);
+        $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_SUCCEEDED);
     }
 
     /**
      * @see https://stripe.com/docs/payments/intents#payment-intent
      */
-    public function mockPaymentIntentRequiresPaymentMethodStatus(callable $captureAction): void
+    public function mockPaymentIntentRequiresPaymentMethodStatus(callable $action): void
     {
-        $this->mockPaymentIntentSync($captureAction, PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD);
+        $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD);
     }
 
     public function mockPaymentIntentSync(callable $action, string $status): void

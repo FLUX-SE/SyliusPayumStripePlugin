@@ -14,7 +14,7 @@
         </service>
 
         <service id="tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.stripe_session_checkout_mocker"
-                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeSessionCheckoutMocker">
+                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeCheckoutSessionMocker">
             <argument type="service" id="sylius.behat.mocker"/>
         </service>
 
