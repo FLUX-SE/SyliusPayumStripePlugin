@@ -7,6 +7,7 @@ namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Admin;
 use Behat\Behat\Context\Context;
 use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Admin\PaymentMethod\CreatePageInterface;
+use Webmozart\Assert\Assert;
 
 class ManagingPaymentMethodsContext implements Context
 {
@@ -29,12 +30,51 @@ class ManagingPaymentMethodsContext implements Context
     }
 
     /**
-     * @When I configure it with test stripe gateway data with a webhook secret key
+     * @When I configure it with test stripe gateway data :secretKey, :publishableKey
      */
-    public function iConfigureItWithTestStripeGatewayDataWithAWebhookSecretKey()
+    public function iConfigureItWithTestStripeGatewayData(string $secretKey, string $publishableKey)
     {
-        $this->createPage->setStripeSecretKey('TEST');
-        $this->createPage->setStripePublishableKey('TEST');
-        $this->createPage->setStripeWebhookSecretKey('TEST');
+        $this->createPage->setStripeSecretKey($secretKey);
+        $this->createPage->setStripePublishableKey($publishableKey);
+    }
+
+    /**
+     * @When I add a webhook secret key :webhookKey
+     */
+    public function iAddAWebhookSecretKey(string $webhookKey)
+    {
+        $this->createPage->setStripeWebhookSecretKey($webhookKey);
+    }
+
+    /**
+     * @When I use authorize
+     */
+    public function iUseAuthorize()
+    {
+        $this->createPage->setStripeIsAuthorized(true);
+    }
+
+    /**
+     * @When I don't use authorize
+     */
+    public function iDontUseAuthorize()
+    {
+        $this->createPage->setStripeIsAuthorized(false);
+    }
+
+    /**
+     * @Given /^I should see a warning message under the use authorize field$/
+     */
+    public function iShouldSeeAWarningMessageUnderTheUseAuthorizeField()
+    {
+        Assert::true($this->createPage->isUseAuthorizeWarningMessageDisplayed());
+    }
+
+    /**
+     * @Given /^I shouldn't see a warning message under the use authorize field$/
+     */
+    public function iShouldntSeeAWarningMessageUnderTheUseAuthorizeField()
+    {
+        Assert::false($this->createPage->isUseAuthorizeWarningMessageDisplayed());
     }
 }

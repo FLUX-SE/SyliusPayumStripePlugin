@@ -11,19 +11,25 @@ final class CreatePage extends BaseCreatePage implements CreatePageInterface
 {
     private $webhookSecretKeysListIndex = 0;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
             'webhook_secret_keys_list_element' => '#sylius_payment_method_gatewayConfig_config_webhook_secret_keys_%index%',
+            'use_authorize_info' => '#sylius_payment_method_gatewayConfig_config_use_authorize_info',
         ]);
     }
 
+    public function setStripeSecretKey(string $secretKey): void
+    {
+        $this->getDocument()->fillField('Secret key', $secretKey);
+    }
+
+    public function setStripePublishableKey(string $publishableKey): void
+    {
+        $this->getDocument()->fillField('Publishable key', $publishableKey);
+    }
+
     /**
-     * {@inheritdoc}
-     *
      * @throws ElementNotFoundException
      */
     public function setStripeWebhookSecretKey(string $webhookSecretKey): void
@@ -36,5 +42,25 @@ final class CreatePage extends BaseCreatePage implements CreatePageInterface
             ->setValue($webhookSecretKey)
         ;
         ++$this->webhookSecretKeysListIndex;
+    }
+
+    /**
+     * @throws ElementNotFoundException
+     */
+    public function setStripeIsAuthorized(bool $isAuthorized): void
+    {
+        if ($isAuthorized) {
+            $this->getDocument()->checkField('Use authorize');
+        } else {
+            $this->getDocument()->uncheckField('Use authorize');
+        }
+    }
+
+    /**
+     * @throws ElementNotFoundException
+     */
+    public function isUseAuthorizeWarningMessageDisplayed(): bool
+    {
+        return $this->getElement('use_authorize_info')->isVisible();
     }
 }
