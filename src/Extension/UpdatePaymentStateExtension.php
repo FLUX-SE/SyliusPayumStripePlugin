@@ -25,10 +25,8 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
     /** @var FactoryInterface */
     private $factory;
 
-    /**
-     * @var StorageInterface
-     */
-    protected $storage;
+    /** @var StorageInterface */
+    private $storage;
 
     /** @var PaymentInterface[] */
     private $scheduledPaymentsToProcess;
