@@ -39,10 +39,12 @@ class StripeContext implements Context
 
     /**
      * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe payment gateway
+     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe payment gateway without using authorize
      */
     public function theStoreHasAPaymentMethodWithACodeAndStripePaymentGateway(
         string $paymentMethodName,
-        string $paymentMethodCode
+        string $paymentMethodCode,
+        bool $useAuthorize = false
     ): void {
         $paymentMethod = $this->createPaymentMethodStripe(
             $paymentMethodName,
@@ -56,8 +58,19 @@ class StripeContext implements Context
             'webhook_secret_keys' => [
                 'whsec_test',
             ],
+            'use_authorize' => $useAuthorize,
         ]);
         $this->paymentMethodManager->flush();
+    }
+
+    /**
+     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe payment gateway using authorize
+     */
+    public function theStoreHasAPaymentMethodWithACodeAndStripePaymentGatewayUsingAuthorize(
+        string $paymentMethodName,
+        string $paymentMethodCode
+    ): void {
+        $this->theStoreHasAPaymentMethodWithACodeAndStripePaymentGateway($paymentMethodName, $paymentMethodCode, true);
     }
 
     private function createPaymentMethodStripe(

@@ -7,7 +7,7 @@ Feature: Paying with Stripe during checkout
   Background:
     Given the store operates on a single channel in "United States"
     And there is a user "john@example.com" identified by "password123"
-    And the store has a payment method "Stripe" with a code "stripe" and Stripe payment gateway
+    And the store has a payment method "Stripe" with a code "stripe" and Stripe payment gateway without using authorize
     And the store has a product "PHP T-Shirt" priced at "€19.99"
     And the store ships everywhere for free
     And I am logged in as "john@example.com"
