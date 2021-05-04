@@ -11,14 +11,15 @@ use Payum\Core\Storage\IdentityInterface;
 use Payum\Core\Storage\StorageInterface;
 use SM\Factory\FactoryInterface;
 use SM\SMException;
-use Sylius\Bundle\PayumBundle\Request\GetStatus;
+use Sylius\Bundle\PayumBundle\Factory\GetStatusFactoryInterface;
 use Sylius\Component\Payment\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
 use Sylius\Component\Resource\StateMachine\StateMachineInterface;
 use Webmozart\Assert\Assert;
 
 /**
- * Reproduction of \Payum\Core\Extension\StorageExtension behaviour for Sylius payments
+ * Reproduction of the Payum Core StorageExtension behaviour for Sylius payments
+ * @see \Payum\Core\Extension\StorageExtension
  */
 final class UpdatePaymentStateExtension implements ExtensionInterface
 {
@@ -28,14 +29,20 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
     /** @var StorageInterface */
     private $storage;
 
-    /** @var PaymentInterface[] */
-    private $scheduledPaymentsToProcess;
+    /** @var GetStatusFactoryInterface */
+    private $getStatusRequestFactory;
 
-    public function __construct(FactoryInterface $factory, StorageInterface $storage)
-    {
+    /** @var PaymentInterface[] */
+    private $scheduledPaymentsToProcess = [];
+
+    public function __construct(
+        FactoryInterface $factory,
+        StorageInterface $storage,
+        GetStatusFactoryInterface $getStatusRequestFactory
+    ) {
         $this->factory = $factory;
         $this->storage = $storage;
-        $this->scheduledPaymentsToProcess = [];
+        $this->getStatusRequestFactory = $getStatusRequestFactory;
     }
 
     public function onPreExecute(Context $context): void
@@ -98,7 +105,7 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
      */
     private function processPayment(Context $context, PaymentInterface $payment): void
     {
-        $status = new GetStatus($payment);
+        $status = $this->getStatusRequestFactory->createNewWithModel($payment);
         $context->getGateway()->execute($status);
         $value = (string) $status->getValue();
         if ($payment->getState() === $value) {

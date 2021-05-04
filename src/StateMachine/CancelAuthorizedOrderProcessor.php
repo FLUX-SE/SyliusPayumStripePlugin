@@ -4,11 +4,23 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 
-use Payum\Core\Request\Refund;
+use FluxSE\SyliusPayumStripePlugin\Factory\CancelRequestFactoryInterface;
+use Payum\Core\Payum;
 use Sylius\Component\Core\Model\PaymentInterface;
 
 final class CancelAuthorizedOrderProcessor extends AbstractOrderProcessor
 {
+    /** @var CancelRequestFactoryInterface */
+    private $cancelRequestFactory;
+
+    public function __construct(
+        CancelRequestFactoryInterface $cancelRequestFactory,
+        Payum $payum
+    ) {
+        $this->cancelRequestFactory = $cancelRequestFactory;
+        parent::__construct($payum);
+    }
+
     public function __invoke(PaymentInterface $payment): void
     {
         if (PaymentInterface::STATE_AUTHORIZED !== $payment->getState()) {
@@ -24,7 +36,7 @@ final class CancelAuthorizedOrderProcessor extends AbstractOrderProcessor
         $gateway = $this->payum->getGateway($gatewayName);
         $token = $this->buildToken($gatewayName, $payment);
 
-        $request = new Refund($token);
-        $gateway->execute($request);
+        $cancelRequest = $this->cancelRequestFactory->createNewWithToken($token);
+        $gateway->execute($cancelRequest);
     }
 }

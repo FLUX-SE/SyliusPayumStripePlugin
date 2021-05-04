@@ -1,0 +1,7 @@
+services:
+
+  flux_se.sylius_payum_stripe.factory.cancel_request:
+    class: FluxSE\SyliusPayumStripePlugin\Factory\CancelRequestFactory
+
+  flux_se.sylius_payum_stripe.factory.refund_request:
+    class: FluxSE\SyliusPayumStripePlugin\Factory\RefundRequestFactory

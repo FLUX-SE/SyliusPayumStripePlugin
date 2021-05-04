@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 
-use Payum\Core\Reply\HttpResponse;
+use Payum\Core\Reply\ReplyInterface;
 use Payum\Core\Request\Capture;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
@@ -29,6 +29,6 @@ final class CompleteAuthorizedOrderProcessor extends AbstractOrderProcessor
         $request = new Capture($token);
         $reply = $gateway->execute($request);
 
-        Assert::notInstanceOf($reply, HttpResponse::class);
+        Assert::notInstanceOf($reply, ReplyInterface::class);
     }
 }

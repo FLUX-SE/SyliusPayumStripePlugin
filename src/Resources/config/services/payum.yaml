@@ -16,6 +16,7 @@ services:
     arguments:
       $factory: '@sm.factory'
       $storage: '@payum.storage.sylius_component_core_model_payment'
+      $getStatusRequestFactory: '@sylius.factory.payum_get_status_action'
     tags:
       - name: payum.extension
         factory: stripe_checkout_session

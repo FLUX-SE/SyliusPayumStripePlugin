@@ -1,4 +1,5 @@
 imports:
+    - { resource: 'services/factory.yaml' }
     - { resource: 'services/gateway_configuration_types.yaml' }
     - { resource: 'services/payum.yaml' }
     - { resource: 'services/providers.yaml' }

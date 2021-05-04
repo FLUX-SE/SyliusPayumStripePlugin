@@ -6,13 +6,19 @@ services:
       $payum: '@payum'
 
   flux_se.sylius_payum_stripe.state_machine.refund:
+    public: true
     parent: FluxSE\SyliusPayumStripePlugin\StateMachine\AbstractOrderProcessor
     class: FluxSE\SyliusPayumStripePlugin\StateMachine\RefundOrderProcessor
-    public: true
+    arguments:
+      $refundRequestFactory: '@flux_se.sylius_payum_stripe.factory.refund_request'
+
   flux_se.sylius_payum_stripe.state_machine.cancel_authorized:
+    public: true
     parent: FluxSE\SyliusPayumStripePlugin\StateMachine\AbstractOrderProcessor
     class: FluxSE\SyliusPayumStripePlugin\StateMachine\CancelAuthorizedOrderProcessor
-    public: true
+    arguments:
+      $cancelRequestFactory: '@flux_se.sylius_payum_stripe.factory.cancel_request'
+
   flux_se.sylius_payum_stripe.state_machine.complete_authorized:
     parent: FluxSE\SyliusPayumStripePlugin\StateMachine\AbstractOrderProcessor
     class: FluxSE\SyliusPayumStripePlugin\StateMachine\CompleteAuthorizedOrderProcessor
