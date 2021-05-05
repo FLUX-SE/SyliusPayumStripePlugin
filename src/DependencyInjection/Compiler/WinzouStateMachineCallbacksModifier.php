@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final class WinzouStateMachineCallbacksModifier implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $refundDisabled = $container->getParameter('flux_se.sylius_payum_stripe.refund.disabled');
 
