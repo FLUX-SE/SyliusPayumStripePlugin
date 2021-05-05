@@ -22,6 +22,10 @@ class FluxSESyliusPayumStripeExtension extends Extension
         $configs = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter(
+            'flux_se.sylius_payum_stripe.refund.disabled',
+            $configs['refund_disabled']
+        );
+        $container->setParameter(
             'flux_se.sylius_payum_stripe.payment_method_types',
             $configs['payment_method_types']
         );

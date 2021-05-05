@@ -26,6 +26,7 @@ class Configuration implements ConfigurationInterface
         $node
             ->addDefaultsIfNotSet()
             ->children()
+                ->booleanNode('refund_disabled')->defaultTrue()->end()
                 ->arrayNode('payment_method_types')
                     ->cannotBeEmpty()
                     ->scalarPrototype()->end()
