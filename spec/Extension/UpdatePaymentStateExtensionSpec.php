@@ -6,13 +6,13 @@ use Payum\Core\Extension\Context;
 use Payum\Core\Extension\ExtensionInterface;
 use Payum\Core\GatewayInterface;
 use Payum\Core\Model\ModelAggregateInterface;
+use Payum\Core\Model\PaymentInterface as PayumPaymentInterface;
 use Payum\Core\Request\GetStatusInterface;
+use Payum\Core\Security\TokenAggregateInterface;
 use Payum\Core\Storage\IdentityInterface;
 use Payum\Core\Storage\StorageInterface;
 use PhpSpec\ObjectBehavior;
-use PhpSpec\Wrapper\Collaborator;
 use SM\Factory\FactoryInterface;
-use SM\SMException;
 use Sylius\Bundle\PayumBundle\Factory\GetStatusFactoryInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
@@ -33,13 +33,6 @@ class UpdatePaymentStateExtensionSpec extends ObjectBehavior
         $this->shouldBeAnInstanceOf(ExtensionInterface::class);
     }
 
-    /**
-     * @param Context|Collaborator $context
-     * @param ModelAggregateInterface|Collaborator $request
-     * @param IdentityInterface|Collaborator $model
-     * @param StorageInterface|Collaborator $storage
-     * @param PaymentInterface|Collaborator $payment
-     */
     public function it_onPreExecute_with_Identity_finds_the_related_payment_and_stores_it(
         Context $context,
         ModelAggregateInterface $request,
@@ -56,11 +49,6 @@ class UpdatePaymentStateExtensionSpec extends ObjectBehavior
         $this->onPreExecute($context);
     }
 
-    /**
-     * @param Context|Collaborator $context
-     * @param ModelAggregateInterface|Collaborator $request
-     * @param PaymentInterface|Collaborator $model
-     */
     public function it_onPreExecute_with_Payment_stores_it(
         Context $context,
         ModelAggregateInterface $request,
@@ -73,23 +61,31 @@ class UpdatePaymentStateExtensionSpec extends ObjectBehavior
         $this->onPreExecute($context);
     }
 
+    public function it_onPreExecute_without_Payment_or_Identify_does_nothing(
+        Context $context,
+        ModelAggregateInterface $request,
+        PayumPaymentInterface $model
+    ): void {
+        $context->getRequest()->willReturn($request);
+        $request->getModel()->willReturn($model);
+
+        $this->onPreExecute($context);
+    }
+
+    public function it_onPreExecute_without_ModelAggregateInterface_does_nothing(
+        Context $context,
+        TokenAggregateInterface $request
+    ): void {
+        $context->getRequest()->willReturn($request);
+
+        $this->onPreExecute($context);
+    }
+
     public function it_onExecute_does_nothing(Context $context): void
     {
         $this->onExecute($context);
     }
 
-    /**
-     * @param Context|Collaborator $context
-     * @param ModelAggregateInterface|Collaborator $request
-     * @param PaymentInterface|Collaborator $payment
-     * @param GetStatusInterface|Collaborator $status
-     * @param GetStatusFactoryInterface|Collaborator $getStatusRequestFactory
-     * @param GatewayInterface|Collaborator $gateway
-     * @param FactoryInterface|Collaborator $factory
-     * @param StateMachineInterface|Collaborator $stateMachine
-     *
-     * @throws SMException
-     */
     public function it_OnPostExecute_apply_a_transition(
         Context $context,
         ModelAggregateInterface $request,
@@ -114,10 +110,83 @@ class UpdatePaymentStateExtensionSpec extends ObjectBehavior
         $payment->getState()->willReturn(PaymentInterface::STATE_NEW);
         $status->getValue()->willReturn(PaymentInterface::STATE_COMPLETED);
 
-
         $factory->get($payment, PaymentTransitions::GRAPH)->willReturn($stateMachine);
         $stateMachine->getTransitionToState(PaymentInterface::STATE_COMPLETED)->willReturn('complete');
         $stateMachine->apply('complete')->shouldBeCalled();
+
+        $this->onPostExecute($context);
+    }
+
+    public function it_OnPostExecute_apply_a_transition_without_a_Sylius_PaymentInterface_when_there_was_previously_stored_payment(
+        Context $previousContext,
+        ModelAggregateInterface $previousRequest,
+        PaymentInterface $previousPayment,
+        Context $context,
+        ModelAggregateInterface $request,
+        PayumPaymentInterface $payment,
+        GetStatusInterface $status,
+        GetStatusFactoryInterface $getStatusRequestFactory,
+        GatewayInterface $gateway,
+        FactoryInterface $factory,
+        StateMachineInterface $stateMachine
+    ): void {
+        $previousContext->getRequest()->willReturn($previousRequest);
+        $previousRequest->getModel()->willReturn($previousPayment);
+        $previousPayment->getId()->willReturn(1);
+
+        $context->getRequest()->willReturn($request);
+        $request->getModel()->willReturn($payment);
+
+        $context->getPrevious()->willReturn([]);
+
+        $context->getGateway()->willReturn($gateway);
+        $status->beConstructedWith([$previousPayment]);
+        $getStatusRequestFactory->createNewWithModel($previousPayment)->willReturn($status);
+
+        $gateway->execute($status)->shouldBeCalled();
+        $previousPayment->getState()->willReturn(PaymentInterface::STATE_NEW);
+        $status->getValue()->willReturn(PaymentInterface::STATE_COMPLETED);
+
+        $factory->get($previousPayment, PaymentTransitions::GRAPH)->willReturn($stateMachine);
+        $stateMachine->getTransitionToState(PaymentInterface::STATE_COMPLETED)->willReturn('complete');
+        $stateMachine->apply('complete')->shouldBeCalled();
+
+        $this->onPreExecute($previousContext);
+
+        $this->onPostExecute($context);
+    }
+
+    public function it_OnPostExecute_without_ModelAggregateInterface_does_nothing_if_there_is_previous_context(
+        Context $context,
+        TokenAggregateInterface $request
+    ): void {
+        $context->getRequest()->willReturn($request);
+
+        $context->getPrevious()->willReturn([1]);
+
+        $this->onPostExecute($context);
+    }
+
+    public function it_OnPostExecute_without_ModelAggregateInterface_does_nothing_if_there_is_no_previous_context(
+        Context $context,
+        TokenAggregateInterface $request
+    ): void {
+        $context->getRequest()->willReturn($request);
+
+        $context->getPrevious()->willReturn([]);
+
+        $this->onPostExecute($context);
+    }
+
+    public function it_OnPostExecute_with_ModelAggregateInterface_does_nothing_if_it_is_not_a_sylius_PaymentInterface(
+        Context $context,
+        ModelAggregateInterface $request,
+        PayumPaymentInterface $model
+    ): void {
+        $context->getRequest()->willReturn($request);
+        $request->getModel()->willReturn($model);
+
+        $context->getPrevious()->willReturn([]);
 
         $this->onPostExecute($context);
     }
