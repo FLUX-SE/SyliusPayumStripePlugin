@@ -19,6 +19,7 @@ use Webmozart\Assert\Assert;
 
 /**
  * Reproduction of the Payum Core StorageExtension behaviour for Sylius payments
+ *
  * @see \Payum\Core\Extension\StorageExtension
  */
 final class UpdatePaymentStateExtension implements ExtensionInterface
