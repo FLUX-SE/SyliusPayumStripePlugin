@@ -31,4 +31,3 @@ default:
                 class: Tests\FluxSE\SyliusPayumStripePlugin\Application\Kernel
 
         FriendsOfBehat\VariadicExtension: ~
-
