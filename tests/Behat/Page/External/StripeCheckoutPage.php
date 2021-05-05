@@ -48,18 +48,19 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
     /**
      * @throws DriverException
      */
-    public function captureAndAfterPay(): void
+    public function captureOrAuthorizeThenGoToAfterUrl(): void
     {
-        $captureToken = $this->findToken();
+        try {
+            $token = $this->findToken();
+        } catch (RuntimeException $e) {
+            // No easy way to know if we need authorize or not
+            $token = $this->findToken('authorize');
+        }
 
-        // Capture
-        $this->getDriver()->visit($captureToken->getTargetUrl());
-        // The token is not invalidate after this step
-        // Because all gateways using ReplyInterface during a Capture
-        // will stop the CaptureController::doAction process
+        // Capture or Authorize
+        $this->getDriver()->visit($token->getTargetUrl());
 
-        // After pay
-        $this->getDriver()->visit($captureToken->getAfterUrl());
+        $this->getDriver()->visit($token->getAfterUrl());
     }
 
     /**
@@ -127,7 +128,7 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
         // the $foundToken->getAfterUrl() with all tokens to see if the token
         // concerned by the after url is alive, if not we save it to a dead list
         // and retry to found the right token
-        if ($type === 'capture') {
+        if ($type !== 'notify') {
             $relatedToken = null;
             foreach ($tokens as $token) {
                 if (false === strpos($foundToken->getAfterUrl(), $token->getHash())) {

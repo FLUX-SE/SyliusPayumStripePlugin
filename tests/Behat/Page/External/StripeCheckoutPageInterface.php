@@ -8,7 +8,7 @@ use FriendsOfBehat\PageObjectExtension\Page\PageInterface;
 
 interface StripeCheckoutPageInterface extends PageInterface
 {
-    public function captureAndAfterPay(): void;
+    public function captureOrAuthorizeThenGoToAfterUrl(): void;
 
     public function notify(string $content): void;
 }

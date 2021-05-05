@@ -85,6 +85,8 @@ Then create a new endpoint with at least two events :
  
  - `payment_intent.canceled`
  - `checkout.session.completed`
+ - `payment_intent.succeeded` (⚠️ Only when using Authorize flow)
+
 
 The URL to fill is the route named `payum_notify_do_unsafe` with the `gateway`
 param equal to the `gateway name` (Payment method code), here is an example :
