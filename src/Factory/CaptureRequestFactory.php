@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\Factory;
 
 use Payum\Core\Model\ModelAggregateInterface;
-use Payum\Core\Request\Refund;
+use Payum\Core\Request\Capture;
 use Payum\Core\Security\TokenInterface;
 
-final class RefundRequestFactory implements RefundRequestFactoryInterface
+final class CaptureRequestFactory implements CaptureRequestFactoryInterface
 {
     public function createNewWithToken(TokenInterface $token): ModelAggregateInterface
     {
-        return new Refund($token);
+        return new Capture($token);
     }
 }

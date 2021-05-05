@@ -20,6 +20,8 @@ services:
       $cancelRequestFactory: '@flux_se.sylius_payum_stripe.factory.cancel_request'
 
   flux_se.sylius_payum_stripe.state_machine.complete_authorized:
+    public: true
     parent: FluxSE\SyliusPayumStripePlugin\StateMachine\AbstractOrderProcessor
     class: FluxSE\SyliusPayumStripePlugin\StateMachine\CompleteAuthorizedOrderProcessor
-    public: true
+    arguments:
+      $captureRequestFactory: '@flux_se.sylius_payum_stripe.factory.capture_request'

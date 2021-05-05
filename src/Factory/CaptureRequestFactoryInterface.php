@@ -7,7 +7,7 @@ namespace FluxSE\SyliusPayumStripePlugin\Factory;
 use Payum\Core\Model\ModelAggregateInterface;
 use Payum\Core\Security\TokenInterface;
 
-interface CancelRequestFactoryInterface
+interface CaptureRequestFactoryInterface
 {
     public function createNewWithToken(TokenInterface $token): ModelAggregateInterface;
 }

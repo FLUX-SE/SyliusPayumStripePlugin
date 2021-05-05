@@ -5,3 +5,6 @@ services:
 
   flux_se.sylius_payum_stripe.factory.refund_request:
     class: FluxSE\SyliusPayumStripePlugin\Factory\RefundRequestFactory
+
+  flux_se.sylius_payum_stripe.factory.capture_request:
+    class: FluxSE\SyliusPayumStripePlugin\Factory\CaptureRequestFactory
