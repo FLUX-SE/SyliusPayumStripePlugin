@@ -26,7 +26,10 @@ class Configuration implements ConfigurationInterface
         $node
             ->addDefaultsIfNotSet()
             ->children()
-                ->booleanNode('refund_disabled')->defaultTrue()->end()
+                ->booleanNode('refund_disabled')
+                    ->defaultTrue()
+                    ->info('Enable/Disable the refund state machine callback')
+                ->end()
                 ->arrayNode('payment_method_types')
                     ->cannotBeEmpty()
                     ->scalarPrototype()->end()
