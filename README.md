@@ -5,7 +5,17 @@
 
 ## Sylius Payum Stripe gateway plugin
 
-This plugin is designed to add a new gateway to Payum to support Stripe checkout session.
+This plugin is designed to add a new gateway to Payum to support Stripe Checkout Session.
+It supports [one time payment](https://stripe.com/docs/payments/accept-a-payment?integration=checkout)
+and authorized payment by [placing a hold on a card](https://stripe.com/docs/payments/capture-later).
+
+Refund is also possible but disabled by default to avoid mistakes, use this config to enable it :
+```yaml
+# config/packages/flux_se_sylius_payum_stripe.yaml
+
+flux_se_sylius_payum_stripe:
+  refund_disabled: false
+```
 
 See https://stripe.com/docs/payments/checkout for more information.
 
@@ -32,7 +42,8 @@ return [
     // ...
 ];
 ```
-Creat the file `config/packages/flux_se_sylius_payum_stripe.yaml` and add the following content
+
+Create the file `config/packages/flux_se_sylius_payum_stripe.yaml` and add the following content
 
 ```yaml
 imports:
@@ -60,6 +71,8 @@ Then a form will be displayed, fill-in the required fields :
 #### 3. the gateway configuration ([need info from here](#api-keys)) :
 
    ![Gateway Configuration][docs-assets-gateway-configuration]
+
+   ![Gateway Configuration][docs-assets-gateway-configuration-authorize]
 
    > _📖 NOTE1: You can add as many webhook secret keys as you need here, however generic usage need only one._
 
@@ -138,7 +151,7 @@ stripe listen \
 > 💡 Replace the --forward-to argument value with the right one you need.
 
 When the command finishes a webhook secret key is displayed, copy it to your Payment method
-in the Sylius admin, and it will be ok.
+in the Sylius admin.
 
 > ⚠️ Using `stripe trigger checkout.session.completed` will always result in a `500 error`,
 > because the test object will not embed any usable metadata.
@@ -149,6 +162,7 @@ See documentation here : https://github.com/FLUX-SE/PayumStripe/blob/master/READ
 
 [docs-assets-create-payment-method]: docs/assets/create-payment-method.png
 [docs-assets-gateway-configuration]: docs/assets/gateway-configuration.png
+[docs-assets-gateway-configuration-authorize]: docs/assets/gateway-configuration-authorize.png
 
 [ico-version]: https://img.shields.io/packagist/v/Flux-SE/sylius-payum-stripe-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
