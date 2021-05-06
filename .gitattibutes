@@ -1,0 +1,11 @@
+/features export-ignore
+/spec export-ignore
+/ecs.php export-ignore
+/behat.yml.dist export-ignore
+/phpspec.yml.dist export-ignore
+/phpstan.neon.dist export-ignore
+/phpunit.xml.dist export-ignore
+/psalm.xml export-ignore
+/tests export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
