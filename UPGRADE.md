@@ -1,3 +1,19 @@
+# UPGRADE FROM `v1.2` TO `v2.0.0`
+
+You will have to create or edit the configuration file :
+
+```yaml
+# config/packages/flux_se_sylius_payum_stripe.yaml
+
+# add this imported file
+imports:
+    - { resource: "@FluxSESyliusPayumStripePlugin/Resources/config/config.yaml" }
+
+flux_se_sylius_payum_stripe:
+#  refund_disabled: true # set to false to enable refund
+# ... keep the existing config
+```
+
 # UPGRADE FROM `v1.1.2` TO `v1.2.0`
 
 * **BC BREAK**: This Sylius plugin has been renamed from
