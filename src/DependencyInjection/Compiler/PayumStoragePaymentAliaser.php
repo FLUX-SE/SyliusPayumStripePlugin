@@ -6,6 +6,7 @@ namespace FluxSE\SyliusPayumStripePlugin\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 
 final class PayumStoragePaymentAliaser implements CompilerPassInterface
 {
@@ -16,20 +17,22 @@ final class PayumStoragePaymentAliaser implements CompilerPassInterface
         /** @var string $serviceId */
         foreach (array_keys($serviceIds) as $serviceId) {
             $serviceDefinition = $container->findDefinition($serviceId);
-            /** @var string[] $attributes */
-            foreach ($serviceDefinition->getTag('payum.storage') as $attributes) {
-                $modelClass = $attributes['model_class'] ?? null;
-                if (null === $modelClass) {
-                    continue;
-                }
-                if ($paymentClass !== $modelClass) {
-                    continue;
-                }
-
+            $modelClass = $this->findModelClassAttribute($serviceDefinition);
+            if ($paymentClass === $modelClass) {
                 $container->setAlias('payum.storage.flux_se_sylius_payment', $serviceId);
 
                 return;
             }
         }
+    }
+
+    private function findModelClassAttribute(Definition $serviceDefinition): ?string
+    {
+        /** @var string[] $attributes */
+        foreach ($serviceDefinition->getTag('payum.storage') as $attributes) {
+            return $attributes['model_class'] ?? null;
+        }
+
+        return null;
     }
 }
