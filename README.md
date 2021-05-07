@@ -38,7 +38,8 @@ Enable this plugin :
 
 return [
     // ...
-    FluxSE\SyliusPayumStripePlugin\FluxSESyliusPayumStripePlugin::class => ['all' => true],
+    FluxSE\SyliusPayumStripePlugin\FluxSESyliusPayumStripePlugin::class => ['all' => true],    
+    FluxSE\PayumStripeBundle\FluxSEPayumStripeBundle::class => ['all' => true],
     // ...
 ];
 ```
