@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
                             ->info('This is the imagine filter use to get the image displayed on Stripe Checkout Session (default: the filter uses into `@ShopBundle/Product/Show/_images.html.twig`)')
                         ->end()
                         ->scalarNode('fallback_image')
-                            ->defaultValue('https://placehold.it/400x300')
+                            ->defaultValue('https://via.placeholder.com/400x300')
                             ->info('Fallback image used when no image is set on a product and also when you test this plugin from a private web server (ex: from localhost)')
                         ->end()
                         ->scalarNode('localhost_pattern')
