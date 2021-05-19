@@ -6,5 +6,6 @@
 !/etc/build/.gitignore
 
 /tests/Application/yarn.lock
+/tests/Application/composer.lock
 
 /.phpunit.result.cache
