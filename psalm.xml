@@ -18,6 +18,7 @@
         <MixedArgument>
             <errorLevel type="info">
                 <file name="src/Action/ConvertPaymentAction.php"/>
+                <file name="src/DependencyInjection/FluxSESyliusPayumStripeExtension.php"/>
             </errorLevel>
         </MixedArgument>
 
