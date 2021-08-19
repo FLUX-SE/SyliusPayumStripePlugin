@@ -18,7 +18,7 @@ final class WinzouStateMachineCallbacksModifier implements CompilerPassInterface
                 'callbacks' => [
                     'before' => [
                         'flux_se.sylius_payum_stripe_refund' => [
-                            'disabled' => $refundDisabled
+                            'disabled' => $refundDisabled,
                         ],
                     ],
                 ],
