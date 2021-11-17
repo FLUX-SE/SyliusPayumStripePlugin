@@ -112,7 +112,22 @@ jobs:
                 name: Restrict Sylius version
                 if: matrix.sylius != ''
                 run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
-
+            -
+                name: Fix build on Sylius 1.8
+                if: matrix.sylius == '~1.8.0'
+                run: |
+                    composer require "friendsofsymfony/oauth-server-bundle:^1.6 || >2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
+                    # Sylius issues on `json_array` type not existing
+                    composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
+                    # Not added into Sylius 1.8 but available in 1.9
+                    composer require "liip/imagine-bundle:<2.6" --no-update --no-scripts --no-interaction
+            -
+                name: Fix build on Sylius 1.9
+                if: matrix.sylius == '~1.9.0'
+                run: |
+                    composer require "friendsofsymfony/oauth-server-bundle:^1.6 || >2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
+                    # Sylius issues on `json_array` type not existing
+                    composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
             -
                 name: Install PHP dependencies
                 run: composer install --no-interaction
