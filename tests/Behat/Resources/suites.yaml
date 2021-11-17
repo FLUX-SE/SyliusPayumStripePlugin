@@ -31,7 +31,7 @@ default:
 
                 - tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.context.ui.admin.managing_payment_methods
             filters:
-                tags: "@managing_payment_methods && @ui"
+                tags: "@managing_payment_methods&&@ui"
         paying_with_stripe_session_checkout_during_checkout:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
@@ -74,4 +74,4 @@ default:
 
                 - tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.context.ui.shop_stripe
             filters:
-                tags: "@paying_with_stripe_session_checkout_during_checkout && @ui"
+                tags: "@paying_with_stripe_session_checkout_during_checkout&&@ui"

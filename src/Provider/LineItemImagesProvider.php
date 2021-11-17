@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\Provider;
 
 use Exception;
-use Liip\ImagineBundle\Templating\FilterExtension;
+use Liip\ImagineBundle\Templating\LazyFilterRuntime;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
 final class LineItemImagesProvider implements LineItemImagesProviderInterface
 {
-    /** @var FilterExtension */
-    private $filterExtension;
+    /** @var LazyFilterRuntime */
+    private $filterRuntime;
 
     /** @var string */
     private $filterName;
@@ -25,12 +25,12 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
     private $localhostPattern;
 
     public function __construct(
-        FilterExtension $filterExtension,
+        LazyFilterRuntime $filterRuntime,
         string $filterName,
         string $fallbackImage,
         string $localhostPattern = '#//localhost#'
     ) {
-        $this->filterExtension = $filterExtension;
+        $this->filterRuntime = $filterRuntime;
         $this->filterName = $filterName;
         $this->fallbackImage = $fallbackImage;
         $this->localhostPattern = $localhostPattern;
@@ -84,7 +84,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
         }
 
         try {
-            $url = $this->filterExtension->filter($path, $this->filterName);
+            $url = $this->filterRuntime->filter($path, $this->filterName);
         } catch (Exception $e) {
             return $this->fallbackImage;
         }
