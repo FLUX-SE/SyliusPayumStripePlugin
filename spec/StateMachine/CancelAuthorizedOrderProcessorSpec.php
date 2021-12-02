@@ -15,7 +15,7 @@ use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 
-class CancelAuthorizedOrderProcessorSpec extends ObjectBehavior
+final class CancelAuthorizedOrderProcessorSpec extends ObjectBehavior
 {
     public function let(
         CancelRequestFactoryInterface $cancelRequestFactory,

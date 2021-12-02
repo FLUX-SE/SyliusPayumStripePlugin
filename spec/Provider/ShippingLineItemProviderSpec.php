@@ -10,7 +10,7 @@ use FluxSE\SyliusPayumStripePlugin\Provider\ShippingLineItemProviderInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 
-class ShippingLineItemProviderSpec extends ObjectBehavior
+final class ShippingLineItemProviderSpec extends ObjectBehavior
 {
     public function let(
         ShippingLineItemNameProviderInterface $shippingLineItemNameProvider

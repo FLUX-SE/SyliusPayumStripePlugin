@@ -15,7 +15,7 @@ use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 
-class CompleteAuthorizedOrderProcessorSpec extends ObjectBehavior
+final class CompleteAuthorizedOrderProcessorSpec extends ObjectBehavior
 {
     public function let(
         CaptureRequestFactoryInterface $captureRequestFactory,

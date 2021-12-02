@@ -15,7 +15,7 @@ use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 
-class RefundOrderProcessorSpec extends ObjectBehavior
+final class RefundOrderProcessorSpec extends ObjectBehavior
 {
     public function let(
         RefundRequestFactoryInterface $refundRequestFactory,

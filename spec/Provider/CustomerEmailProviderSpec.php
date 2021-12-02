@@ -10,7 +10,7 @@ use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 
-class CustomerEmailProviderSpec extends ObjectBehavior
+final class CustomerEmailProviderSpec extends ObjectBehavior
 {
     public function it_is_initializable(): void
     {

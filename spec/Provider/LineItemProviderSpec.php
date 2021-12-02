@@ -12,7 +12,7 @@ use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
-class LineItemProviderSpec extends ObjectBehavior
+final class LineItemProviderSpec extends ObjectBehavior
 {
     public function let(
         LineItemImagesProviderInterface $lineItemImagesProvider,

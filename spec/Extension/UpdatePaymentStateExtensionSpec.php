@@ -20,7 +20,7 @@ use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
 use Sylius\Component\Resource\StateMachine\StateMachineInterface;
 
-class UpdatePaymentStateExtensionSpec extends ObjectBehavior
+final class UpdatePaymentStateExtensionSpec extends ObjectBehavior
 {
     public function let(
         FactoryInterface $factory,

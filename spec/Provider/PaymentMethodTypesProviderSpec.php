@@ -9,7 +9,7 @@ use FluxSE\SyliusPayumStripePlugin\Provider\PaymentMethodTypesProviderInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 
-class PaymentMethodTypesProviderSpec extends ObjectBehavior
+final class PaymentMethodTypesProviderSpec extends ObjectBehavior
 {
     public function let(): void
     {
