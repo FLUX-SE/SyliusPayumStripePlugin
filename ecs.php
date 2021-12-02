@@ -18,9 +18,4 @@ return static function (ContainerConfigurator $containerConfigurator): void {
      * in vendor/friendsofphp/php-cs-fixer/src/AbstractFixer.php on line 155
      */
     $services->set(BinaryOperatorSpacesFixer::class);
-
-    /**
-     * Miss configured fixer into sylius-labs/coding-standard v4.1.0
-     */
-    $services->set(ClassAttributesSeparationFixer::class);
 };
