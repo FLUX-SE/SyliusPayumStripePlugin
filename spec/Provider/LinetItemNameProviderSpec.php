@@ -10,7 +10,7 @@ use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
-class LinetItemNameProviderSpec extends ObjectBehavior
+final class LinetItemNameProviderSpec extends ObjectBehavior
 {
     public function it_is_initializable(): void
     {

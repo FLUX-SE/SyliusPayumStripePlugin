@@ -8,3 +8,6 @@ services:
 
   flux_se.sylius_payum_stripe.factory.capture_request:
     class: FluxSE\SyliusPayumStripePlugin\Factory\CaptureRequestFactory
+
+  flux_se.sylius_payum_stripe.factory.cancel_payment_intent_request:
+    class: FluxSE\SyliusPayumStripePlugin\Factory\CancelPaymentIntentRequestFactory

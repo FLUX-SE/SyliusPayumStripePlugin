@@ -14,7 +14,7 @@ final class PayumStoragePaymentAliaser implements CompilerPassInterface
     {
         $paymentClass = $container->getParameter('sylius.model.payment.class');
         $serviceIds = $container->findTaggedServiceIds('payum.storage');
-        /** @var string $serviceId */
+
         foreach (array_keys($serviceIds) as $serviceId) {
             $serviceDefinition = $container->findDefinition($serviceId);
             $modelClass = $this->findModelClassAttribute($serviceDefinition);

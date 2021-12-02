@@ -24,3 +24,13 @@ services:
       - name: payum.extension
         factory: stripe_checkout_session
         alias: flux_se.sylius_payum_stripe.extension.update_payment_state
+
+  flux_se.sylius_payum_stripe.extension.cancel_existing_payment_intent:
+    public: true
+    class: FluxSE\SyliusPayumStripePlugin\Extension\CancelExistingPaymentIntentExtension
+    arguments:
+      $cancelPaymentIntentRequestFactory: '@flux_se.sylius_payum_stripe.factory.cancel_payment_intent_request'
+    tags:
+      - name: payum.extension
+        factory: stripe_checkout_session
+        alias: flux_se.sylius_payum_stripe.extension.cancel_existing_payment_intent

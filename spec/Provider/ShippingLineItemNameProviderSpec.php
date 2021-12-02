@@ -12,7 +12,7 @@ use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\ShipmentInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
 
-class ShippingLineItemNameProviderSpec extends ObjectBehavior
+final class ShippingLineItemNameProviderSpec extends ObjectBehavior
 {
     public function it_is_initializable(): void
     {

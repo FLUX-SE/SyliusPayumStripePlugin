@@ -13,7 +13,7 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
-class LineItemImagesProviderSpec extends ObjectBehavior
+final class LineItemImagesProviderSpec extends ObjectBehavior
 {
     public function let(FilterExtension $filterExtension): void
     {

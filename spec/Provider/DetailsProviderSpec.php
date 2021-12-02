@@ -12,7 +12,7 @@ use FluxSE\SyliusPayumStripePlugin\Provider\PaymentMethodTypesProviderInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderInterface;
 
-class DetailsProviderSpec extends ObjectBehavior
+final class DetailsProviderSpec extends ObjectBehavior
 {
     public function let(
         CustomerEmailProviderInterface $customerEmailProvider,

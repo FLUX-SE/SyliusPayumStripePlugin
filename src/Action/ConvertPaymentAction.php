@@ -5,13 +5,12 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\Action;
 
 use FluxSE\SyliusPayumStripePlugin\Provider\DetailsProviderInterface;
-use Payum\Core\Action\ActionInterface;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\Request\Convert;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-final class ConvertPaymentAction implements ActionInterface
+final class ConvertPaymentAction implements ConvertPaymentActionInterface
 {
     /** @var DetailsProviderInterface */
     private $detailsProvider;
