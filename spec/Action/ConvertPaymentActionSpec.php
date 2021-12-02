@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace spec\FluxSE\SyliusPayumStripePlugin\Action;
 
 use FluxSE\SyliusPayumStripePlugin\Action\ConvertPaymentAction;
+use FluxSE\SyliusPayumStripePlugin\Action\ConvertPaymentActionInterface;
 use FluxSE\SyliusPayumStripePlugin\Provider\DetailsProviderInterface;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Request\Convert;
@@ -31,6 +32,7 @@ final class ConvertPaymentActionSpec extends ObjectBehavior
     public function it_implements_action_interface(): void
     {
         $this->shouldHaveType(ActionInterface::class);
+        $this->shouldHaveType(ConvertPaymentActionInterface::class);
     }
 
     /**
