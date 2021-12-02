@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\FluxSE\SyliusPayumStripePlugin\StateMachine;
 
 use FluxSE\SyliusPayumStripePlugin\Factory\RefundRequestFactoryInterface;
@@ -33,12 +35,11 @@ class RefundOrderProcessorSpec extends ObjectBehavior
         RefundRequestFactoryInterface $refundRequestFactory,
         ModelAggregateInterface $request
     ): void {
-
         $payment->getState()->willReturn(PaymentInterface::STATE_COMPLETED);
 
         $payment->getMethod()->willReturn($paymentMethod);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
-        $gatewayConfig->getConfig()->willReturn(['factory'=>'stripe_checkout_session']);
+        $gatewayConfig->getConfig()->willReturn(['factory' => 'stripe_checkout_session']);
         $gatewayName = 'stripe_checkout_session_with_sca';
         $gatewayConfig->getGatewayName()->willReturn($gatewayName);
 
@@ -57,7 +58,7 @@ class RefundOrderProcessorSpec extends ObjectBehavior
 
     public function it_do_nothing_when_it_is_not_a_completed_state(
         PaymentInterface $payment
-    ):void {
+    ): void {
         $payment->getState()->willReturn(PaymentInterface::STATE_AUTHORIZED);
 
         $this->__invoke($payment);

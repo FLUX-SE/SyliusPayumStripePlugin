@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\FluxSE\SyliusPayumStripePlugin\Extension;
 
 use Payum\Core\Extension\Context;
