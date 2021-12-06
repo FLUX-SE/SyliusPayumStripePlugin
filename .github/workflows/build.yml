@@ -1,8 +1,16 @@
 name: Build
 
 on:
-    push: ~
-    pull_request: ~
+    push:
+        branches-ignore:
+            - 'dependabot/**'
+        paths-ignore:
+            - "docs/**"
+            - "*.md"
+    pull_request:
+        paths-ignore:
+            - "docs/**"
+            - "*.md"
     release:
         types: [created]
     schedule:
@@ -11,6 +19,86 @@ on:
     workflow_dispatch: ~
 
 jobs:
+    static-checks:
+        runs-on: ubuntu-latest
+
+        name: "Static checks (PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }})"
+
+        timeout-minutes: 10
+
+        strategy:
+            fail-fast: false
+            matrix:
+                php: ["8.0"]
+                symfony: ["^4.4", "^5.4"]
+
+        steps:
+            -
+                uses: actions/checkout@v2
+
+            -
+                name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: "${{ matrix.php }}"
+                    ini-values: date.timezone=Europe/Paris, opcache.enable=1, opcache.enable_cli=0, opcache.memory_consumption=512, opcache.max_accelerated_files=65407, opcache.interned_strings_buffer=8, opcache.validate_timestamps=0, opcache.save_comments=1, opcache.fast_shutdown=0
+                    extensions: intl, gd, opcache, mysql, pdo_mysql
+                    tools: symfony
+                    coverage: none
+
+            -
+                name: Restrict Symfony version
+                if: matrix.symfony != ''
+                run: |
+                    composer global require --no-progress --no-scripts --no-plugins "symfony/flex:^1.10"
+                    composer config extra.symfony.require "${{ matrix.symfony }}"
+            -
+                name: Get Composer cache directory
+                id: composer-cache
+                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+            -
+                name: Cache Composer
+                uses: actions/cache@v2
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-composer-${{ hashFiles('**/composer.json') }}
+                    restore-keys: |
+                        ${{ runner.os }}-php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-composer-
+            -
+                name: Install PHP dependencies
+                run: composer update --no-interaction --no-scripts
+                id: end-of-setup
+
+            -
+                name: Validate composer.json
+                run: composer validate --strict --no-check-version
+                if: always() && steps.end-of-setup.outcome == 'success'
+
+            -
+                name: Check for security vulnerabilities
+                run: symfony security:check
+                if: always() && steps.end-of-setup.outcome == 'success'
+
+            -
+                name: Validate Yaml files
+                run: vendor/bin/yaml-lint src
+                if: always() && steps.end-of-setup.outcome == 'success' && matrix.symfony != '^4.4'
+
+            -
+                name: Run ECS
+                run: vendor/bin/ecs check src
+                if: always() && steps.end-of-setup.outcome == 'success' && matrix.symfony != '^4.4'
+
+            -
+                name: Run Psalm
+                run: vendor/bin/psalm --show-info=false --output-format=github --php-version=${{ matrix.php }}
+                if: always() && steps.end-of-setup.outcome == 'success'
+
+            -
+                name: Run PHPStan
+                run: vendor/bin/phpstan analyse -l max src
+                if: always() && steps.end-of-setup.outcome == 'success'
     tests:
         runs-on: ubuntu-latest
 
@@ -20,7 +108,7 @@ jobs:
             fail-fast: false
             matrix:
                 php: [7.3, 7.4, 8.0]
-                symfony: [^4.4, ^5.2]
+                symfony: [^4.4, ^5.4]
                 sylius: [~1.8.0, ~1.9.0, ~1.10.0]
                 node: [10.x]
                 mysql: [5.7]
@@ -28,7 +116,7 @@ jobs:
                 exclude:
                     -
                         sylius: ~1.8.0
-                        symfony: ^5.2
+                        symfony: ^5.4
                     -
                         sylius: ~1.8.0
                         php: 8.0
@@ -168,21 +256,6 @@ jobs:
             -
                 name: Load fixtures in test application
                 run: (cd tests/Application && bin/console sylius:fixtures:load -n)
-
-            -
-                name: Run analysis (without ECS)
-                if: matrix.symfony == '^4.4'
-                run: composer analyse
-
-            -
-                name: Run analysis (with ECS)
-                if: matrix.symfony != '^4.4'
-                run: composer analyse-with-ecs
-
-            -
-                name: Run PHPSpec
-                run: vendor/bin/phpspec run --ansi -f progress --no-interaction
-
             -
                 name: Run PHPUnit
                 run: vendor/bin/phpunit --colors=always

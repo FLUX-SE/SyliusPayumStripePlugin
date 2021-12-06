@@ -59,26 +59,14 @@
         "sort-packages": true
     },
     "scripts": {
-        "analyse": [
-            "@composer validate --strict",
-            "vendor/bin/phpstan.phar analyse -l max src/",
-            "vendor/bin/psalm"
-        ],
-        "analyse-with-ecs": [
-            "vendor/bin/ecs check src",
-            "@analyse"
-        ],
-        "fix": [
-            "vendor/bin/ecs check src --fix"
-        ],
         "post-install-cmd": [
-            "php bin/create_node_symlink.php"
+            "@php bin/create_node_symlink.php"
         ],
         "post-update-cmd": [
-            "php bin/create_node_symlink.php"
+            "@php bin/create_node_symlink.php"
         ],
         "post-create-project-cmd": [
-            "php bin/create_node_symlink.php"
+            "@php bin/create_node_symlink.php"
         ]
     }
 }
