@@ -190,16 +190,19 @@ jobs:
                     key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
                     restore-keys: |
                         ${{ runner.os }}-php-${{ matrix.php }}-composer-
+
             -
                 name: Restrict Symfony version
                 if: matrix.symfony != ''
                 run: |
                     composer global require --no-progress --no-scripts --no-plugins "symfony/flex:^1.10"
                     composer config extra.symfony.require "${{ matrix.symfony }}"
+
             -
                 name: Restrict Sylius version
                 if: matrix.sylius != ''
                 run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
+
             -
                 name: Fix build on Sylius 1.8
                 if: matrix.sylius == '~1.8.0'
@@ -209,6 +212,7 @@ jobs:
                     composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
                     # Not added into Sylius 1.8 but available in 1.9
                     composer require "liip/imagine-bundle:<2.6" --no-update --no-scripts --no-interaction
+
             -
                 name: Fix build on Sylius 1.9
                 if: matrix.sylius == '~1.9.0'
@@ -216,6 +220,7 @@ jobs:
                     composer require "friendsofsymfony/oauth-server-bundle:^1.6 || >2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
                     # Sylius issues on `json_array` type not existing
                     composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
+
             -
                 name: Install PHP dependencies
                 run: composer install --no-interaction
@@ -256,6 +261,7 @@ jobs:
             -
                 name: Load fixtures in test application
                 run: (cd tests/Application && bin/console sylius:fixtures:load -n)
+
             -
                 name: Run PHPUnit
                 run: vendor/bin/phpunit --colors=always
