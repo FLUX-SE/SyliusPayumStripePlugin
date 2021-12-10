@@ -9,6 +9,7 @@ use FluxSE\SyliusPayumStripePlugin\Factory\CancelPaymentIntentRequestFactoryInte
 use Payum\Core\Extension\Context;
 use Payum\Core\Extension\ExtensionInterface;
 use Payum\Core\Request\Convert;
+use Stripe\Exception\ApiErrorException;
 use Stripe\PaymentIntent;
 use Sylius\Component\Core\Model\PaymentInterface;
 
@@ -63,7 +64,15 @@ final class CancelExistingPaymentIntentExtension implements ExtensionInterface
 
         $gateway = $context->getGateway();
         $cancelPaymentIntentRequest = $this->cancelPaymentIntentRequestFactory->createNew($id);
-        $gateway->execute($cancelPaymentIntentRequest);
+        try {
+            $gateway->execute($cancelPaymentIntentRequest);
+        } catch (ApiErrorException $e) {
+            // Avoid error message like :
+            //   "You cannot cancel this PaymentIntent because it has a status of canceled.
+            //   Only a PaymentIntent with one of the following statuses may be canceled:
+            //   requires_payment_method, requires_capture, requires_confirmation,
+            //   requires_action, processing."
+        }
     }
 
     public function onPostExecute(Context $context): void
