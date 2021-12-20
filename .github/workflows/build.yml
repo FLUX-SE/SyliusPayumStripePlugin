@@ -217,7 +217,7 @@ jobs:
                 name: Fix build on Sylius 1.9
                 if: matrix.sylius == '~1.9.0'
                 run: |
-                    composer require "friendsofsymfony/oauth-server-bundle:^1.6 || >2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
+                    composer require "friendsofsymfony/oauth-server-bundle:>2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
                     # Sylius issues on `json_array` type not existing
                     composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
 

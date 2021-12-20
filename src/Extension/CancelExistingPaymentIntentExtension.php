@@ -64,6 +64,7 @@ final class CancelExistingPaymentIntentExtension implements ExtensionInterface
 
         $gateway = $context->getGateway();
         $cancelPaymentIntentRequest = $this->cancelPaymentIntentRequestFactory->createNew($id);
+
         try {
             $gateway->execute($cancelPaymentIntentRequest);
         } catch (ApiErrorException $e) {

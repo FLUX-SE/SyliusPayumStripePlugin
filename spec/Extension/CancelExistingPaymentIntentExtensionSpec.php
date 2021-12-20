@@ -6,6 +6,7 @@ namespace spec\FluxSE\SyliusPayumStripePlugin\Extension;
 
 use FluxSE\PayumStripe\Request\Api\Resource\CustomCallInterface;
 use FluxSE\SyliusPayumStripePlugin\Action\ConvertPaymentActionInterface;
+use FluxSE\SyliusPayumStripePlugin\Factory\CancelPaymentIntentRequestFactoryInterface;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\Extension\Context;
 use Payum\Core\Extension\ExtensionInterface;
@@ -13,7 +14,6 @@ use Payum\Core\GatewayInterface;
 use Payum\Core\Request\Convert;
 use PhpSpec\ObjectBehavior;
 use Stripe\PaymentIntent;
-use FluxSE\SyliusPayumStripePlugin\Factory\CancelPaymentIntentRequestFactoryInterface;
 use Stripe\SetupIntent;
 use Sylius\Component\Core\Model\PaymentInterface;
 
@@ -33,7 +33,7 @@ final class CancelExistingPaymentIntentExtensionSpec extends ObjectBehavior
     public function it_do_nothing_when_action_is_not_the_convert_payment_action_targeted(
         Context $context,
         ActionInterface $action
-    ):void {
+    ): void {
         $context->getAction()->willReturn($action);
 
         $this->onExecute($context);
@@ -44,7 +44,7 @@ final class CancelExistingPaymentIntentExtensionSpec extends ObjectBehavior
         ConvertPaymentActionInterface $action,
         Convert $request,
         PaymentInterface $payment
-    ):void {
+    ): void {
         $context->getAction()->willReturn($action);
         $context->getRequest()->willReturn($request);
         $request->getSource()->willReturn($payment);
@@ -59,7 +59,7 @@ final class CancelExistingPaymentIntentExtensionSpec extends ObjectBehavior
         ConvertPaymentActionInterface $action,
         Convert $request,
         PaymentInterface $payment
-    ):void {
+    ): void {
         $context->getAction()->willReturn($action);
         $context->getRequest()->willReturn($request);
         $request->getSource()->willReturn($payment);
