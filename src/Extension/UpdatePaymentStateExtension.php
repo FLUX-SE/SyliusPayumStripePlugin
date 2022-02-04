@@ -78,6 +78,10 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
      */
     public function onPostExecute(Context $context): void
     {
+        if (null !== $context->getException()) {
+            return;
+        }
+
         /** @var mixed|ModelAggregateInterface $request */
         $request = $context->getRequest();
 
