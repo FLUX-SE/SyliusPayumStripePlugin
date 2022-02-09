@@ -110,7 +110,7 @@ jobs:
                 php: [7.3, 7.4, 8.0]
                 symfony: [^4.4, ^5.4]
                 sylius: [~1.8.0, ~1.9.0, ~1.10.0]
-                node: [10.x]
+                node: [12.x]
                 mysql: [5.7]
 
                 exclude:
