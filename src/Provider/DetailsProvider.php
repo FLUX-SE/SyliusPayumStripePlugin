@@ -41,7 +41,10 @@ final class DetailsProvider implements DetailsProviderInterface
             $details['line_items'] = $lineItems;
         }
 
-        $details['payment_method_types'] = $this->paymentMethodTypesProvider->getPaymentMethodTypes($order);
+        $paymentMethodTypes = $this->paymentMethodTypesProvider->getPaymentMethodTypes($order);
+        if ([] !== $paymentMethodTypes) {
+            $details['payment_method_types'] = $paymentMethodTypes;
+        }
 
         return $details;
     }

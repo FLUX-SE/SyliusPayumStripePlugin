@@ -57,10 +57,8 @@ final class DetailsProviderSpec extends ObjectBehavior
     ): void {
         $customerEmailProvider->getCustomerEmail($order)->willReturn(null);
         $lineItemsProvider->getLineItems($order)->willReturn(null);
-        $paymentMethodTypesProvider->getPaymentMethodTypes($order)->willReturn(['card']);
+        $paymentMethodTypesProvider->getPaymentMethodTypes($order)->willReturn([]);
 
-        $this->getDetails($order)->shouldReturn([
-            'payment_method_types' => ['card'],
-        ]);
+        $this->getDetails($order)->shouldReturn([]);
     }
 }
