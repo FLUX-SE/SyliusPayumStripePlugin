@@ -96,11 +96,11 @@ Got to :
 
 https://dashboard.stripe.com/test/webhooks
 
-Then create a new endpoint with at least two events :
- 
- - `payment_intent.canceled`
- - `checkout.session.completed`
- - `payment_intent.succeeded` (⚠️ Only when using Authorize flow)
+Then create a new endpoint with those events:
+
+ | Gateway | `stripe_checkout_session` | `stripe_js` |
+|-|-|-|
+| Webhook events |  - `checkout.session.completed`<br> - `checkout.session.async_payment_failed`<br> - `checkout.session.async_payment_succeeded`<br> - `setup_intent.canceled` (⚠️ Only when using `setup` mode)<br> - `setup_intent.succeeded`  (⚠️ Only when using `setup` mode) |  - `payment_intent.canceled`<br> - `payment_intent.succeeded`<br> - `setup_intent.canceled` (⚠️ Only when using `setup` mode)<br> - `setup_intent.succeeded`  (⚠️ Only when using `setup` mode) |
 
 
 The URL to fill is the route named `payum_notify_do_unsafe` with the `gateway`
@@ -146,7 +146,7 @@ Then start to listen for the 2 required events, forwarding request to your local
 
 ```shell
 stripe listen \
-    --events checkout.session.completed,payment_intent.canceled \
+    --events checkout.session.completed,checkout.session.async_payment_failed,checkout.session.async_payment_succeeded \
     --forward-to https://localhost/payment/notify/unsafe/stripe_checkout_session_with_sca
 ```
 
