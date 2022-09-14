@@ -15,7 +15,7 @@ final class CancelAuthorizedOrderProcessor extends AbstractOrderProcessor
 
     public function __construct(
         CancelRequestFactoryInterface $cancelRequestFactory,
-        Payum $payum
+        Payum $payum,
     ) {
         $this->cancelRequestFactory = $cancelRequestFactory;
         parent::__construct($payum);

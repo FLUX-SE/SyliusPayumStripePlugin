@@ -39,7 +39,7 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
     public function __construct(
         FactoryInterface $factory,
         StorageInterface $storage,
-        GetStatusFactoryInterface $getStatusRequestFactory
+        GetStatusFactoryInterface $getStatusRequestFactory,
     ) {
         $this->factory = $factory;
         $this->storage = $storage;

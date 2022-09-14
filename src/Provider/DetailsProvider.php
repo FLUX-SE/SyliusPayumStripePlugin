@@ -20,7 +20,7 @@ final class DetailsProvider implements DetailsProviderInterface
     public function __construct(
         CustomerEmailProviderInterface $customerEmailProvider,
         LineItemsProviderInterface $lineItemsProvider,
-        PaymentMethodTypesProviderInterface $paymentMethodTypesProvider
+        PaymentMethodTypesProviderInterface $paymentMethodTypesProvider,
     ) {
         $this->customerEmailProvider = $customerEmailProvider;
         $this->lineItemsProvider = $lineItemsProvider;

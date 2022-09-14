@@ -23,28 +23,28 @@ class FluxSESyliusPayumStripeExtension extends Extension
 
         $container->setParameter(
             'flux_se.sylius_payum_stripe.refund.disabled',
-            $configs['refund_disabled']
+            $configs['refund_disabled'],
         );
         $container->setParameter(
             'flux_se.sylius_payum_stripe.payment_method_types',
-            $configs['payment_method_types']
+            $configs['payment_method_types'],
         );
         $container->setParameter(
             'flux_se.sylius_payum_stripe.line_item_image.imagine_filter',
-            $configs['line_item_image']['imagine_filter']
+            $configs['line_item_image']['imagine_filter'],
         );
         $container->setParameter(
             'flux_se.sylius_payum_stripe.line_item_image.fallback_image',
-            $configs['line_item_image']['fallback_image']
+            $configs['line_item_image']['fallback_image'],
         );
         $container->setParameter(
             'flux_se.sylius_payum_stripe.line_item_image.localhost_pattern',
-            $configs['line_item_image']['localhost_pattern']
+            $configs['line_item_image']['localhost_pattern'],
         );
 
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(dirname(__DIR__) . '/Resources/config')
+            new FileLocator(dirname(__DIR__) . '/Resources/config'),
         );
         $loader->load('services.yaml');
     }

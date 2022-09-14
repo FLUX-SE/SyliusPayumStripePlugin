@@ -28,7 +28,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
         LazyFilterRuntime $filterRuntime,
         string $filterName,
         string $fallbackImage,
-        string $localhostPattern = '#//localhost#'
+        string $localhostPattern = '#//localhost#',
     ) {
         $this->filterRuntime = $filterRuntime;
         $this->filterName = $filterName;

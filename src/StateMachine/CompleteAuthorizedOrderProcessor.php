@@ -17,7 +17,7 @@ final class CompleteAuthorizedOrderProcessor extends AbstractOrderProcessor
 
     public function __construct(
         CaptureRequestFactoryInterface $captureRequestFactory,
-        Payum $payum
+        Payum $payum,
     ) {
         $this->captureRequestFactory = $captureRequestFactory;
         parent::__construct($payum);
