@@ -16,7 +16,7 @@ final class LineItemsProvider implements LineItemsProviderInterface
 
     public function __construct(
         LineItemProviderInterface $lineItemProvider,
-        ShippingLineItemProviderInterface $shippingLineItemProvider,
+        ShippingLineItemProviderInterface $shippingLineItemProvider
     ) {
         $this->lineItemProvider = $lineItemProvider;
         $this->shippingLineItemProvider = $shippingLineItemProvider;

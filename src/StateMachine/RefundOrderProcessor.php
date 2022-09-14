@@ -15,7 +15,7 @@ final class RefundOrderProcessor extends AbstractOrderProcessor
 
     public function __construct(
         RefundRequestFactoryInterface $refundRequestFactory,
-        Payum $payum,
+        Payum $payum
     ) {
         $this->refundRequestFactory = $refundRequestFactory;
         parent:: __construct($payum);

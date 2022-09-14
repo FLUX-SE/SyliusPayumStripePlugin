@@ -28,7 +28,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
         CacheManager $imagineCacheManager,
         string $filterName,
         string $fallbackImage,
-        string $localhostPattern = '#//localhost#',
+        string $localhostPattern = '#//localhost#'
     ) {
         $this->imagineCacheManager = $imagineCacheManager;
         $this->filterName = $filterName;
