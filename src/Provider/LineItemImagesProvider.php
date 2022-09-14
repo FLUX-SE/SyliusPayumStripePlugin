@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\Provider;
 
 use Exception;
-use Liip\ImagineBundle\Templating\LazyFilterRuntime;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
 final class LineItemImagesProvider implements LineItemImagesProviderInterface
 {
-    /** @var LazyFilterRuntime */
-    private $filterRuntime;
+    /** @var CacheManager */
+    private $imagineCacheManager;
 
     /** @var string */
     private $filterName;
@@ -25,12 +25,12 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
     private $localhostPattern;
 
     public function __construct(
-        LazyFilterRuntime $filterRuntime,
+        CacheManager $imagineCacheManager,
         string $filterName,
         string $fallbackImage,
         string $localhostPattern = '#//localhost#',
     ) {
-        $this->filterRuntime = $filterRuntime;
+        $this->imagineCacheManager = $imagineCacheManager;
         $this->filterName = $filterName;
         $this->fallbackImage = $fallbackImage;
         $this->localhostPattern = $localhostPattern;
@@ -84,7 +84,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
         }
 
         try {
-            $url = $this->filterRuntime->filter($path, $this->filterName);
+            $url = $this->imagineCacheManager->getBrowserPath($path, $this->filterName);
         } catch (Exception $e) {
             return $this->fallbackImage;
         }
