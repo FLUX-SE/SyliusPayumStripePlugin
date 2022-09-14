@@ -21,7 +21,7 @@ services:
     flux_se.sylius_payum_stripe.provider.line_item_images:
         class: FluxSE\SyliusPayumStripePlugin\Provider\LineItemImagesProvider
         arguments:
-            $filterExtension: '@liip_imagine.templating.filter_extension'
+            $filterRuntime: '@liip_imagine.templating.filter_runtime'
             $filterName: '%flux_se.sylius_payum_stripe.line_item_image.imagine_filter%'
             $fallbackImage: '%flux_se.sylius_payum_stripe.line_item_image.fallback_image%'
             $localhostPattern: '%flux_se.sylius_payum_stripe.line_item_image.localhost_pattern%'
