@@ -43,13 +43,17 @@ final class LineItemProviderSpec extends ObjectBehavior
         $lineItemNameProvider->getItemName($orderItem)->willReturn('1x - My item name');
 
         $this->getLineItem($orderItem)->shouldReturn([
-            'amount' => 1000,
-            'currency' => 'USD',
-            'name' => '1x - My item name',
-            'quantity' => 1,
-            'images' => [
-                '/path/image.jpg',
+            'price_data' => [
+                'unit_amount' => 1000,
+                'currency' => 'USD',
+                'product_data' => [
+                    'name' => '1x - My item name',
+                    'images' => [
+                        '/path/image.jpg',
+                    ],
+                ],
             ],
+            'quantity' => 1,
         ]);
     }
 
@@ -66,11 +70,15 @@ final class LineItemProviderSpec extends ObjectBehavior
         $lineItemNameProvider->getItemName($orderItem)->willReturn('1x - My item name');
 
         $this->getLineItem($orderItem)->shouldReturn([
-            'amount' => 1000,
-            'currency' => 'USD',
-            'name' => '1x - My item name',
+            'price_data' => [
+                'unit_amount' => 1000,
+                'currency' => 'USD',
+                'product_data' => [
+                    'name' => '1x - My item name',
+                    'images' => [],
+                ],
+            ],
             'quantity' => 1,
-            'images' => [],
         ]);
     }
 
@@ -87,11 +95,15 @@ final class LineItemProviderSpec extends ObjectBehavior
         $lineItemNameProvider->getItemName($orderItem)->willReturn('2x - My item name');
 
         $this->getLineItem($orderItem)->shouldReturn([
-            'amount' => 1000,
-            'currency' => 'USD',
-            'name' => '2x - My item name',
+            'price_data' => [
+                'unit_amount' => 1000,
+                'currency' => 'USD',
+                'product_data' => [
+                    'name' => '2x - My item name',
+                    'images' => [],
+                ],
+            ],
             'quantity' => 1,
-            'images' => [],
         ]);
     }
 
