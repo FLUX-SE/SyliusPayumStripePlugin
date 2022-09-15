@@ -111,7 +111,7 @@ jobs:
             matrix:
                 php: [7.3, 7.4, 8.0]
                 symfony: [^4.4, ^5.4]
-                sylius: [~1.8.0, ~1.9.0, ~1.10.0]
+                sylius: [~1.8.0, ~1.9.0, ~1.10.0, ~1.11.0]
                 node: [12.x]
                 mysql: [5.7]
 
@@ -128,6 +128,15 @@ jobs:
                     -
                         sylius: ~1.10.0
                         php: 7.3
+                    -
+                        sylius: ~1.11.0
+                        php: 7.3
+                    -
+                        sylius: ~1.11.0
+                        php: 7.4
+                    -
+                        sylius: ~1.11.0
+                        symfony: ^4.4
 
         env:
             APP_ENV: test
@@ -210,6 +219,8 @@ jobs:
                 if: matrix.sylius == '~1.8.0'
                 run: |
                     composer require "friendsofsymfony/oauth-server-bundle:^1.6 || >2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
+                    # Symfony Mocker Container needed for test env
+                    composer require polishsymfonycommunity/symfony-mocker-container --dev
                     # Sylius issues on `json_array` type not existing
                     composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
                     # Not added into Sylius 1.8 but available in 1.9
@@ -220,6 +231,8 @@ jobs:
                 if: matrix.sylius == '~1.9.0'
                 run: |
                     composer require "friendsofsymfony/oauth-server-bundle:>2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
+                    # Symfony Mocker Container needed for test env
+                    composer require polishsymfonycommunity/symfony-mocker-container --dev
                     # Sylius issues on `json_array` type not existing
                     composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
 
