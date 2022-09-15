@@ -5,6 +5,7 @@ services:
             $customerEmailProvider: '@flux_se.sylius_payum_stripe.provider.customer_email'
             $lineItemsProvider: '@flux_se.sylius_payum_stripe.provider.line_items'
             $paymentMethodTypesProvider: '@flux_se.sylius_payum_stripe.provider.payment_method_types'
+            $modeProvider: '@flux_se.sylius_payum_stripe.provider.mode'
 
     flux_se.sylius_payum_stripe.provider.line_items:
         class: FluxSE\SyliusPayumStripePlugin\Provider\LineItemsProvider
@@ -44,3 +45,6 @@ services:
         class: FluxSE\SyliusPayumStripePlugin\Provider\PaymentMethodTypesProvider
         arguments:
             $paymentMethodTypes: '%flux_se.sylius_payum_stripe.payment_method_types%'
+
+    flux_se.sylius_payum_stripe.provider.mode:
+        class: FluxSE\SyliusPayumStripePlugin\Provider\ModeProvider
