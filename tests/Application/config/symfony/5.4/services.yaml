@@ -1,4 +1,0 @@
-services:
-  # Bug while Sf 5.4 was launched but Sylius was still using the old service name
-  security.authentication_manager:
-    alias: security.authentication.manager
