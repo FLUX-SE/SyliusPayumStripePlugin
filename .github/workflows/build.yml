@@ -219,8 +219,6 @@ jobs:
                 if: matrix.sylius == '~1.8.0'
                 run: |
                     composer require "friendsofsymfony/oauth-server-bundle:^1.6 || >2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
-                    # Symfony Mocker Container needed for test env
-                    composer require polishsymfonycommunity/symfony-mocker-container --dev
                     # Sylius issues on `json_array` type not existing
                     composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
                     # Not added into Sylius 1.8 but available in 1.9
@@ -231,8 +229,6 @@ jobs:
                 if: matrix.sylius == '~1.9.0'
                 run: |
                     composer require "friendsofsymfony/oauth-server-bundle:>2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
-                    # Symfony Mocker Container needed for test env
-                    composer require polishsymfonycommunity/symfony-mocker-container --dev
                     # Sylius issues on `json_array` type not existing
                     composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
 
