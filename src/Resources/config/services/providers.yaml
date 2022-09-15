@@ -5,13 +5,14 @@ services:
             $customerEmailProvider: '@flux_se.sylius_payum_stripe.provider.customer_email'
             $lineItemsProvider: '@flux_se.sylius_payum_stripe.provider.line_items'
             $paymentMethodTypesProvider: '@flux_se.sylius_payum_stripe.provider.payment_method_types'
-    
+            $modeProvider: '@flux_se.sylius_payum_stripe.provider.mode'
+
     flux_se.sylius_payum_stripe.provider.line_items:
         class: FluxSE\SyliusPayumStripePlugin\Provider\LineItemsProvider
         arguments:
             $lineItemProvider: '@flux_se.sylius_payum_stripe.provider.line_item'
             $shippingLineItemProvider: '@flux_se.sylius_payum_stripe.provider.shipping_line_item'
-            
+
     flux_se.sylius_payum_stripe.provider.line_item:
         class: FluxSE\SyliusPayumStripePlugin\Provider\LineItemProvider
         arguments:
@@ -21,7 +22,7 @@ services:
     flux_se.sylius_payum_stripe.provider.line_item_images:
         class: FluxSE\SyliusPayumStripePlugin\Provider\LineItemImagesProvider
         arguments:
-            $filterExtension: '@liip_imagine.templating.filter_extension'
+            $imagineCacheManager: '@liip_imagine.cache.manager'
             $filterName: '%flux_se.sylius_payum_stripe.line_item_image.imagine_filter%'
             $fallbackImage: '%flux_se.sylius_payum_stripe.line_item_image.fallback_image%'
             $localhostPattern: '%flux_se.sylius_payum_stripe.line_item_image.localhost_pattern%'
@@ -39,8 +40,11 @@ services:
 
     flux_se.sylius_payum_stripe.provider.customer_email:
         class: FluxSE\SyliusPayumStripePlugin\Provider\CustomerEmailProvider
-            
+
     flux_se.sylius_payum_stripe.provider.payment_method_types:
         class: FluxSE\SyliusPayumStripePlugin\Provider\PaymentMethodTypesProvider
         arguments:
             $paymentMethodTypes: '%flux_se.sylius_payum_stripe.payment_method_types%'
+
+    flux_se.sylius_payum_stripe.provider.mode:
+        class: FluxSE\SyliusPayumStripePlugin\Provider\ModeProvider

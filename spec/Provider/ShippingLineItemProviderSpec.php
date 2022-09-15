@@ -35,9 +35,13 @@ final class ShippingLineItemProviderSpec extends ObjectBehavior
         $order->getCurrencyCode()->willReturn('USD');
 
         $this->getLineItem($order)->shouldReturn([
-            'amount' => 1000,
-            'currency' => 'USD',
-            'name' => 'My shipping method',
+            'price_data' => [
+                'unit_amount' => 1000,
+                'currency' => 'USD',
+                'product_data' => [
+                    'name' => 'My shipping method',
+                ],
+            ],
             'quantity' => 1,
         ]);
     }

@@ -7,7 +7,7 @@ namespace spec\FluxSE\SyliusPayumStripePlugin\Provider;
 use Doctrine\Common\Collections\ArrayCollection;
 use FluxSE\SyliusPayumStripePlugin\Provider\LineItemImagesProvider;
 use FluxSE\SyliusPayumStripePlugin\Provider\LineItemImagesProviderInterface;
-use Liip\ImagineBundle\Templating\FilterExtension;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
@@ -15,10 +15,10 @@ use Sylius\Component\Core\Model\ProductInterface;
 
 final class LineItemImagesProviderSpec extends ObjectBehavior
 {
-    public function let(FilterExtension $filterExtension): void
+    public function let(CacheManager $imagineCacheManager): void
     {
         $this->beConstructedWith(
-            $filterExtension,
+            $imagineCacheManager,
             'my_filter',
             'https://somewhere-online.tld/fallbak.jpg'
         );
@@ -34,15 +34,15 @@ final class LineItemImagesProviderSpec extends ObjectBehavior
         OrderItemInterface $orderItem,
         ProductInterface $product,
         ProductImageInterface $productImage,
-        FilterExtension $filterExtension
+        CacheManager $imagineCacheManager
     ): void {
         $productImage->getPath()->willReturn('/path/image.jpg');
         $orderItem->getProduct()->willReturn($product);
         $product->getImages()->willReturn(new ArrayCollection([
             $productImage->getWrappedObject(),
         ]));
-        $filterExtension
-            ->filter('/path/image.jpg', 'my_filter')
+        $imagineCacheManager
+            ->getBrowserPath('/path/image.jpg', 'my_filter')
             ->willReturn('https://somewhere-online.tld/path/image.jpg');
 
         $this->getImageUrlFromProduct($product)->shouldReturn('https://somewhere-online.tld/path/image.jpg');
@@ -56,15 +56,15 @@ final class LineItemImagesProviderSpec extends ObjectBehavior
         OrderItemInterface $orderItem,
         ProductInterface $product,
         ProductImageInterface $productImage,
-        FilterExtension $filterExtension
+        CacheManager $imagineCacheManager
     ): void {
         $productImage->getPath()->willReturn('/path/image.jpg');
         $orderItem->getProduct()->willReturn($product);
         $product->getImages()->willReturn(new ArrayCollection([
             $productImage->getWrappedObject(),
         ]));
-        $filterExtension
-            ->filter('/path/image.jpg', 'my_filter')
+        $imagineCacheManager
+            ->getBrowserPath('/path/image.jpg', 'my_filter')
             ->willReturn('https://localhost/path/image.jpg');
 
         $this->getImageUrlFromProduct($product)->shouldReturn('https://somewhere-online.tld/fallbak.jpg');
@@ -77,12 +77,12 @@ final class LineItemImagesProviderSpec extends ObjectBehavior
     public function it_get_fallback_image_urls__when_there_is_no_image(
         OrderItemInterface $orderItem,
         ProductInterface $product,
-        FilterExtension $filterExtension
+        CacheManager $imagineCacheManager
     ): void {
         $orderItem->getProduct()->willReturn($product);
         $product->getImages()->willReturn(new ArrayCollection());
-        $filterExtension
-            ->filter('https://somewhere-online.tld/fallbak.jpg', 'my_filter')
+        $imagineCacheManager
+            ->getBrowserPath('https://somewhere-online.tld/fallbak.jpg', 'my_filter')
             ->willReturn('https://somewhere-online.tld/fallbak.jpg');
 
         $this->getImageUrlFromProduct($product)->shouldReturn('https://somewhere-online.tld/fallbak.jpg');
