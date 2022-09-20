@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker;
 
+use FluxSE\PayumStripe\Action\Api\Resource\AbstractAllAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractCreateAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractRetrieveAction;
+use FluxSE\PayumStripe\Request\Api\Resource\AllSession;
 use FluxSE\PayumStripe\Request\Api\Resource\CreateSession;
+use FluxSE\PayumStripe\Request\Api\Resource\ExpireSession;
 use FluxSE\PayumStripe\Request\Api\Resource\RetrievePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\RetrieveSession;
 use Stripe\Checkout\Session;
+use Stripe\Collection;
 use Stripe\PaymentIntent;
 use Sylius\Behat\Service\Mocker\MockerInterface;
 
@@ -25,7 +29,7 @@ final class StripeCheckoutSessionMocker
 
     public function mockCreatePayment(callable $action): void
     {
-        $this->mockCreateSession();
+        $this->mockCreateSessionAction();
 
         $this->mockSessionSync(
             $action,
@@ -38,6 +42,7 @@ final class StripeCheckoutSessionMocker
     public function mockGoBackPayment(
         callable $action
     ): void {
+        $this->mockExpireSession(Session::STATUS_OPEN);
         $this->mockSessionSync(
             $action,
             Session::STATUS_OPEN,
@@ -96,7 +101,7 @@ final class StripeCheckoutSessionMocker
 
     public function mockPaymentIntentSync(callable $action, string $status): void
     {
-        $this->mockRetrievePaymentIntent($status);
+        $this->mockRetrievePaymentIntentAction($status);
 
         $action();
 
@@ -109,11 +114,17 @@ final class StripeCheckoutSessionMocker
         string $paymentStatus,
         string $paymentIntentStatus
     ): void {
-        $this->mockRetrieveSession($sessionStatus, $paymentStatus);
+        $this->mockRetrieveSessionAction($sessionStatus, $paymentStatus);
         $this->mockPaymentIntentSync($action, $paymentIntentStatus);
     }
 
-    private function mockCreateSession(): void
+    public function mockExpireSession(string $sessionStatus): void
+    {
+        $this->mockAllSessionAction($sessionStatus);
+        $this->mockExpireSessionAction();
+    }
+
+    private function mockCreateSessionAction(): void
     {
         $mockCreateSession = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.create_session',
@@ -147,7 +158,7 @@ final class StripeCheckoutSessionMocker
             });
     }
 
-    private function mockRetrievePaymentIntent(string $status): void
+    private function mockRetrievePaymentIntentAction(string $status): void
     {
         $mock = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.retrieve_payment_intent',
@@ -179,7 +190,7 @@ final class StripeCheckoutSessionMocker
             });
     }
 
-    private function mockRetrieveSession(string $status, string $paymentStatus): void
+    private function mockRetrieveSessionAction(string $status, string $paymentStatus): void
     {
         $mock = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.retrieve_session',
@@ -211,5 +222,65 @@ final class StripeCheckoutSessionMocker
                     'payment_intent' => 'pi_1',
                 ]));
             });
+    }
+
+    private function mockAllSessionAction(string $status): void
+    {
+        $mock = $this->mocker->mockService(
+            'tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.all_session',
+            AbstractAllAction::class
+        );
+
+        $mock
+            ->shouldReceive('setApi')
+            ->once();
+        $mock
+            ->shouldReceive('setGateway')
+            ->once();
+
+        $mock
+            ->shouldReceive('supports')
+            ->andReturnUsing(function ($request) {
+                return $request instanceof AllSession;
+            });
+
+        $mock
+            ->shouldReceive('execute')
+            ->once()
+            ->andReturnUsing(function (AllSession $request) use ($status) {
+                $request->setApiResources(
+                    Collection::constructFrom(['data' => [
+                        [
+                            'id' => 'cs_1',
+                            'object' => Session::OBJECT_NAME,
+                            'status' => $status,
+                        ],
+                    ]]));
+            });
+    }
+
+    private function mockExpireSessionAction(): void
+    {
+        $mock = $this->mocker->mockService(
+            'tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.expire_session',
+            AbstractRetrieveAction::class
+        );
+
+        $mock
+            ->shouldReceive('setApi')
+            ->once();
+        $mock
+            ->shouldReceive('setGateway')
+            ->once();
+
+        $mock
+            ->shouldReceive('supports')
+            ->andReturnUsing(function ($request) {
+                return $request instanceof ExpireSession;
+            });
+
+        $mock
+            ->shouldReceive('execute')
+            ->once();
     }
 }
