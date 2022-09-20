@@ -29,7 +29,8 @@ services:
     public: true
     class: FluxSE\SyliusPayumStripePlugin\Extension\CancelExistingPaymentIntentExtension
     arguments:
-      $cancelPaymentIntentRequestFactory: '@flux_se.sylius_payum_stripe.factory.cancel_payment_intent_request'
+      $expireSessionRequestFactory: '@flux_se.sylius_payum_stripe.factory.expire_session_request'
+      $allSessionRequestFactory: '@flux_se.sylius_payum_stripe.factory.all_session_request'
     tags:
       - name: payum.extension
         factory: stripe_checkout_session

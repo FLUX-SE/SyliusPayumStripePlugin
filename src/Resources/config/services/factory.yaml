@@ -11,3 +11,9 @@ services:
 
   flux_se.sylius_payum_stripe.factory.cancel_payment_intent_request:
     class: FluxSE\SyliusPayumStripePlugin\Factory\CancelPaymentIntentRequestFactory
+
+  flux_se.sylius_payum_stripe.factory.all_session_request:
+    class: FluxSE\SyliusPayumStripePlugin\Factory\AllSessionRequestFactory
+
+  flux_se.sylius_payum_stripe.factory.expire_session_request:
+    class: FluxSE\SyliusPayumStripePlugin\Factory\ExpireSessionRequestFactory

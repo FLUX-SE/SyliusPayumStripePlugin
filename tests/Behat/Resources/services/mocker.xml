@@ -18,6 +18,16 @@
             <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
         </service>
 
+        <service id="tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.all_session"
+                 class="FluxSE\PayumStripe\Action\Api\Resource\AllSessionAction" public="true">
+            <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
+        </service>
+
+        <service id="tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.action.expire_session"
+                 class="FluxSE\PayumStripe\Action\Api\Resource\ExpireSessionAction" public="true">
+            <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
+        </service>
+
         <service id="tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.mocker.stripe_session_checkout_mocker"
                  class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeCheckoutSessionMocker">
             <argument type="service" id="sylius.behat.mocker"/>

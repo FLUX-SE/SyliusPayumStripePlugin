@@ -5,26 +5,40 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\Extension;
 
 use FluxSE\SyliusPayumStripePlugin\Action\ConvertPaymentActionInterface;
-use FluxSE\SyliusPayumStripePlugin\Factory\CancelPaymentIntentRequestFactoryInterface;
+use FluxSE\SyliusPayumStripePlugin\Factory\AllSessionRequestFactoryInterface;
+use FluxSE\SyliusPayumStripePlugin\Factory\ExpireSessionRequestFactoryInterface;
 use Payum\Core\Extension\Context;
 use Payum\Core\Extension\ExtensionInterface;
 use Payum\Core\Request\Convert;
-use Stripe\Exception\ApiErrorException;
+use Stripe\Checkout\Session;
+use Stripe\Collection;
 use Stripe\PaymentIntent;
 use Sylius\Component\Core\Model\PaymentInterface;
 
 /**
  * This extension will cancel a PaymentIntent if there is an existant one
  * inside the payment details
+ *
+ * UPDATE [09/2022] : Instead of canceling the PaymentIntent now it will Expire the related session
+ *
+ * @see https://stripe.com/docs/api/payment_intents/cancel
+ * You cannot cancel the PaymentIntent for a Checkout Session. Expire the Checkout Session instead
+ * @see https://github.com/FLUX-SE/SyliusPayumStripePlugin/issues/32
  */
 final class CancelExistingPaymentIntentExtension implements ExtensionInterface
 {
-    /** @var CancelPaymentIntentRequestFactoryInterface */
-    private $cancelPaymentIntentRequestFactory;
+    /** @var ExpireSessionRequestFactoryInterface */
+    private $expireSessionRequestFactory;
 
-    public function __construct(CancelPaymentIntentRequestFactoryInterface $cancelPaymentIntentRequestFactory)
-    {
-        $this->cancelPaymentIntentRequestFactory = $cancelPaymentIntentRequestFactory;
+    /** @var AllSessionRequestFactoryInterface */
+    private $allSessionRequestFactory;
+
+    public function __construct(
+        ExpireSessionRequestFactoryInterface $expireSessionRequestFactory,
+        AllSessionRequestFactoryInterface $allSessionRequestFactory
+    ) {
+        $this->expireSessionRequestFactory = $expireSessionRequestFactory;
+        $this->allSessionRequestFactory = $allSessionRequestFactory;
     }
 
     public function onPreExecute(Context $context): void
@@ -63,17 +77,29 @@ final class CancelExistingPaymentIntentExtension implements ExtensionInterface
         }
 
         $gateway = $context->getGateway();
-        $cancelPaymentIntentRequest = $this->cancelPaymentIntentRequestFactory->createNew($id);
 
-        try {
-            $gateway->execute($cancelPaymentIntentRequest);
-        } catch (ApiErrorException $e) {
-            // Avoid error message like :
-            //   "You cannot cancel this PaymentIntent because it has a status of canceled.
-            //   Only a PaymentIntent with one of the following statuses may be canceled:
-            //   requires_payment_method, requires_capture, requires_confirmation,
-            //   requires_action, processing."
+        //Retrieve the corresponding Session
+        $allSessionRequest = $this->allSessionRequestFactory->createNew();
+        $allSessionRequest->setParameters([
+            'payment_intent' => $id,
+        ]);
+
+        $gateway->execute($allSessionRequest);
+
+        /** @var Collection $sessions */
+        $sessions = $allSessionRequest->getApiResources();
+        /** @var Session|null $session */
+        $session = $sessions->first();
+        if (null === $session) {
+            return;
         }
+
+        if (Session::STATUS_OPEN !== $session->status) {
+            return;
+        }
+
+        $expireSessionRequest = $this->expireSessionRequestFactory->createNew($session->id);
+        $gateway->execute($expireSessionRequest);
     }
 
     public function onPostExecute(Context $context): void
