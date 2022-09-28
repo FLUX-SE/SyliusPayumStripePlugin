@@ -1,0 +1,3 @@
+services:
+    flux_se.sylius_payum_stripe.provider.stripe_js.details:
+        class: FluxSE\SyliusPayumStripePlugin\Provider\StripeJs\DetailsProvider

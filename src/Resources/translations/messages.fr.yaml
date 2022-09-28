@@ -1,6 +1,7 @@
 flux_se_sylius_payum_stripe_plugin:
     payum_gateway_factory:
         stripe_checkout_session: Stripe Checkout Session (avec support SCA)
+        stripe_js: Stripe JS (avec support SCA)
     form:
         gateway_configuration:
             stripe:
