@@ -5,3 +5,8 @@ imports:
     - { resource: 'services/payum.yaml' }
     - { resource: 'services/providers.yaml' }
     - { resource: 'services/state_machine.yaml' }
+
+    - { resource: 'services/stripe_js/api_platform.yaml' }
+    - { resource: 'services/stripe_js/gateway_configuration_types.yaml' }
+    - { resource: 'services/stripe_js/payum.yaml' }
+    - { resource: 'services/stripe_js/providers.yaml' }

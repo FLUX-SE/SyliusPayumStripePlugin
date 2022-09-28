@@ -1,0 +1,5 @@
+services:
+
+  FluxSE\SyliusPayumStripePlugin\ApiPlatform\Sylius\StripeJsPayment:
+    tags:
+      - name: sylius.api.payment_method_handler
