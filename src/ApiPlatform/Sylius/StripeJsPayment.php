@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\ApiPlatform\Sylius;
 
+use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Registry\RegistryInterface;
 use Payum\Core\Request\Capture;
 use Payum\Core\Security\GenericTokenFactoryInterface;
@@ -60,14 +61,19 @@ final class StripeJsPayment implements PaymentConfigurationProviderInterface
         $token = $tokenFactory->createCaptureToken(
             $gatewayName,
             $payment,
-            null//'show_home_page'
+            'sylius_shop_homepage'
         );
 
         $request = new Capture($token);
-        $this->payum->getGateway($gatewayName)->execute($request);
+        $gateway = $this->payum->getGateway($gatewayName);
 
+        // Execute with catchReply to avoid displaying something here
+        $reply = $gateway->execute($request, true);
+        // Reply contain a Payum\Core\Reply\HttpResponse with the rendered template
+
+        /** @var ArrayObject $details */
         $details = $request->getModel();
-        return PaymentIntent::constructFrom($details);
+        return PaymentIntent::constructFrom($details->getArrayCopy());
     }
 
     protected function getGatewayConfig(PaymentInterface $payment): GatewayConfigInterface
