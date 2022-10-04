@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\ApiPlatform\Sylius;
 
 use Payum\Core\Bridge\Spl\ArrayObject;
-use Payum\Core\Registry\RegistryInterface;
+use Payum\Core\Payum;
 use Payum\Core\Request\Capture;
-use Payum\Core\Security\GenericTokenFactoryInterface;
 use Stripe\PaymentIntent;
 use Sylius\Bundle\ApiBundle\Payment\PaymentConfigurationProviderInterface;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
@@ -17,10 +16,10 @@ use Webmozart\Assert\Assert;
 
 final class StripeJsPayment implements PaymentConfigurationProviderInterface
 {
-    /** @var RegistryInterface */
+    /** @var Payum */
     private $payum;
 
-    public function __construct(RegistryInterface $payum)
+    public function __construct(Payum $payum)
     {
         $this->payum = $payum;
     }
@@ -32,6 +31,7 @@ final class StripeJsPayment implements PaymentConfigurationProviderInterface
         Assert::notNull($gatewayConfig);
 
         $config = $gatewayConfig->getConfig();
+        /** @var string $factory */
         $factory = $config['factory'] ?? $gatewayConfig->getFactoryName();
 
         return $factory === 'stripe_js';
@@ -51,9 +51,8 @@ final class StripeJsPayment implements PaymentConfigurationProviderInterface
         ];
     }
 
-    protected function capturePayment(PaymentInterface $payment): PaymentIntent
+    private function capturePayment(PaymentInterface $payment): PaymentIntent
     {
-        /** @var GenericTokenFactoryInterface $tokenFactory */
         $tokenFactory = $this->payum->getTokenFactory();
         $gatewayConfig = $this->getGatewayConfig($payment);
 
@@ -68,15 +67,16 @@ final class StripeJsPayment implements PaymentConfigurationProviderInterface
         $gateway = $this->payum->getGateway($gatewayName);
 
         // Execute with catchReply to avoid displaying something here
-        $reply = $gateway->execute($request, true);
+        /*$reply = */$gateway->execute($request, true);
         // Reply contain a Payum\Core\Reply\HttpResponse with the rendered template
 
         /** @var ArrayObject $details */
         $details = $request->getModel();
+
         return PaymentIntent::constructFrom($details->getArrayCopy());
     }
 
-    protected function getGatewayConfig(PaymentInterface $payment): GatewayConfigInterface
+    private function getGatewayConfig(PaymentInterface $payment): GatewayConfigInterface
     {
         /** @var PaymentMethodInterface|null $paymentMethod */
         $paymentMethod = $payment->getMethod();

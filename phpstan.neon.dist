@@ -22,6 +22,8 @@ parameters:
     ignoreErrors:
         - '/Parameter #1 \$configuration of method Symfony\\Component\\DependencyInjection\\Extension\\Extension::processConfiguration\(\) expects Symfony\\Component\\Config\\Definition\\ConfigurationInterface, Symfony\\Component\\Config\\Definition\\ConfigurationInterface\|null given\./'
         - '/Parameter #1 \$request \(Payum\\Core\\Request\\Convert\) of method FluxSE\\SyliusPayumStripePlugin\\Action\\ConvertPaymentAction::execute\(\) should be contravariant with parameter \$request \(mixed\) of method Payum\\Core\\Action\\ActionInterface::execute\(\)/'
+        - '/Parameter #1 \$request \(Payum\\Core\\Request\\Convert\) of method FluxSE\\SyliusPayumStripePlugin\\Action\\StripeJs\\ConvertPaymentAction::execute\(\) should be contravariant with parameter \$request \(mixed\) of method Payum\\Core\\Action\\ActionInterface::execute\(\)/'
+
         - message: '/Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\HigherOrderMessage::(once|andReturnUsing)\(\)\./'
           paths:
               - tests/Behat/Mocker/Api/CheckoutSessionMocker.php
