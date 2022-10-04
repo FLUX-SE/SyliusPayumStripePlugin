@@ -9,6 +9,7 @@ use Sylius\Bundle\CoreBundle\Application\Kernel as SyliusKernel;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -124,6 +125,20 @@ final class Kernel extends BaseKernel
         $symfonyConfigDir = $this->getProjectDir() . '/config/symfony/' . BaseKernel::MAJOR_VERSION . '.' . BaseKernel::MINOR_VERSION;
         if (is_dir($symfonyConfigDir)) {
             yield $symfonyConfigDir;
+        }
+    }
+
+    protected function build(ContainerBuilder $container)
+    {
+        // Fix APIPlatform issue during console initialisation
+        // Service "api_platform.error_listener": Parent definition "exception_listener" does not exist.
+        $sfVersion = sprintf('%d.%d', BaseKernel::MAJOR_VERSION, BaseKernel::MINOR_VERSION);
+        if ('4.4' !== $sfVersion) {
+            return;
+        }
+
+        if (false === $container->hasDefinition('exception_listener')) {
+            $container->setAlias('exception_listener', new Alias('console.error_listener'));
         }
     }
 }
