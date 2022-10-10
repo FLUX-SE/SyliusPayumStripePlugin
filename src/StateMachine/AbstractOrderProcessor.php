@@ -54,9 +54,8 @@ abstract class AbstractOrderProcessor
     {
         /** @var TokenFactoryInterface $tokenFactory */
         $tokenFactory = $this->payum->getTokenFactory();
-        $token = $tokenFactory->createToken($gatewayName, $payment, 'sylius_shop_order_after_pay');
 
-        return $token;
+        return $tokenFactory->createToken($gatewayName, $payment, 'payum_notify_do');
     }
 
     abstract public function __invoke(PaymentInterface $payment): void;
