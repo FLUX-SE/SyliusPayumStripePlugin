@@ -8,9 +8,9 @@ flux_se_sylius_payum_stripe_plugin:
                 secret_key: Clé secrète
                 use_authorize: Utiliser "authorize"
                 webhook_secret_keys: Clés secrètes du webhook
-            help:
-                use_authorize: >
-                    Lorsqu'un paiement est autorisé, la banque garantit le montant et le conserve sur la carte du client jusqu'à sept jours .
-                    <a href="https://stripe.com/docs/payments/capture-later" target="_blank">
-                        En savoir plus
-                    </a>
+                help:
+                    use_authorize: >
+                        Lorsqu'un paiement est autorisé, la banque garantit le montant et le conserve sur la carte du client jusqu'à sept jours.
+                        <a href="https://stripe.com/docs/payments/capture-later" target="_blank">
+                            En savoir plus
+                        </a>
