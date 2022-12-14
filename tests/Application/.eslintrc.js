@@ -1,5 +1,7 @@
 module.exports = {
-    extends: 'airbnb-base',
+    extends: [
+        'airbnb-base',
+    ],
     env: {
         node: true,
     },
@@ -16,5 +18,8 @@ module.exports = {
             ignoreStrings: true,
             ignoreTemplateLiterals: true,
         }],
+    },
+    settings: {
+        'import/resolver': 'webpack',
     },
 };

@@ -32,7 +32,7 @@ class ManagingPaymentMethodsContext implements Context
     /**
      * @When I configure it with test stripe gateway data :secretKey, :publishableKey
      */
-    public function iConfigureItWithTestStripeGatewayData(string $secretKey, string $publishableKey)
+    public function iConfigureItWithTestStripeGatewayData(string $secretKey, string $publishableKey): void
     {
         $this->createPage->setStripeSecretKey($secretKey);
         $this->createPage->setStripePublishableKey($publishableKey);
@@ -41,7 +41,7 @@ class ManagingPaymentMethodsContext implements Context
     /**
      * @When I add a webhook secret key :webhookKey
      */
-    public function iAddAWebhookSecretKey(string $webhookKey)
+    public function iAddAWebhookSecretKey(string $webhookKey): void
     {
         $this->createPage->setStripeWebhookSecretKey($webhookKey);
     }
@@ -49,7 +49,7 @@ class ManagingPaymentMethodsContext implements Context
     /**
      * @When I use authorize
      */
-    public function iUseAuthorize()
+    public function iUseAuthorize(): void
     {
         $this->createPage->setStripeIsAuthorized(true);
     }
@@ -57,7 +57,7 @@ class ManagingPaymentMethodsContext implements Context
     /**
      * @When I don't use authorize
      */
-    public function iDontUseAuthorize()
+    public function iDontUseAuthorize(): void
     {
         $this->createPage->setStripeIsAuthorized(false);
     }
@@ -65,7 +65,7 @@ class ManagingPaymentMethodsContext implements Context
     /**
      * @Given /^I should see a warning message under the use authorize field$/
      */
-    public function iShouldSeeAWarningMessageUnderTheUseAuthorizeField()
+    public function iShouldSeeAWarningMessageUnderTheUseAuthorizeField(): void
     {
         Assert::true($this->createPage->isUseAuthorizeWarningMessageDisplayed());
     }
@@ -73,7 +73,7 @@ class ManagingPaymentMethodsContext implements Context
     /**
      * @Given /^I shouldn't see a warning message under the use authorize field$/
      */
-    public function iShouldntSeeAWarningMessageUnderTheUseAuthorizeField()
+    public function iShouldntSeeAWarningMessageUnderTheUseAuthorizeField(): void
     {
         Assert::false($this->createPage->isUseAuthorizeWarningMessageDisplayed());
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker;
 
+use ArrayObject;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractAllAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractCreateAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractRetrieveAction;
@@ -148,6 +149,7 @@ final class StripeCheckoutSessionMocker
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (CreateSession $request) {
+                /** @var ArrayObject $rModel */
                 $rModel = $request->getModel();
                 $session = Session::constructFrom(array_merge([
                     'id' => 'cs_1',

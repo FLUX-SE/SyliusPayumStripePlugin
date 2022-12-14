@@ -1,9 +1,9 @@
 const path = require('path');
 const Encore = require('@symfony/webpack-encore');
 
-const syliusBundles = path.resolve(__dirname, 'vendor/sylius/sylius/src/Sylius/Bundle/');
-const uiBundleScripts = path.resolve(syliusBundles, 'UiBundle/Resources/private/js/');
+const syliusBundles = path.resolve(__dirname, '../../vendor/sylius/sylius/src/Sylius/Bundle/');
 const uiBundleResources = path.resolve(syliusBundles, 'UiBundle/Resources/private/');
+const uiBundleScripts = path.resolve(uiBundleResources, 'js/');
 
 // Shop config
 Encore
@@ -15,6 +15,9 @@ Encore
   .enableSourceMaps(!Encore.isProduction())
   .enableVersioning(Encore.isProduction())
   .enableSassLoader();
+// Disabled because it create error :
+// > 'sylius' should be listed in the project's dependencies. Run 'npm i -S sylius' to add it import/no-extraneous-dependencies
+//.enableEslintPlugin();
 
 const shopConfig = Encore.getWebpackConfig();
 
@@ -35,13 +38,17 @@ Encore
   .enableSourceMaps(!Encore.isProduction())
   .enableVersioning(Encore.isProduction())
   .enableSassLoader();
+// Disabled because it create error :
+// > 'sylius' should be listed in the project's dependencies. Run 'npm i -S sylius' to add it import/no-extraneous-dependencies
+// .enableEslintPlugin();
 
 const adminConfig = Encore.getWebpackConfig();
 
 adminConfig.resolve.alias['sylius/ui'] = uiBundleScripts;
 adminConfig.resolve.alias['sylius/ui-resources'] = uiBundleResources;
 adminConfig.resolve.alias['sylius/bundle'] = syliusBundles;
-adminConfig.externals = Object.assign({}, adminConfig.externals, { window: 'window', document: 'document' });
+adminConfig.resolve.alias['chart.js/dist/Chart.min'] = path.resolve(__dirname, 'node_modules/chart.js/dist/chart.min.js');
+adminConfig.externals = { ...adminConfig.externals, ...{ window: 'window', document: 'document' } };
 adminConfig.name = 'admin';
 
 module.exports = [shopConfig, adminConfig];

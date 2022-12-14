@@ -44,7 +44,7 @@ class StripeShopContext extends MinkContext implements Context
      * @When I confirm my order with Stripe payment
      * @Given I have confirmed my order with Stripe payment
      */
-    public function iConfirmMyOrderWithStripePayment()
+    public function iConfirmMyOrderWithStripePayment(): void
     {
         $this->stripeSessionCheckoutMocker->mockCreatePayment(function () {
             $this->summaryPage->confirmOrder();
@@ -73,7 +73,7 @@ class StripeShopContext extends MinkContext implements Context
                         ],
                     ],
                 ];
-                $payload = json_encode($jsonEvent);
+                $payload = json_encode($jsonEvent, \JSON_THROW_ON_ERROR);
 
                 $this->paymentPage->notify($payload);
             },
@@ -105,7 +105,7 @@ class StripeShopContext extends MinkContext implements Context
                         ],
                     ],
                 ];
-                $payload = json_encode($jsonEvent);
+                $payload = json_encode($jsonEvent,\JSON_THROW_ON_ERROR);
 
                 $this->paymentPage->notify($payload);
             },
@@ -139,7 +139,7 @@ class StripeShopContext extends MinkContext implements Context
      * @Given I have clicked on "go back" during my Stripe payment
      * @When I click on "go back" during my Stripe payment
      */
-    public function iClickOnGoBackDuringMyStripePayment()
+    public function iClickOnGoBackDuringMyStripePayment(): void
     {
         $this->stripeSessionCheckoutMocker->mockGoBackPayment(function () {
             $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
@@ -159,12 +159,12 @@ class StripeShopContext extends MinkContext implements Context
     /**
      * @Then I should be notified that my payment has been authorized
      */
-    public function iShouldBeNotifiedThatMyPaymentHasBeenAuthorized()
+    public function iShouldBeNotifiedThatMyPaymentHasBeenAuthorized(): void
     {
         $this->assertNotification('Payment has been authorized.');
     }
 
-    private function assertNotification(string $expectedNotification)
+    private function assertNotification(string $expectedNotification): void
     {
         $notifications = $this->orderDetails->getNotifications();
         $hasNotifications = '';

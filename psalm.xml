@@ -15,6 +15,12 @@
     </projectFiles>
 
     <issueHandlers>
+        <UndefinedDocblockClass>
+            <errorLevel type="info">
+                <file name="src/DependencyInjection/Compiler/PayumStoragePaymentAliaser.php"/>
+                <file name="src/DependencyInjection/Compiler/WinzouStateMachineCallbacksModifier.php"/>
+            </errorLevel>
+        </UndefinedDocblockClass>
         <MixedArgument>
             <errorLevel type="info">
                 <file name="src/Action/ConvertPaymentAction.php"/>
@@ -51,5 +57,10 @@
                 <file name="src/DependencyInjection/Compiler/PayumStoragePaymentAliaser.php" />
             </errorLevel>
         </MixedArgumentTypeCoercion>
+        <DeprecatedInterface>
+            <errorLevel type="info">
+                <file name="src/StateMachine/AbstractOrderProcessor.php" />
+            </errorLevel>
+        </DeprecatedInterface>
     </issueHandlers>
 </psalm>
