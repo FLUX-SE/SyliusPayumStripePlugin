@@ -109,7 +109,7 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
         /** @var TokenInterface[] $tokens */
         $tokens = $this->securityTokenRepository->findAll();
         foreach ($tokens as $token) {
-            if (in_array($token->getHash(), $this->deadTokens)) {
+            if (in_array($token->getHash(), $this->deadTokens, true)) {
                 continue;
             }
 
@@ -124,7 +124,7 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
             throw new RuntimeException('Cannot find token, check if you are after proper checkout steps');
         }
 
-        // Sometime the token found is an already consumed one. Here we compare
+        // Sometimes the token found is an already consumed one. Here we compare
         // the $foundToken->getAfterUrl() with all tokens to see if the token
         // concerned by the after url is alive, if not we save it to a dead list
         // and retry to found the right token

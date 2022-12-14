@@ -14,8 +14,7 @@ on:
     release:
         types: [created]
     schedule:
-        -
-            cron: "0 1 * * 6" # Run at 1am every Saturday
+        - cron: "0 1 * * 6" # Run at 1am every Saturday
     workflow_dispatch: ~
 
 jobs:
@@ -29,12 +28,12 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: ["8.0"]
-                symfony: ["^4.4", "^5.4"]
+                php: [ 8.0 ]
+                symfony: [ ^5.4, ^6.0 ]
 
         steps:
             -
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
 
             -
                 name: Setup PHP
@@ -51,15 +50,15 @@ jobs:
                 if: matrix.symfony != ''
                 run: |
                     composer global config --no-plugins allow-plugins.symfony/flex true
-                    composer global require --no-progress --no-scripts --no-plugins "symfony/flex:^1.10"
+                    composer global require --no-progress --no-scripts --no-plugins "symfony/flex"
             -
                 name: Get Composer cache directory
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
                 id: composer-cache
-                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
             -
                 name: Cache Composer
-                uses: actions/cache@v2
+                uses: actions/cache@v3
                 with:
                     path: ${{ steps.composer-cache.outputs.dir }}
                     key: ${{ runner.os }}-php-${{ matrix.php }}-symfony-${{ matrix.symfony }}-composer-${{ hashFiles('**/composer.json') }}
@@ -85,21 +84,21 @@ jobs:
             -
                 name: Validate Yaml files
                 run: vendor/bin/yaml-lint src
-                if: always() && steps.end-of-setup.outcome == 'success' && matrix.symfony != '^4.4'
+                if: always() && steps.end-of-setup.outcome == 'success'
 
             -
                 name: Run ECS
                 run: vendor/bin/ecs check src
-                if: always() && steps.end-of-setup.outcome == 'success' && matrix.symfony != '^4.4'
+                if: always() && steps.end-of-setup.outcome == 'success'
 
             -
                 name: Run Psalm
-                run: vendor/bin/psalm --show-info=false --output-format=github --php-version=${{ matrix.php }}
+                run: vendor/bin/psalm --show-info=false --output-format=github
                 if: always() && steps.end-of-setup.outcome == 'success'
 
             -
                 name: Run PHPStan
-                run: vendor/bin/phpstan analyse -l max src
+                run: vendor/bin/phpstan analyse
                 if: always() && steps.end-of-setup.outcome == 'success'
     tests:
         runs-on: ubuntu-latest
@@ -110,18 +109,12 @@ jobs:
             fail-fast: false
             matrix:
                 php: [7.3, 7.4, 8.0]
-                symfony: [^4.4, ^5.4]
-                sylius: [~1.8.0, ~1.9.0, ~1.10.0, ~1.11.0]
-                node: [12.x]
+                symfony: [^5.4, ^6.0]
+                sylius: [~1.9.0, ~1.10.0, ~1.11.0, ~1.12.0]
+                node: [18.x]
                 mysql: [5.7]
 
                 exclude:
-                    -
-                        sylius: ~1.8.0
-                        symfony: ^5.4
-                    -
-                        sylius: ~1.8.0
-                        php: 8.0
                     -
                         sylius: ~1.9.0
                         php: 8.0
@@ -129,8 +122,8 @@ jobs:
                         sylius: ~1.10.0
                         php: 7.3
                     -
-                        sylius: ~1.10.0 # issue with a missing service declaration : Service "api_platform.error_listener": Parent definition "exception_listener" does not exist.
-                        symfony: ^4.4
+                        sylius: ~1.10.0
+                        symfony: ^6.0
                     -
                         sylius: ~1.11.0
                         php: 7.3
@@ -139,7 +132,19 @@ jobs:
                         php: 7.4
                     -
                         sylius: ~1.11.0
-                        symfony: ^4.4
+                        symfony: ^6.0
+                    -
+                        sylius: ~1.12.0
+                        php: 7.3
+                    -
+                        sylius: ~1.12.0
+                        php: 7.4
+                    -
+                        php: 7.3
+                        symfony: ^6.0
+                    -
+                        php: 7.4
+                        symfony: ^6.0
 
         env:
             APP_ENV: test
@@ -147,7 +152,7 @@ jobs:
 
         steps:
             -
-                uses: actions/checkout@v2
+                uses: actions/checkout@v3
 
             -
                 name: Setup PHP
@@ -160,7 +165,7 @@ jobs:
 
             -
                 name: Setup Node
-                uses: actions/setup-node@v1
+                uses: actions/setup-node@v3
                 with:
                     node-version: "${{ matrix.node }}"
 
@@ -184,21 +189,21 @@ jobs:
                 run: symfony server:ca:install
 
             -
-                name: Run Chrome Headless
-                run: google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' https://127.0.0.1 > /dev/null 2>&1 &
-
-            -
                 name: Run webserver
                 run: (cd tests/Application && symfony server:start --port=8080 --dir=public --daemon)
 
             -
+                name: Run Chrome Headless
+                run: google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-features=Translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 https://127.0.0.1 > /dev/null 2>&1 &
+
+            -
                 name: Get Composer cache directory
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
                 id: composer-cache
-                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
             -
                 name: Cache Composer
-                uses: actions/cache@v2
+                uses: actions/cache@v3
                 with:
                     path: ${{ steps.composer-cache.outputs.dir }}
                     key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
@@ -208,24 +213,12 @@ jobs:
             -
                 name: Configure global composer
                 if: matrix.symfony != ''
-                run: |
-                    composer global config --no-plugins allow-plugins.symfony/flex true
-                    composer global require --no-progress --no-scripts --no-plugins "symfony/flex:^1.10"
+                run: composer global config --no-plugins allow-plugins.symfony/flex true
 
             -
                 name: Restrict Sylius version
                 if: matrix.sylius != ''
                 run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
-
-            -
-                name: Fix build on Sylius 1.8
-                if: matrix.sylius == '~1.8.0'
-                run: |
-                    composer require "friendsofsymfony/oauth-server-bundle:^1.6 || >2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
-                    # Sylius issues on `json_array` type not existing
-                    composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
-                    # Not added into Sylius 1.8 but available in 1.9
-                    composer require "liip/imagine-bundle:<2.6" --no-update --no-scripts --no-interaction
 
             -
                 name: Fix build on Sylius 1.9
@@ -244,11 +237,11 @@ jobs:
             -
                 name: Get Yarn cache directory
                 id: yarn-cache
-                run: echo "::set-output name=dir::$(yarn cache dir)"
+                run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
             -
                 name: Cache Yarn
-                uses: actions/cache@v2
+                uses: actions/cache@v3
                 with:
                     path: ${{ steps.yarn-cache.outputs.dir }}
                     key: ${{ runner.os }}-node-${{ matrix.node }}-yarn-${{ hashFiles('**/package.json **/yarn.lock') }}
@@ -288,7 +281,7 @@ jobs:
 
             -
                 name: Upload Behat logs
-                uses: actions/upload-artifact@v2
+                uses: actions/upload-artifact@v3
                 if: failure()
                 with:
                     name: Behat logs

@@ -1,0 +1,6 @@
+framework:
+  http_client:
+    scoped_clients:
+      tests.flux_se.sylius_payum_monetico.notify.http_client:
+        base_uri: 'https://127.0.0.1:8080'
+        verify_peer: false

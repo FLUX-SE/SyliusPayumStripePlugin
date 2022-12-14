@@ -9,6 +9,7 @@ use Sylius\Behat\Page\Admin\PaymentMethod\CreatePage as BaseCreatePage;
 
 final class CreatePage extends BaseCreatePage implements CreatePageInterface
 {
+    /** @var int */
     private $webhookSecretKeysListIndex = 0;
 
     protected function getDefinedElements(): array

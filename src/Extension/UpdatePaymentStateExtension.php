@@ -112,7 +112,8 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
     {
         $status = $this->getStatusRequestFactory->createNewWithModel($payment);
         $context->getGateway()->execute($status);
-        $value = (string) $status->getValue();
+        /** @var string $value */
+        $value = $status->getValue();
         if ($payment->getState() === $value) {
             return;
         }

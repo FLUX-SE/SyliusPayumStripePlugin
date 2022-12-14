@@ -10,6 +10,7 @@ use Sylius\Behat\Service\SharedStorageInterface;
 use Sylius\Bundle\CoreBundle\Fixture\Factory\ExampleFactoryInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Repository\PaymentMethodRepositoryInterface;
+use Webmozart\Assert\Assert;
 
 class StripeContext implements Context
 {
@@ -52,7 +53,11 @@ class StripeContext implements Context
             'stripe_checkout_session',
             'Stripe Checkout Session'
         );
-        $paymentMethod->getGatewayConfig()->setConfig([
+
+        $gatewayConfig = $paymentMethod->getGatewayConfig();
+        Assert::notNull($gatewayConfig);
+
+        $gatewayConfig->setConfig([
             'publishable_key' => 'pk_test_publishablekey',
             'secret_key' => 'sk_test_secretkey',
             'webhook_secret_keys' => [
