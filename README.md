@@ -24,7 +24,7 @@ See https://stripe.com/docs/payments/checkout for more information.
 Install using Composer :
 
 ```shell
-composer remove --dev stripe/stripe-php --no-update --no-scripts --no-interaction
+composer remove --dev stripe/stripe-php
 composer require flux-se/sylius-payum-stripe-plugin
 ```
 
