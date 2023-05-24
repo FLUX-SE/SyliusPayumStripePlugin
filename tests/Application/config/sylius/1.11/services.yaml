@@ -1,0 +1,3 @@
+services:
+  sylius.http_message_factory:
+    class: Symfony\Component\HttpClient\Psr18Client
