@@ -16,6 +16,10 @@ services:
     public: true
     class: Nyholm\Psr7\Factory\Psr17Factory
 
+framework:
+  http_client:
+    enabled: true # require to alias the service Psr\Http\Client\ClientInterface
+
 payum:
   gateways:
     core:
