@@ -89,6 +89,10 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
             return $this->fallbackImage;
         }
 
+        if ('' === $this->localhostPattern) {
+            return $url;
+        }
+
         if (0 !== preg_match($this->localhostPattern, $url)) {
             $url = $this->fallbackImage;
         }
