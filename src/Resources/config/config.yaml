@@ -5,7 +5,7 @@ twig:
 winzou_state_machine:
   sylius_payment:
     callbacks:
-      before:
+      after:
         flux_se.sylius_payum_stripe_refund:
           # By default this callback is disabled to avoid mistake
           # you can enable it using this plugin config : `refund_disabled: false`
