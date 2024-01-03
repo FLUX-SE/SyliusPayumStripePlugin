@@ -23,15 +23,45 @@ default:
                 - sylius.behat.context.setup.user
                 - sylius.behat.context.setup.zone
 
-                - tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.context.setup.stripe
+                - tests.flux_se.sylius_payum_stripe_plugin.behat.context.setup.stripe
 
                 - sylius.behat.context.ui.admin.managing_payment_methods
                 - sylius.behat.context.ui.admin.notification
-                - sylius.behat.context.ui.shop.locale
 
-                - tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.context.ui.admin.managing_payment_methods
+                - tests.flux_se.sylius_payum_stripe_plugin.behat.context.ui.admin.managing_payment_methods
             filters:
                 tags: "@managing_payment_methods&&@ui"
+        ui_managing_orders:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+
+                - sylius.behat.context.transform.address
+                - sylius.behat.context.transform.customer
+                - sylius.behat.context.transform.locale
+                - sylius.behat.context.transform.payment
+                - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.shared_storage
+                - sylius.behat.context.transform.shipping_method
+
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.currency
+                - sylius.behat.context.setup.locale
+                - sylius.behat.context.setup.order
+                - sylius.behat.context.setup.payment
+                - sylius.behat.context.setup.product
+                - sylius.behat.context.setup.admin_security
+                - sylius.behat.context.setup.shipping
+                - sylius.behat.context.setup.user
+                - sylius.behat.context.setup.zone
+
+                - tests.flux_se.sylius_payum_stripe_plugin.behat.context.setup.stripe
+
+                - sylius.behat.context.ui.admin.managing_orders
+                - sylius.behat.context.ui.admin.notification
+
+                - tests.flux_se.sylius_payum_stripe_plugin.behat.context.ui.admin.managing_orders
+            filters:
+                tags: "@managing_orders&&@ui"
         paying_with_stripe_session_checkout_during_checkout:
             contexts:
                 - sylius.behat.context.hook.doctrine_orm
@@ -60,7 +90,7 @@ default:
                 - sylius.behat.context.setup.taxation
                 - sylius.behat.context.setup.user
 
-                - tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.context.setup.stripe
+                - tests.flux_se.sylius_payum_stripe_plugin.behat.context.setup.stripe
 
                 - sylius.behat.context.ui.paypal
                 - sylius.behat.context.ui.shop.cart
@@ -72,6 +102,6 @@ default:
                 - sylius.behat.context.ui.shop.checkout.shipping
                 - sylius.behat.context.ui.shop.checkout.thank_you
 
-                - tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.context.ui.shop_stripe
+                - tests.flux_se.sylius_payum_stripe_plugin.behat.context.ui.shop_stripe
             filters:
                 tags: "@paying_with_stripe_session_checkout_during_checkout&&@ui"
