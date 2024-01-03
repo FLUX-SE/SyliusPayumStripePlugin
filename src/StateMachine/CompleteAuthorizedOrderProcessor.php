@@ -7,6 +7,7 @@ namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 use FluxSE\SyliusPayumStripePlugin\Factory\CaptureRequestFactoryInterface;
 use Payum\Core\Payum;
 use Payum\Core\Reply\ReplyInterface;
+use SM\Event\TransitionEvent;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Webmozart\Assert\Assert;
 
@@ -23,9 +24,9 @@ final class CompleteAuthorizedOrderProcessor extends AbstractOrderProcessor
         parent::__construct($payum);
     }
 
-    public function __invoke(PaymentInterface $payment): void
+    public function __invoke(PaymentInterface $payment, TransitionEvent $event): void
     {
-        if (PaymentInterface::STATE_AUTHORIZED !== $payment->getState()) {
+        if (PaymentInterface::STATE_AUTHORIZED !== $event->getState()) {
             return;
         }
 

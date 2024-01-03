@@ -11,12 +11,12 @@ winzou_state_machine:
           # you can enable it using this plugin config : `refund_disabled: false`
           on: ["refund"]
           do: ["@flux_se.sylius_payum_stripe.state_machine.refund", "__invoke"]
-          args: ["object"]
-        flux_se.sylius_payum_stripe_cancel_authorized:
+          args: ["object", "event"]
+        flux_se.sylius_payum_stripe_cancel:
           on: ["cancel"]
-          do: ["@flux_se.sylius_payum_stripe.state_machine.cancel_authorized", "__invoke"]
-          args: ["object"]
+          do: ["@flux_se.sylius_payum_stripe.state_machine.cancel", "__invoke"]
+          args: ["object", "event"]
         flux_se.sylius_payum_stripe_complete_authorized:
           on: ["complete"]
           do: ["@flux_se.sylius_payum_stripe.state_machine.complete_authorized", "__invoke"]
-          args: ["object"]
+          args: ["object", "event"]
