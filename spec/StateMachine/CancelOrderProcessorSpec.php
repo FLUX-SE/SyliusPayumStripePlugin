@@ -11,11 +11,12 @@ use Payum\Core\Payum;
 use Payum\Core\Security\TokenFactoryInterface;
 use Payum\Core\Security\TokenInterface;
 use PhpSpec\ObjectBehavior;
+use SM\Event\TransitionEvent;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 
-final class CancelAuthorizedOrderProcessorSpec extends ObjectBehavior
+final class CancelOrderProcessorSpec extends ObjectBehavior
 {
     public function let(
         CancelRequestFactoryInterface $cancelRequestFactory,
@@ -27,6 +28,7 @@ final class CancelAuthorizedOrderProcessorSpec extends ObjectBehavior
     public function it_is_invokable(
         Payum $payum,
         PaymentInterface $payment,
+        TransitionEvent $event,
         PaymentMethodInterface $paymentMethod,
         GatewayConfigInterface $gatewayConfig,
         GatewayInterface $gateway,
@@ -35,7 +37,6 @@ final class CancelAuthorizedOrderProcessorSpec extends ObjectBehavior
         CancelRequestFactoryInterface $cancelRequestFactory,
         ModelAggregateInterface $request
     ): void {
-        $payment->getState()->willReturn(PaymentInterface::STATE_AUTHORIZED);
 
         $payment->getMethod()->willReturn($paymentMethod);
         $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
@@ -46,21 +47,26 @@ final class CancelAuthorizedOrderProcessorSpec extends ObjectBehavior
         $payum->getGateway($gatewayName)->willReturn($gateway);
 
         $payum->getTokenFactory()->willReturn($tokenFactory);
-        $tokenFactory->createToken($gatewayName, $payment, 'sylius_shop_order_after_pay')->willReturn($token);
+        $tokenFactory->createToken($gatewayName, $payment, 'payum_notify_do')->willReturn($token);
 
         $request->beConstructedWith([$token]);
         $cancelRequestFactory->createNewWithToken($token)->willReturn($request);
 
         $gateway->execute($request)->shouldBeCalled();
 
-        $this->__invoke($payment);
+        $this->__invoke($payment, $event);
     }
 
-    public function it_do_nothing_when_it_is_not_an_authorized_state(
-        PaymentInterface $payment
+    public function it_do_nothing_when_gateway_is_unknown(
+        PaymentInterface $payment,
+        TransitionEvent $event,
+        PaymentMethodInterface $paymentMethod,
+        GatewayConfigInterface $gatewayConfig
     ): void {
-        $payment->getState()->willReturn(PaymentInterface::STATE_COMPLETED);
+        $payment->getMethod()->willReturn($paymentMethod);
+        $paymentMethod->getGatewayConfig()->willReturn($gatewayConfig);
+        $gatewayConfig->getConfig()->willReturn(['factory' => 'foo']);
 
-        $this->__invoke($payment);
+        $this->__invoke($payment, $event);
     }
 }

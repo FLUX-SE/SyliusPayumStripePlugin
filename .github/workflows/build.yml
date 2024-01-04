@@ -100,6 +100,11 @@ jobs:
                 name: Run PHPStan
                 run: vendor/bin/phpstan analyse
                 if: always() && steps.end-of-setup.outcome == 'success'
+
+            -
+                name: Run PHPSpec
+                run: vendor/bin/phpspec run --ansi -f progress --no-interaction
+                if: always() && steps.end-of-setup.outcome == 'success'
     tests:
         runs-on: ubuntu-latest
 
@@ -215,7 +220,11 @@ jobs:
                 if: matrix.sylius == '~1.11.0'
                 run: |
                     composer require "nyholm/psr7" --no-update --no-scripts --no-interaction
-
+            -
+                name: Fix build with PHP 8.3
+                if: matrix.php == '8.3'
+                run: |
+                    composer remove --dev "phpspec/phpspec" --no-update --no-scripts --no-interaction
             -
                 name: Install PHP dependencies
                 run: composer install --no-interaction
