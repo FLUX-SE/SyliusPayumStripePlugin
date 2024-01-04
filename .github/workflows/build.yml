@@ -28,7 +28,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [ 8.0 ]
+                php: [ 8.1 ]
                 symfony: [ ^5.4, ^6.0 ]
 
         steps:
@@ -100,6 +100,11 @@ jobs:
                 name: Run PHPStan
                 run: vendor/bin/phpstan analyse
                 if: always() && steps.end-of-setup.outcome == 'success'
+
+            -
+                name: Run PHPSpec
+                run: vendor/bin/phpspec run --ansi -f progress --no-interaction
+                if: always() && steps.end-of-setup.outcome == 'success'
     tests:
         runs-on: ubuntu-latest
 
@@ -108,25 +113,16 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [7.3, 7.4, 8.0]
+                php: [7.4, 8.0, 8.1, 8.2, 8.3]
                 symfony: [^5.4, ^6.0]
-                sylius: [~1.9.0, ~1.10.0, ~1.11.0, ~1.12.0]
+                sylius: [~1.10.0, ~1.11.0, ~1.12.0]
                 node: [18.x]
                 mysql: [5.7]
 
                 exclude:
                     -
-                        sylius: ~1.9.0
-                        php: 8.0
-                    -
-                        sylius: ~1.10.0
-                        php: 7.3
-                    -
                         sylius: ~1.10.0
                         symfony: ^6.0
-                    -
-                        sylius: ~1.11.0
-                        php: 7.3
                     -
                         sylius: ~1.11.0
                         php: 7.4
@@ -135,13 +131,7 @@ jobs:
                         symfony: ^6.0
                     -
                         sylius: ~1.12.0
-                        php: 7.3
-                    -
-                        sylius: ~1.12.0
                         php: 7.4
-                    -
-                        php: 7.3
-                        symfony: ^6.0
                     -
                         php: 7.4
                         symfony: ^6.0
@@ -221,14 +211,6 @@ jobs:
                 run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
 
             -
-                name: Fix build on Sylius 1.9
-                if: matrix.sylius == '~1.9.0'
-                run: |
-                    composer require "friendsofsymfony/oauth-server-bundle:>2.0.0-alpha.0 ^2.0@dev" --no-update --no-scripts --no-interaction
-                    # Sylius issues on `json_array` type not existing
-                    composer require "doctrine/dbal:^2.6" --no-update --no-scripts --no-interaction
-                    composer require "nyholm/psr7" --no-update --no-scripts --no-interaction
-            -
                 name: Fix build on Sylius 1.10
                 if: matrix.sylius == '~1.10.0'
                 run: |
@@ -238,7 +220,11 @@ jobs:
                 if: matrix.sylius == '~1.11.0'
                 run: |
                     composer require "nyholm/psr7" --no-update --no-scripts --no-interaction
-
+            -
+                name: Fix build with PHP 8.3
+                if: matrix.php == '8.3'
+                run: |
+                    composer remove --dev "phpspec/phpspec" --no-update --no-scripts --no-interaction
             -
                 name: Install PHP dependencies
                 run: composer install --no-interaction

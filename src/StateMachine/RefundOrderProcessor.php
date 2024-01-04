@@ -6,6 +6,7 @@ namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 
 use FluxSE\SyliusPayumStripePlugin\Factory\RefundRequestFactoryInterface;
 use Payum\Core\Payum;
+use SM\Event\TransitionEvent;
 use Sylius\Component\Core\Model\PaymentInterface;
 
 final class RefundOrderProcessor extends AbstractOrderProcessor
@@ -21,9 +22,9 @@ final class RefundOrderProcessor extends AbstractOrderProcessor
         parent:: __construct($payum);
     }
 
-    public function __invoke(PaymentInterface $payment): void
+    public function __invoke(PaymentInterface $payment, TransitionEvent $event): void
     {
-        if (PaymentInterface::STATE_COMPLETED !== $payment->getState()) {
+        if (PaymentInterface::STATE_COMPLETED !== $event->getState()) {
             return;
         }
 

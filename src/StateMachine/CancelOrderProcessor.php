@@ -6,9 +6,10 @@ namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 
 use FluxSE\SyliusPayumStripePlugin\Factory\CancelRequestFactoryInterface;
 use Payum\Core\Payum;
+use SM\Event\TransitionEvent;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-final class CancelAuthorizedOrderProcessor extends AbstractOrderProcessor
+final class CancelOrderProcessor extends AbstractOrderProcessor
 {
     /** @var CancelRequestFactoryInterface */
     private $cancelRequestFactory;
@@ -21,12 +22,8 @@ final class CancelAuthorizedOrderProcessor extends AbstractOrderProcessor
         parent::__construct($payum);
     }
 
-    public function __invoke(PaymentInterface $payment): void
+    public function __invoke(PaymentInterface $payment, TransitionEvent $event): void
     {
-        if (PaymentInterface::STATE_AUTHORIZED !== $payment->getState()) {
-            return;
-        }
-
         $gatewayName = $this->getGatewayNameFromPayment($payment);
 
         if (null === $gatewayName) {

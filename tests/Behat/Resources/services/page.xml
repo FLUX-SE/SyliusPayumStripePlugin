@@ -3,23 +3,23 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
 
-        <service id="tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.page.admin.payment_method.create"
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.admin.payment_method.create"
                  parent="sylius.behat.page.admin.payment_method.create"
                  class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Admin\PaymentMethod\CreatePage">
         </service>
 
-        <service id="tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.page.shop.payum_notify_page"
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.shop.payum_notify_page"
                  parent="sylius.behat.symfony_page" shared="false"
                  class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Shop\PayumNotifyPage">
             <argument>payum_notify_do_unsafe</argument>
         </service>
 
-        <service id="tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.page_checkout.external"
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.page_checkout.external"
                  parent="sylius.behat.page"
                  class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripeCheckoutPage">
             <argument type="service" id="sylius.repository.payment_security_token" />
             <argument type="service" id="test.client" />
-            <argument type="service" id="tests.flux_se.sylius_payum_stripe_checkout_session_plugin.behat.page.shop.payum_notify_page" />
+            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.shop.payum_notify_page" />
         </service>
 
     </services>

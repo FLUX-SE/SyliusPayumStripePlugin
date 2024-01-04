@@ -12,10 +12,10 @@ services:
     arguments:
       $refundRequestFactory: '@flux_se.sylius_payum_stripe.factory.refund_request'
 
-  flux_se.sylius_payum_stripe.state_machine.cancel_authorized:
+  flux_se.sylius_payum_stripe.state_machine.cancel:
     public: true
     parent: FluxSE\SyliusPayumStripePlugin\StateMachine\AbstractOrderProcessor
-    class: FluxSE\SyliusPayumStripePlugin\StateMachine\CancelAuthorizedOrderProcessor
+    class: FluxSE\SyliusPayumStripePlugin\StateMachine\CancelOrderProcessor
     arguments:
       $cancelRequestFactory: '@flux_se.sylius_payum_stripe.factory.cancel_request'
 

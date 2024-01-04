@@ -5,18 +5,18 @@ twig:
 winzou_state_machine:
   sylius_payment:
     callbacks:
-      before:
+      after:
         flux_se.sylius_payum_stripe_refund:
           # By default this callback is disabled to avoid mistake
           # you can enable it using this plugin config : `refund_disabled: false`
           on: ["refund"]
           do: ["@flux_se.sylius_payum_stripe.state_machine.refund", "__invoke"]
-          args: ["object"]
-        flux_se.sylius_payum_stripe_cancel_authorized:
+          args: ["object", "event"]
+        flux_se.sylius_payum_stripe_cancel:
           on: ["cancel"]
-          do: ["@flux_se.sylius_payum_stripe.state_machine.cancel_authorized", "__invoke"]
-          args: ["object"]
+          do: ["@flux_se.sylius_payum_stripe.state_machine.cancel", "__invoke"]
+          args: ["object", "event"]
         flux_se.sylius_payum_stripe_complete_authorized:
           on: ["complete"]
           do: ["@flux_se.sylius_payum_stripe.state_machine.complete_authorized", "__invoke"]
-          args: ["object"]
+          args: ["object", "event"]
