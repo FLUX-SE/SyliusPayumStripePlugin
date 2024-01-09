@@ -1,0 +1,43 @@
+parameters:
+  flux_se.sylius_payum_stripe.command_handler.supported_gateways:
+    - stripe_checkout_session
+    - stripe_js
+
+services:
+
+  FluxSE\SyliusPayumStripePlugin\CommandHandler\AbstractPayumPaymentHandler:
+    abstract: true
+    arguments:
+      $paymentRepository: '@sylius.repository.payment'
+      $payum: '@payum'
+      $supportedGateways: '%flux_se.sylius_payum_stripe.command_handler.supported_gateways%'
+
+  flux_se.sylius_payum_stripe.command_handler.refund:
+    public: true
+    parent: FluxSE\SyliusPayumStripePlugin\CommandHandler\AbstractPayumPaymentHandler
+    class: FluxSE\SyliusPayumStripePlugin\CommandHandler\RefundPaymentHandler
+    arguments:
+      $refundRequestFactory: '@flux_se.sylius_payum_stripe.factory.refund_request'
+    tags:
+      - name: messenger.message_handler
+        bus: sylius.command_bus
+
+  flux_se.sylius_payum_stripe.command_handler.cancel:
+    public: true
+    parent: FluxSE\SyliusPayumStripePlugin\CommandHandler\AbstractPayumPaymentHandler
+    class: FluxSE\SyliusPayumStripePlugin\CommandHandler\CancelPaymentHandler
+    arguments:
+      $cancelRequestFactory: '@flux_se.sylius_payum_stripe.factory.cancel_request'
+    tags:
+      - name: messenger.message_handler
+        bus: sylius.command_bus
+
+  flux_se.sylius_payum_stripe.command_handler.capture_authorized:
+    public: true
+    parent: FluxSE\SyliusPayumStripePlugin\CommandHandler\AbstractPayumPaymentHandler
+    class: FluxSE\SyliusPayumStripePlugin\CommandHandler\CaptureAuthorizedPaymentHandler
+    arguments:
+      $captureRequestFactory: '@flux_se.sylius_payum_stripe.factory.capture_request'
+    tags:
+      - name: messenger.message_handler
+        bus: sylius.command_bus

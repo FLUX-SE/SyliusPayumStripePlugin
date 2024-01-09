@@ -18,5 +18,5 @@ winzou_state_machine:
           args: ["object", "event"]
         flux_se.sylius_payum_stripe_complete_authorized:
           on: ["complete"]
-          do: ["@flux_se.sylius_payum_stripe.state_machine.complete_authorized", "__invoke"]
+          do: ["@flux_se.sylius_payum_stripe.state_machine.capture_authorized", "__invoke"]
           args: ["object", "event"]
