@@ -2,31 +2,38 @@
 
 declare(strict_types=1);
 
-namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
+namespace FluxSE\SyliusPayumStripePlugin\CommandHandler;
 
+use FluxSE\SyliusPayumStripePlugin\Command\CaptureAuthorizedPayment;
 use FluxSE\SyliusPayumStripePlugin\Factory\CaptureRequestFactoryInterface;
 use Payum\Core\Payum;
 use Payum\Core\Reply\ReplyInterface;
-use SM\Event\TransitionEvent;
-use Sylius\Component\Core\Model\PaymentInterface;
+use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 use Webmozart\Assert\Assert;
 
-final class CompleteAuthorizedOrderProcessor extends AbstractOrderProcessor
+final class CaptureAuthorizedPaymentHandler extends AbstractPayumPaymentHandler
 {
     /** @var CaptureRequestFactoryInterface */
     private $captureRequestFactory;
 
+    /**
+     * @param string[] $supportedGateways
+     */
     public function __construct(
         CaptureRequestFactoryInterface $captureRequestFactory,
-        Payum $payum
+        PaymentRepositoryInterface $paymentRepository,
+        Payum $payum,
+        array $supportedGateways
     ) {
         $this->captureRequestFactory = $captureRequestFactory;
-        parent::__construct($payum);
+
+        parent::__construct($paymentRepository, $payum, $supportedGateways);
     }
 
-    public function __invoke(PaymentInterface $payment, TransitionEvent $event): void
+    public function __invoke(CaptureAuthorizedPayment $command): void
     {
-        if (PaymentInterface::STATE_AUTHORIZED !== $event->getState()) {
+        $payment = $this->retrievePayment($command);
+        if (null === $payment) {
             return;
         }
 
@@ -42,6 +49,7 @@ final class CompleteAuthorizedOrderProcessor extends AbstractOrderProcessor
         $request = $this->captureRequestFactory->createNewWithToken($token);
         $reply = $gateway->execute($request);
 
+        // No reply must be done by this Capture request, if there is it means that a normal Capture has been done.
         Assert::notInstanceOf($reply, ReplyInterface::class);
     }
 }

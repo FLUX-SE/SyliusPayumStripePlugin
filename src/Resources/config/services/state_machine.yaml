@@ -1,27 +1,19 @@
 services:
 
-  FluxSE\SyliusPayumStripePlugin\StateMachine\AbstractOrderProcessor:
-    abstract: true
-    arguments:
-      $payum: '@payum'
-
   flux_se.sylius_payum_stripe.state_machine.refund:
     public: true
-    parent: FluxSE\SyliusPayumStripePlugin\StateMachine\AbstractOrderProcessor
     class: FluxSE\SyliusPayumStripePlugin\StateMachine\RefundOrderProcessor
     arguments:
-      $refundRequestFactory: '@flux_se.sylius_payum_stripe.factory.refund_request'
+      $commandBus: '@sylius.command_bus'
 
   flux_se.sylius_payum_stripe.state_machine.cancel:
     public: true
-    parent: FluxSE\SyliusPayumStripePlugin\StateMachine\AbstractOrderProcessor
     class: FluxSE\SyliusPayumStripePlugin\StateMachine\CancelOrderProcessor
     arguments:
-      $cancelRequestFactory: '@flux_se.sylius_payum_stripe.factory.cancel_request'
+      $commandBus: '@sylius.command_bus'
 
-  flux_se.sylius_payum_stripe.state_machine.complete_authorized:
+  flux_se.sylius_payum_stripe.state_machine.capture_authorized:
     public: true
-    parent: FluxSE\SyliusPayumStripePlugin\StateMachine\AbstractOrderProcessor
-    class: FluxSE\SyliusPayumStripePlugin\StateMachine\CompleteAuthorizedOrderProcessor
+    class: FluxSE\SyliusPayumStripePlugin\StateMachine\CaptureAuthorizedOrderProcessor
     arguments:
-      $captureRequestFactory: '@flux_se.sylius_payum_stripe.factory.capture_request'
+      $commandBus: '@sylius.command_bus'

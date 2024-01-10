@@ -1,3 +1,27 @@
+# UPGRADE FROM `v2.0.8` to `v2.0.9`
+
+This class has been renamed :
+
+- `\FluxSE\SyliusPayumStripePlugin\StateMachine\CompleteAuthorizedOrderProcessor`
+  to `\FluxSE\SyliusPayumStripePlugin\StateMachine\CaptureAuthorizedOrderProcessor`
+
+This service has been renamed :
+
+- `flux_se.sylius_payum_stripe.state_machine.complete_authorized`
+  to `flux_se.sylius_payum_stripe.state_machine.capture_authorized`
+
+# UPGRADE FROM `v2.0.7` to `v2.0.8`
+
+This class has been renamed :
+
+- `\FluxSE\SyliusPayumStripePlugin\StateMachine\CancelAuthorizedOrderProcessor`
+  to `\FluxSE\SyliusPayumStripePlugin\StateMachine\CancelOrderProcessor`
+
+This service has been renamed :
+
+- `flux_se.sylius_payum_stripe.state_machine.cancel_authorized`
+  to `flux_se.sylius_payum_stripe.state_machine.cancel`
+
 # UPGRADE FROM `v1.2` TO `v2.0.0`
 
 You will have to create or edit the configuration file :

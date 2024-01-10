@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 
-use FluxSE\SyliusPayumStripePlugin\Factory\RefundRequestFactoryInterface;
-use Payum\Core\Payum;
+use FluxSE\SyliusPayumStripePlugin\Command\RefundPayment;
 use SM\Event\TransitionEvent;
 use Sylius\Component\Core\Model\PaymentInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
+use Webmozart\Assert\Assert;
 
-final class RefundOrderProcessor extends AbstractOrderProcessor
+final class RefundOrderProcessor
 {
-    /** @var RefundRequestFactoryInterface */
-    private $refundRequestFactory;
+    /** @var MessageBusInterface */
+    private $commandBus;
 
-    public function __construct(
-        RefundRequestFactoryInterface $refundRequestFactory,
-        Payum $payum
-    ) {
-        $this->refundRequestFactory = $refundRequestFactory;
-        parent:: __construct($payum);
+    public function __construct(MessageBusInterface $commandBus)
+    {
+        $this->commandBus = $commandBus;
     }
 
     public function __invoke(PaymentInterface $payment, TransitionEvent $event): void
@@ -28,16 +26,9 @@ final class RefundOrderProcessor extends AbstractOrderProcessor
             return;
         }
 
-        $gatewayName = $this->getGatewayNameFromPayment($payment);
-
-        if (null === $gatewayName) {
-            return;
-        }
-
-        $gateway = $this->payum->getGateway($gatewayName);
-        $token = $this->buildToken($gatewayName, $payment);
-
-        $refundRequest = $this->refundRequestFactory->createNewWithToken($token);
-        $gateway->execute($refundRequest);
+        /** @var int|null $paymentId */
+        $paymentId = $payment->getId();
+        Assert::notNull($paymentId);
+        $this->commandBus->dispatch(new RefundPayment($paymentId));
     }
 }

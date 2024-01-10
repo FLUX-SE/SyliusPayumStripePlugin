@@ -2,32 +2,48 @@
 
 declare(strict_types=1);
 
-namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
+namespace FluxSE\SyliusPayumStripePlugin\CommandHandler;
 
+use FluxSE\SyliusPayumStripePlugin\Command\PaymentIdAwareCommandInterface;
 use Payum\Core\Payum;
 use Payum\Core\Security\TokenFactoryInterface;
 use Payum\Core\Security\TokenInterface;
-use SM\Event\TransitionEvent;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
+use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 
-abstract class AbstractOrderProcessor
+abstract class AbstractPayumPaymentHandler
 {
-    public const HANDLEABLE_GATEWAYS = [
-        'stripe_checkout_session',
-        'stripe_js',
-    ];
+    /** @var PaymentRepositoryInterface */
+    private $paymentRepository;
 
     /** @var Payum */
     protected $payum;
 
-    public function __construct(Payum $payum)
-    {
+    /** @var string[] */
+    protected array $supportedGateways;
+
+    /**
+     * @param string[] $supportedGateways
+     */
+    public function __construct(
+        PaymentRepositoryInterface $paymentRepository,
+        Payum $payum,
+        array $supportedGateways
+    ) {
+        $this->paymentRepository = $paymentRepository;
         $this->payum = $payum;
+        $this->supportedGateways = $supportedGateways;
     }
 
-    abstract public function __invoke(PaymentInterface $payment, TransitionEvent $event): void;
+    protected function retrievePayment(PaymentIdAwareCommandInterface $command): ?PaymentInterface
+    {
+        /** @var PaymentInterface|null $payment */
+        $payment = $this->paymentRepository->find($command->getPaymentId());
+
+        return $payment;
+    }
 
     protected function getGatewayNameFromPayment(PaymentInterface $payment): ?string
     {
@@ -46,7 +62,7 @@ abstract class AbstractOrderProcessor
         $config = $gatewayConfig->getConfig();
         $factory = $config['factory'] ?? $gatewayConfig->getFactoryName();
 
-        if (false === in_array($factory, self::HANDLEABLE_GATEWAYS, true)) {
+        if (false === in_array($factory, $this->supportedGateways, true)) {
             return null;
         }
 

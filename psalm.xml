@@ -42,13 +42,13 @@
 
         <DeprecatedClass>
             <errorLevel type="info">
-                <file name="src/StateMachine/AbstractOrderProcessor.php"/>
+                <file name="src/CommandHandler/AbstractPayumPaymentHandler.php"/>
             </errorLevel>
         </DeprecatedClass>
 
         <DeprecatedMethod>
             <errorLevel type="info">
-                <file name="src/StateMachine/AbstractOrderProcessor.php"/>
+                <file name="src/CommandHandler/AbstractPayumPaymentHandler.php"/>
             </errorLevel>
         </DeprecatedMethod>
 
@@ -59,7 +59,7 @@
         </MixedArgumentTypeCoercion>
         <DeprecatedInterface>
             <errorLevel type="info">
-                <file name="src/StateMachine/AbstractOrderProcessor.php" />
+                <file name="src/CommandHandler/AbstractPayumPaymentHandler.php" />
             </errorLevel>
         </DeprecatedInterface>
     </issueHandlers>
