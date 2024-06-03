@@ -35,6 +35,10 @@ final class CancelPaymentHandler extends AbstractPayumPaymentHandler
             return;
         }
 
+        if (empty($payment->getDetails())) {
+            return;
+        }
+
         $gatewayName = $this->getGatewayNameFromPayment($payment);
 
         if (null === $gatewayName) {
