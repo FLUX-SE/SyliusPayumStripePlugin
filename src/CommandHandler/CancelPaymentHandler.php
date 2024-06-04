@@ -35,7 +35,7 @@ final class CancelPaymentHandler extends AbstractPayumPaymentHandler
             return;
         }
 
-        if (empty($payment->getDetails())) {
+        if (0 === count($payment->getDetails())) {
             return;
         }
 
