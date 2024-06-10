@@ -23,3 +23,13 @@ Feature: Canceling an order
     Then I should be notified that it has been successfully updated
     And it should have payment with state cancelled
     And it should have payment state cancelled
+
+  @ui
+  Scenario: Cancelling the order after the customer go back during the payment
+    Given this order has a Stripe payment cancelled
+    And I am viewing the summary of this order
+    And I am prepared to cancel this order
+    When I cancel this order
+    Then I should be notified that it has been successfully updated
+    And it should have payment with state cancelled
+    And it should have payment state cancelled

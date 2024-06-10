@@ -8,13 +8,14 @@ use Behat\Behat\Context\Context;
 use Doctrine\Persistence\ObjectManager;
 use SM\Factory\FactoryInterface;
 use Stripe\Checkout\Session;
-use Stripe\Event;
 use Stripe\PaymentIntent;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
+use Sylius\Component\Core\Model\Payment;
 use Sylius\Component\Payment\PaymentTransitions;
 use Sylius\Component\Resource\StateMachine\StateMachineInterface;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeCheckoutSessionMocker;
+use Webmozart\Assert\Assert;
 
 class ManagingOrdersContext implements Context
 {
@@ -99,6 +100,28 @@ class ManagingOrdersContext implements Context
         ];
         $payment->setDetails($details);
 
+        $this->objectManager->flush();
+    }
+    
+    /**
+     * @Given /^(this order) has a Stripe payment cancelled$/
+     */
+    public function thisOrderHasStripePaymentCancelled(OrderInterface $order): void
+    {
+        /** @var PaymentInterface $payment */
+        $payment = $order->getPayments()->first();
+        $payment->setState(PaymentInterface::STATE_CANCELLED);
+
+        Assert::notNull($payment->getAmount());
+        Assert::notNull($payment->getCurrencyCode());
+
+        $paymentReplaced = new Payment();
+        $paymentReplaced->setMethod($payment->getMethod());
+        $paymentReplaced->setAmount($payment->getAmount());
+        $paymentReplaced->setCurrencyCode($payment->getCurrencyCode());
+        $order->addPayment($paymentReplaced);
+        
+        $this->objectManager->persist($order);
         $this->objectManager->flush();
     }
 
