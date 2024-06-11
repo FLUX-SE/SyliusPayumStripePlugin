@@ -18,7 +18,7 @@ Feature: Canceling an order
   @ui
   Scenario: Initializing the Stripe refund
     Given I am viewing the summary of this order
-    And I am prepared to expire the checkout session this order
+    And I am prepared to expire the checkout session on this order
     When I cancel this order
     Then I should be notified that it has been successfully updated
     And it should have payment with state cancelled

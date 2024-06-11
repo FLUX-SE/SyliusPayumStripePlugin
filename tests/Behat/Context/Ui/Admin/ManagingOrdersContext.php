@@ -102,7 +102,7 @@ class ManagingOrdersContext implements Context
 
         $this->objectManager->flush();
     }
-    
+
     /**
      * @Given /^(this order) has a Stripe payment cancelled$/
      */
@@ -120,7 +120,7 @@ class ManagingOrdersContext implements Context
         $paymentReplaced->setAmount($payment->getAmount());
         $paymentReplaced->setCurrencyCode($payment->getCurrencyCode());
         $order->addPayment($paymentReplaced);
-        
+
         $this->objectManager->persist($order);
         $this->objectManager->flush();
     }
@@ -141,9 +141,9 @@ class ManagingOrdersContext implements Context
     }
 
     /**
-     * @Given I am prepared to expire the checkout session this order
+     * @Given I am prepared to expire the checkout session on this order
      */
-    public function iAmPreparedToExpireTheCheckoutSessionThisOrder(): void
+    public function iAmPreparedToExpireTheCheckoutSessionOnThisOrder(): void
     {
         $this->stripeSessionCheckoutMocker->mockExpirePayment();
     }
