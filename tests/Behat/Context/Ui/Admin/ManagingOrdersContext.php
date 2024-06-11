@@ -104,24 +104,17 @@ class ManagingOrdersContext implements Context
     }
 
     /**
-     * @Given /^(this order) has a Stripe payment cancelled$/
+     * @Given /^(this order) payment has been canceled$/
      */
-    public function thisOrderHasStripePaymentCancelled(OrderInterface $order): void
+    public function thisOrderPaymentHasBeenCancelled(OrderInterface $order): void
     {
         /** @var PaymentInterface $payment */
         $payment = $order->getPayments()->first();
-        $payment->setState(PaymentInterface::STATE_CANCELLED);
 
-        Assert::notNull($payment->getAmount());
-        Assert::notNull($payment->getCurrencyCode());
+        /** @var StateMachineInterface $stateMachine */
+        $stateMachine = $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH);
+        $stateMachine->apply(PaymentTransitions::TRANSITION_CANCEL);
 
-        $paymentReplaced = new Payment();
-        $paymentReplaced->setMethod($payment->getMethod());
-        $paymentReplaced->setAmount($payment->getAmount());
-        $paymentReplaced->setCurrencyCode($payment->getCurrencyCode());
-        $order->addPayment($paymentReplaced);
-
-        $this->objectManager->persist($order);
         $this->objectManager->flush();
     }
 
