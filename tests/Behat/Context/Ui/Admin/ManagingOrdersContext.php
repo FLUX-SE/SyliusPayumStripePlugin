@@ -8,13 +8,14 @@ use Behat\Behat\Context\Context;
 use Doctrine\Persistence\ObjectManager;
 use SM\Factory\FactoryInterface;
 use Stripe\Checkout\Session;
-use Stripe\Event;
 use Stripe\PaymentIntent;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
+use Sylius\Component\Core\Model\Payment;
 use Sylius\Component\Payment\PaymentTransitions;
 use Sylius\Component\Resource\StateMachine\StateMachineInterface;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeCheckoutSessionMocker;
+use Webmozart\Assert\Assert;
 
 class ManagingOrdersContext implements Context
 {
@@ -103,6 +104,21 @@ class ManagingOrdersContext implements Context
     }
 
     /**
+     * @Given /^(this order) payment has been canceled$/
+     */
+    public function thisOrderPaymentHasBeenCancelled(OrderInterface $order): void
+    {
+        /** @var PaymentInterface $payment */
+        $payment = $order->getPayments()->first();
+
+        /** @var StateMachineInterface $stateMachine */
+        $stateMachine = $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH);
+        $stateMachine->apply(PaymentTransitions::TRANSITION_CANCEL);
+
+        $this->objectManager->flush();
+    }
+
+    /**
      * @Given /^I am prepared to cancel (this order)$/
      */
     public function iAmPreparedToCancelThisOrder(OrderInterface $order): void
@@ -118,9 +134,9 @@ class ManagingOrdersContext implements Context
     }
 
     /**
-     * @Given I am prepared to expire the checkout session this order
+     * @Given I am prepared to expire the checkout session on this order
      */
-    public function iAmPreparedToExpireTheCheckoutSessionThisOrder(): void
+    public function iAmPreparedToExpireTheCheckoutSessionOnThisOrder(): void
     {
         $this->stripeSessionCheckoutMocker->mockExpirePayment();
     }

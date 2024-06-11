@@ -16,7 +16,7 @@ Feature: Canceling an authorized order
     And I am logged in as an administrator
 
   @ui
-  Scenario: Initializing the Stripe refund
+  Scenario: Cancelling the order with an authorized payment
     Given I am viewing the summary of this order
     And I am prepared to cancel this order
     When I cancel this order

@@ -16,9 +16,19 @@ Feature: Canceling an order
     And I am logged in as an administrator
 
   @ui
-  Scenario: Initializing the Stripe refund
+  Scenario: Cancelling the order when a checkout session is still available
     Given I am viewing the summary of this order
-    And I am prepared to expire the checkout session this order
+    And I am prepared to expire the checkout session on this order
+    When I cancel this order
+    Then I should be notified that it has been successfully updated
+    And it should have payment with state cancelled
+    And it should have payment state cancelled
+
+  @ui
+  Scenario: Cancelling the order after the customer canceled the payment
+    Given this order payment has been canceled
+    And I am viewing the summary of this order
+    And I am prepared to cancel this order
     When I cancel this order
     Then I should be notified that it has been successfully updated
     And it should have payment with state cancelled
