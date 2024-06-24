@@ -42,8 +42,7 @@
         "symfony/intl": "^5.4|^6.0",
         "symfony/runtime": "^5.4|^6.0",
         "symfony/web-profiler-bundle": "^5.4|^6.0",
-        "symfony/webpack-encore-bundle": "^1|^2",
-        "vimeo/psalm": "^5"
+        "symfony/webpack-encore-bundle": "^1|^2"
     },
     "autoload": {
         "psr-4": { "FluxSE\\SyliusPayumStripePlugin\\": "src/" }
