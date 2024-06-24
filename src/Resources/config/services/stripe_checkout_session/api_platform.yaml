@@ -1,21 +1,21 @@
 services:
 
-  flux_se.sylius_payum_stripe.api.payment_provider.stripe_js:
-    class: FluxSE\SyliusPayumStripePlugin\Api\PaymentConfiguration\StripeJsPaymentConfigProvider
+  flux_se.sylius_payum_stripe.api.payment_provider.stripe_checkout_session:
+    class: FluxSE\SyliusPayumStripePlugin\Api\PaymentConfiguration\StripeCheckoutSessionPaymentConfigProvider
     arguments:
       $captureProcessor: '@flux_se.sylius_payum_stripe.api.payum.capture_processor.stripe_js'
-      $factoryName: 'stripe_js'
+      $factoryName: 'stripe_checkout_session'
     tags:
       - name: sylius.api.payment_method_handler
 
-  flux_se.sylius_payum_stripe.api.payum.capture_processor.stripe_js:
+  flux_se.sylius_payum_stripe.api.payum.capture_processor.stripe_checkout_session:
     class: FluxSE\SyliusPayumStripePlugin\Api\Payum\CaptureProcessor
     arguments:
       $payum: '@payum'
       $captureRequestFactory: '@flux_se.sylius_payum_stripe.factory.capture_request'
-      $afterUrlProvider: '@flux_se.sylius_payum_stripe.api.payum.after_url.stripe_js'
+      $afterUrlProvider: '@flux_se.sylius_payum_stripe.api.payum.after_url.stripe_checkout_session'
 
-  flux_se.sylius_payum_stripe.api.payum.after_url.stripe_js:
+  flux_se.sylius_payum_stripe.api.payum.after_url.stripe_checkout_session:
     class: FluxSE\SyliusPayumStripePlugin\Api\Payum\AfterUrlProvider
     arguments:
       $afterPath: 'sylius_shop_homepage'
