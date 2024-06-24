@@ -108,11 +108,11 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [7.4, 8.0, 8.1, 8.2, 8.3]
-                symfony: [^5.4, ^6.4]
-                sylius: [~1.10.0, ~1.11.0, ~1.12.0]
-                node: [18.x]
-                mysql: [5.7]
+                php: ["7.4", "8.0", "8.1", "8.2", "8.3"]
+                symfony: ["^5.4", "^6.4"]
+                sylius: ["~1.10.0", "~1.11.0", "~1.12.0", "~1.13.0"]
+                node: ["20.x"]
+                mysql: ["8.0"]
 
                 exclude:
                     -
@@ -153,7 +153,7 @@ jobs:
 
             -
                 name: Setup Node
-                uses: actions/setup-node@v3
+                uses: actions/setup-node@v4
                 with:
                     node-version: "${{ matrix.node }}"
 
@@ -181,27 +181,18 @@ jobs:
                 run: (cd tests/Application && symfony server:start --port=8080 --dir=public --daemon)
 
             -
-                name: Run Chrome Headless
-                run: google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-features=Translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 https://127.0.0.1 > /dev/null 2>&1 &
-
-            -
                 name: Get Composer cache directory
-                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
                 id: composer-cache
+                run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
             -
                 name: Cache Composer
-                uses: actions/cache@v3
+                uses: actions/cache@v4
                 with:
                     path: ${{ steps.composer-cache.outputs.dir }}
                     key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}
                     restore-keys: |
                         ${{ runner.os }}-php-${{ matrix.php }}-composer-
-
-            -
-                name: Configure global composer
-                if: matrix.symfony != ''
-                run: composer global config --no-plugins allow-plugins.symfony/flex true
 
             -
                 name: Restrict Sylius version
@@ -230,13 +221,17 @@ jobs:
                     SYMFONY_REQUIRE: ${{ matrix.symfony }}
 
             -
+                name: Install Behat driver
+                run: vendor/bin/bdi browser:google-chrome drivers
+
+            -
                 name: Get Yarn cache directory
                 id: yarn-cache
                 run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
             -
                 name: Cache Yarn
-                uses: actions/cache@v3
+                uses: actions/cache@v4
                 with:
                     path: ${{ steps.yarn-cache.outputs.dir }}
                     key: ${{ runner.os }}-node-${{ matrix.node }}-yarn-${{ hashFiles('**/package.json **/yarn.lock') }}
@@ -257,7 +252,8 @@ jobs:
                 name: Prepare test application assets
                 run: |
                     (cd tests/Application && bin/console assets:install public -vvv)
-                    (cd tests/Application && yarn build)
+                    (cd tests/Application && yarn build:prod)
+
             -
                 name: Prepare test application cache
                 run: (cd tests/Application && bin/console cache:warmup -vvv)
@@ -265,6 +261,17 @@ jobs:
             -
                 name: Load fixtures in test application
                 run: (cd tests/Application && bin/console sylius:fixtures:load -n)
+            -
+                name: Validate composer.json
+                run: composer validate --ansi --strict
+
+            -
+                name: Validate database schema
+                run: (cd tests/Application && bin/console doctrine:schema:validate)
+
+            -
+                name: Run security check
+                run: symfony security:check
 
             -
                 name: Run PHPUnit
@@ -276,7 +283,7 @@ jobs:
 
             -
                 name: Upload Behat logs
-                uses: codecov/codecov-action@v3
+                uses: actions/upload-artifact@v3
                 if: failure()
                 with:
                     name: Behat logs

@@ -4,6 +4,7 @@
 
 /etc/build/*
 !/etc/build/.gitignore
+drivers
 
 /tests/Application/yarn.lock
 
