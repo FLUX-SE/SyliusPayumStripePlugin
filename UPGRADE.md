@@ -1,3 +1,10 @@
+# UPGRADE FROM `v2.0.10` to `v2.0.11`
+
+This class has been deprecated :
+
+- `\FluxSE\SyliusPayumStripePlugin\Form\Type\StripeCheckoutSessionGatewayConfigurationType`
+  use `\FluxSE\SyliusPayumStripePlugin\Form\Type\StripeGatewayConfigurationType` instead.
+
 # UPGRADE FROM `v2.0.8` to `v2.0.9`
 
 This class has been renamed :
