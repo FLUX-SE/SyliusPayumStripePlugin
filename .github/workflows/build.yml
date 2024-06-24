@@ -130,6 +130,9 @@ jobs:
                     -
                         php: 7.4
                         symfony: ^6.4
+                    -
+                        php: 8.0
+                        symfony: ^6.4
 
         env:
             APP_ENV: test
