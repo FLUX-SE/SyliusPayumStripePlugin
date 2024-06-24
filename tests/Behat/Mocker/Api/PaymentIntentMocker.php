@@ -4,23 +4,60 @@ declare(strict_types=1);
 
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api;
 
+use ArrayObject;
+use FluxSE\PayumStripe\Action\Api\Resource\AbstractCreateAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractRetrieveAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractUpdateAction;
 use FluxSE\PayumStripe\Request\Api\Resource\CancelPaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\CapturePaymentIntent;
+use FluxSE\PayumStripe\Request\Api\Resource\CreatePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\RetrievePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\UpdatePaymentIntent;
+use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
 use Sylius\Behat\Service\Mocker\MockerInterface;
 
 final class PaymentIntentMocker
 {
-    /** @var MockerInterface */
-    private $mocker;
+    private MockerInterface $mocker;
 
     public function __construct(MockerInterface $mocker)
     {
         $this->mocker = $mocker;
+    }
+
+    public function mockCreateAction(): void
+    {
+        $mockCreatePaymentIntent = $this->mocker->mockService(
+            'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.create_payment_intent',
+            AbstractCreateAction::class
+        );
+
+        $mockCreatePaymentIntent
+            ->shouldReceive('setApi')
+            ->once();
+        $mockCreatePaymentIntent
+            ->shouldReceive('setGateway')
+            ->once();
+
+        $mockCreatePaymentIntent
+            ->shouldReceive('supports')
+            ->andReturnUsing(function ($request) {
+                return $request instanceof CreatePaymentIntent;
+            });
+
+        $mockCreatePaymentIntent
+            ->shouldReceive('execute')
+            ->once()
+            ->andReturnUsing(function (CreatePaymentIntent $request) {
+                /** @var ArrayObject $rModel */
+                $rModel = $request->getModel();
+                $session = Session::constructFrom(array_merge([
+                    'id' => 'pi_1',
+                    'object' => PaymentIntent::OBJECT_NAME,
+                ], $rModel->getArrayCopy()));
+                $request->setApiResource($session);
+            });
     }
 
     public function mockRetrieveAction(string $status): void

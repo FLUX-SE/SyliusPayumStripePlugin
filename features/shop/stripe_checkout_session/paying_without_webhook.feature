@@ -1,5 +1,5 @@
-@paying_with_stripe_session_checkout_during_checkout
-Feature: Paying with Stripe during checkout without webhook
+@paying_with_stripe_checkout_session_during_checkout
+Feature: Paying with Stripe Checkout Session during checkout without webhook
   In order to buy products
   As a Customer
   I want to be able to pay with "Stripe Checkout Session" payment gateway without webhooks
@@ -7,7 +7,7 @@ Feature: Paying with Stripe during checkout without webhook
   Background:
     Given the store operates on a single channel in "United States"
     And there is a user "john@example.com" identified by "password123"
-    And the store has a payment method "Stripe" with a code "stripe" and Stripe payment gateway
+    And the store has a payment method "Stripe" with a code "stripe" and Stripe Checkout Session payment gateway
     And the store has also a payment method "Offline" with a code "offline"
     And the store has a product "PHP T-Shirt" priced at "€19.99"
     And the store ships everywhere for free

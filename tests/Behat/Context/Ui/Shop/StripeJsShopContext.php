@@ -9,64 +9,50 @@ use Behat\MinkExtension\Context\MinkContext;
 use RuntimeException;
 use Stripe\Checkout\Session;
 use Stripe\Event;
+use Stripe\PaymentIntent;
 use Sylius\Behat\Page\Shop\Checkout\CompletePageInterface;
 use Sylius\Behat\Page\Shop\Order\ShowPageInterface;
-use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeCheckoutSessionMocker;
-use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripeCheckoutPage;
+use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeJsMocker;
+use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripePage;
 
-class StripeShopContext extends MinkContext implements Context
+class StripeJsShopContext extends MinkContext implements Context
 {
-    /** @var StripeCheckoutSessionMocker */
-    private $stripeSessionCheckoutMocker;
+    private StripeJsMocker $stripeJsMocker;
 
-    /** @var CompletePageInterface */
-    private $summaryPage;
+    private CompletePageInterface $summaryPage;
 
-    /** @var ShowPageInterface */
-    private $orderDetails;
+    private ShowPageInterface $orderDetails;
 
-    /** @var StripeCheckoutPage */
-    private $paymentPage;
+    private StripePage $paymentPage;
 
     public function __construct(
-        StripeCheckoutSessionMocker $stripeSessionCheckoutMocker,
+        StripeJsMocker $stripeJsMocker,
         CompletePageInterface $summaryPage,
         ShowPageInterface $orderDetails,
-        StripeCheckoutPage $paymentPage
+        StripePage $paymentPage
     ) {
-        $this->stripeSessionCheckoutMocker = $stripeSessionCheckoutMocker;
+        $this->stripeJsMocker = $stripeJsMocker;
         $this->summaryPage = $summaryPage;
         $this->orderDetails = $orderDetails;
         $this->paymentPage = $paymentPage;
     }
 
     /**
-     * @When I confirm my order with Stripe payment
-     * @Given I have confirmed my order with Stripe payment
+     * @When The Stripe JS form is displayed and I complete the payment
      */
-    public function iConfirmMyOrderWithStripePayment(): void
+    public function theStripeJsFormIsDisplayedAndICompleteThePayment(): void
     {
-        $this->stripeSessionCheckoutMocker->mockCreatePayment(function () {
-            $this->summaryPage->confirmOrder();
-        });
-    }
-
-    /**
-     * @When I get redirected to Stripe and complete my payment
-     */
-    public function iGetRedirectedToStripe(): void
-    {
-        $this->stripeSessionCheckoutMocker->mockSuccessfulPayment(
+        $this->stripeJsMocker->mockSuccessfulPayment(
             function () {
                 $jsonEvent = [
                     'id' => 'evt_1',
-                    'type' => Event::CHECKOUT_SESSION_COMPLETED,
+                    'type' => Event::PAYMENT_INTENT_SUCCEEDED,
                     'object' => 'event',
                     'data' => [
                         'object' => [
-                            'id' => 'cs_1',
-                            'object' => Session::OBJECT_NAME,
-                            'payment_intent' => 'pi_1',
+                            'id' => 'pi_1',
+                            'object' => PaymentIntent::OBJECT_NAME,
+                            'capture_method' => PaymentIntent::CAPTURE_METHOD_AUTOMATIC,
                             'metadata' => [
                                 'token_hash' => '%s',
                             ],
@@ -84,21 +70,21 @@ class StripeShopContext extends MinkContext implements Context
     }
 
     /**
-     * @When I get redirected to Stripe and complete my payment using authorize
+     * @When The Stripe JS form is displayed and I complete the payment using authorize
      */
-    public function iGetRedirectedToStripeUsingAuthorize(): void
+    public function theStripeJsFormIsDisplayedAndICompleteThePaymentUsingAuthorize(): void
     {
-        $this->stripeSessionCheckoutMocker->mockAuthorizePayment(
+        $this->stripeJsMocker->mockAuthorizePayment(
             function () {
                 $jsonEvent = [
                     'id' => 'evt_1',
-                    'type' => Event::CHECKOUT_SESSION_COMPLETED,
+                    'type' => Event::PAYMENT_INTENT_SUCCEEDED,
                     'object' => 'event',
                     'data' => [
                         'object' => [
-                            'id' => 'cs_1',
-                            'object' => Session::OBJECT_NAME,
-                            'payment_intent' => 'pi_1',
+                            'id' => 'pi_1',
+                            'object' => PaymentIntent::OBJECT_NAME,
+                            'capture_method' => PaymentIntent::CAPTURE_METHOD_MANUAL,
                             'metadata' => [
                                 'token_hash' => '%s',
                             ],
@@ -116,22 +102,33 @@ class StripeShopContext extends MinkContext implements Context
     }
 
     /**
-     * @When I get redirected to Stripe and complete my payment without webhook
+     * @When The Stripe JS form is displayed and I complete the payment without webhook
      */
-    public function iGetRedirectedToStripeWithoutWebhooks(): void
+    public function theStripeJsFormIsDisplayedAndICompleteThePaymentWithoutWebhooks(): void
     {
-        $this->stripeSessionCheckoutMocker->mockSuccessfulPaymentWithoutWebhook(function () {
+        $this->stripeJsMocker->mockSuccessfulPaymentWithoutWebhook(function () {
             $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
         });
     }
 
     /**
-     * @When I get redirected to Stripe and complete my payment without webhook using authorize
+     * @When The Stripe JS form is displayed and I complete the payment without webhook using authorize
      */
-    public function iGetRedirectedToStripeWithoutWebhookUsingAuthorize(): void
+    public function theStripeJsFormIsDisplayedAndICompleteThePaymentWithoutWebhookUsingAuthorize(): void
     {
-        $this->stripeSessionCheckoutMocker->mockSuccessfulPaymentWithoutWebhookUsingAuthorize(function () {
+        $this->stripeJsMocker->mockSuccessfulPaymentWithoutWebhookUsingAuthorize(function () {
             $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
+        });
+    }
+
+    /**
+     * @When I confirm my order with Stripe payment
+     * @Given I have confirmed my order with Stripe payment
+     */
+    public function iConfirmMyOrderWithStripePayment(): void
+    {
+        $this->stripeJsMocker->mockCreatePayment(function () {
+            $this->summaryPage->confirmOrder();
         });
     }
 
@@ -141,7 +138,7 @@ class StripeShopContext extends MinkContext implements Context
      */
     public function iClickOnGoBackDuringMyStripePayment(): void
     {
-        $this->stripeSessionCheckoutMocker->mockGoBackPayment(function () {
+        $this->stripeJsMocker->mockGoBackPayment(function () {
             $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
         });
     }
@@ -151,7 +148,7 @@ class StripeShopContext extends MinkContext implements Context
      */
     public function iTryToPayAgainWithStripePayment(): void
     {
-        $this->stripeSessionCheckoutMocker->mockCreatePayment(function () {
+        $this->stripeJsMocker->mockCreatePayment(function () {
             $this->orderDetails->pay();
         });
     }

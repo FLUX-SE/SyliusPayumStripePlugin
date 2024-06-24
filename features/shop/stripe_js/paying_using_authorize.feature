@@ -1,13 +1,13 @@
-@paying_with_stripe_session_checkout_during_checkout
-Feature: Paying with Stripe during checkout using authorized
+@paying_with_stripe_js_during_checkout
+Feature: Paying with Stripe JS during checkout using authorized
   In order to buy products
   As a Customer
-  I want to be able to pay with "Stripe Checkout Session" payment gateway
+  I want to be able to pay with "Stripe JS" payment gateway
 
   Background:
     Given the store operates on a single channel in "United States"
     And there is a user "john@example.com" identified by "password123"
-    And the store has a payment method "Stripe" with a code "stripe" and Stripe payment gateway using authorize
+    And the store has a payment method "Stripe" with a code "stripe" and Stripe JS payment gateway using authorize
     And the store has a product "PHP T-Shirt" priced at "€19.99"
     And the store ships everywhere for free
     And I am logged in as "john@example.com"
@@ -17,7 +17,7 @@ Feature: Paying with Stripe during checkout using authorized
     Given I added product "PHP T-Shirt" to the cart
     And I have proceeded selecting "Stripe" payment method
     When I confirm my order with Stripe payment
-    And I get redirected to Stripe and complete my payment using authorize
+    And The Stripe JS form is displayed and I complete the payment using authorize
     Then I should be notified that my payment has been authorized
     And I should see the thank you page
 
@@ -36,7 +36,7 @@ Feature: Paying with Stripe during checkout using authorized
     And I have confirmed my order with Stripe payment
     But I have clicked on "go back" during my Stripe payment
     When I try to pay again with Stripe payment
-    And I get redirected to Stripe and complete my payment using authorize
+    And The Stripe JS form is displayed and I complete the payment using authorize
     Then I should be notified that my payment has been authorized
     And I should see the thank you page
 

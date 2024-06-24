@@ -26,16 +26,16 @@ class ManagingOrdersContext implements Context
     private $objectManager;
 
     /** @var StripeCheckoutSessionMocker */
-    private $stripeSessionCheckoutMocker;
+    private $stripeCheckoutSessionMocker;
 
     public function __construct(
         FactoryInterface $stateMachineFactory,
         ObjectManager $objectManager,
-        StripeCheckoutSessionMocker $stripeSessionCheckoutMocker
+        StripeCheckoutSessionMocker $stripeCheckoutSessionMocker
     ) {
         $this->stateMachineFactory = $stateMachineFactory;
         $this->objectManager = $objectManager;
-        $this->stripeSessionCheckoutMocker = $stripeSessionCheckoutMocker;
+        $this->stripeCheckoutSessionMocker = $stripeCheckoutSessionMocker;
     }
 
     /**
@@ -130,7 +130,7 @@ class ManagingOrdersContext implements Context
         $status = $details['status'] ?? PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD;
         $captureMethod = $details['capture_method'] ?? PaymentIntent::CAPTURE_METHOD_AUTOMATIC;
 
-        $this->stripeSessionCheckoutMocker->mockCancelPayment($status, $captureMethod);
+        $this->stripeCheckoutSessionMocker->mockCancelPayment($status, $captureMethod);
     }
 
     /**
@@ -138,7 +138,7 @@ class ManagingOrdersContext implements Context
      */
     public function iAmPreparedToExpireTheCheckoutSessionOnThisOrder(): void
     {
-        $this->stripeSessionCheckoutMocker->mockExpirePayment();
+        $this->stripeCheckoutSessionMocker->mockExpirePayment();
     }
 
     /**
@@ -146,7 +146,7 @@ class ManagingOrdersContext implements Context
      */
     public function iAmPreparedToRefundThisOrder(): void
     {
-        $this->stripeSessionCheckoutMocker->mockRefundPayment();
+        $this->stripeCheckoutSessionMocker->mockRefundPayment();
     }
 
     /**
@@ -161,6 +161,6 @@ class ManagingOrdersContext implements Context
         $status = $details['status'] ?? PaymentIntent::STATUS_REQUIRES_CAPTURE;
         $captureMethod = $details['capture_method'] ?? PaymentIntent::CAPTURE_METHOD_MANUAL;
 
-        $this->stripeSessionCheckoutMocker->mockCaptureAuthorization($status, $captureMethod);
+        $this->stripeCheckoutSessionMocker->mockCaptureAuthorization($status, $captureMethod);
     }
 }

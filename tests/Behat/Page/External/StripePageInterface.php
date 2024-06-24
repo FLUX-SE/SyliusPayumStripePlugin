@@ -6,7 +6,7 @@ namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External;
 
 use FriendsOfBehat\PageObjectExtension\Page\PageInterface;
 
-interface StripeCheckoutPageInterface extends PageInterface
+interface StripePageInterface extends PageInterface
 {
     public function captureOrAuthorizeThenGoToAfterUrl(): void;
 

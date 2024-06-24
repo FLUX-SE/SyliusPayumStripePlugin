@@ -11,6 +11,13 @@
             <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.api.refund_mocker"/>
         </service>
 
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.stripe_js_mocker"
+                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeJsMocker">
+            <argument type="service" id="sylius.behat.mocker"/>
+            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.api.payment_intent_mocker"/>
+            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.api.refund_mocker"/>
+        </service>
+
         <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.api.checkout_session_mocker"
                  class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\CheckoutSessionMocker">
             <argument type="service" id="sylius.behat.mocker"/>

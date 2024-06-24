@@ -14,17 +14,13 @@ use Webmozart\Assert\Assert;
 
 class StripeContext implements Context
 {
-    /** @var SharedStorageInterface */
-    private $sharedStorage;
+    private SharedStorageInterface $sharedStorage;
 
-    /** @var PaymentMethodRepositoryInterface */
-    private $paymentMethodRepository;
+    private PaymentMethodRepositoryInterface $paymentMethodRepository;
 
-    /** @var ExampleFactoryInterface */
-    private $paymentMethodExampleFactory;
+    private ExampleFactoryInterface $paymentMethodExampleFactory;
 
-    /** @var EntityManagerInterface */
-    private $paymentMethodManager;
+    private EntityManagerInterface $paymentMethodManager;
 
     public function __construct(
         SharedStorageInterface $sharedStorage,
@@ -39,10 +35,10 @@ class StripeContext implements Context
     }
 
     /**
-     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe payment gateway
-     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe payment gateway without using authorize
+     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe Checkout Session payment gateway
+     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe Checkout Session payment gateway without using authorize
      */
-    public function theStoreHasAPaymentMethodWithACodeAndStripePaymentGateway(
+    public function theStoreHasAPaymentMethodWithACodeAndStripeCheckoutSessionPaymentGateway(
         string $paymentMethodName,
         string $paymentMethodCode,
         bool $useAuthorize = false
@@ -54,28 +50,46 @@ class StripeContext implements Context
             'Stripe Checkout Session'
         );
 
-        $gatewayConfig = $paymentMethod->getGatewayConfig();
-        Assert::notNull($gatewayConfig);
-
-        $gatewayConfig->setConfig([
-            'publishable_key' => 'pk_test_publishablekey',
-            'secret_key' => 'sk_test_secretkey',
-            'webhook_secret_keys' => [
-                'whsec_test',
-            ],
-            'use_authorize' => $useAuthorize,
-        ]);
-        $this->paymentMethodManager->flush();
+        $this->createPaymentMethod($paymentMethod, $useAuthorize);
     }
 
     /**
-     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe payment gateway using authorize
+     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe Checkout Session payment gateway using authorize
      */
-    public function theStoreHasAPaymentMethodWithACodeAndStripePaymentGatewayUsingAuthorize(
+    public function theStoreHasAPaymentMethodWithACodeAndStripeCheckoutSessionPaymentGatewayUsingAuthorize(
         string $paymentMethodName,
         string $paymentMethodCode
     ): void {
-        $this->theStoreHasAPaymentMethodWithACodeAndStripePaymentGateway($paymentMethodName, $paymentMethodCode, true);
+        $this->theStoreHasAPaymentMethodWithACodeAndStripeCheckoutSessionPaymentGateway($paymentMethodName, $paymentMethodCode, true);
+    }
+
+    /**
+     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe JS payment gateway
+     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe JS payment gateway without using authorize
+     */
+    public function theStoreHasAPaymentMethodWithACodeAndStripeJsPaymentGateway(
+        string $paymentMethodName,
+        string $paymentMethodCode,
+        bool $useAuthorize = false
+    ): void {
+        $paymentMethod = $this->createPaymentMethodStripe(
+            $paymentMethodName,
+            $paymentMethodCode,
+            'stripe_js',
+            'Stripe JS'
+        );
+
+        $this->createPaymentMethod($paymentMethod, $useAuthorize);
+    }
+
+    /**
+     * @Given the store has a payment method :paymentMethodName with a code :paymentMethodCode and Stripe JS payment gateway using authorize
+     */
+    public function theStoreHasAPaymentMethodWithACodeAndStripeJsPaymentGatewayUsingAuthorize(
+        string $paymentMethodName,
+        string $paymentMethodCode
+    ): void {
+        $this->theStoreHasAPaymentMethodWithACodeAndStripeJsPaymentGateway($paymentMethodName, $paymentMethodCode, true);
     }
 
     private function createPaymentMethodStripe(
@@ -103,5 +117,21 @@ class StripeContext implements Context
         $this->paymentMethodRepository->add($paymentMethod);
 
         return $paymentMethod;
+    }
+
+    private function createPaymentMethod(PaymentMethodInterface $paymentMethod, bool $useAuthorize): void
+    {
+        $gatewayConfig = $paymentMethod->getGatewayConfig();
+        Assert::notNull($gatewayConfig);
+
+        $gatewayConfig->setConfig([
+            'publishable_key' => 'pk_test_publishablekey',
+            'secret_key' => 'sk_test_secretkey',
+            'webhook_secret_keys' => [
+                'whsec_test',
+            ],
+            'use_authorize' => $useAuthorize,
+        ]);
+        $this->paymentMethodManager->flush();
     }
 }

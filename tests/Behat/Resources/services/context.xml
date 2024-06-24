@@ -24,12 +24,20 @@
             <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.stripe_checkout_session_mocker" />
         </service>
 
-        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.context.ui.shop_stripe"
-                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Shop\StripeShopContext">
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.context.ui.shop.stripe_checkout_session"
+                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Shop\StripeCheckoutSessionShopContext">
             <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.stripe_checkout_session_mocker"/>
             <argument type="service" id="sylius.behat.page.shop.checkout.complete"/>
             <argument type="service" id="sylius.behat.page.shop.order.show"/>
-            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.page_checkout.external"/>
+            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.external.stripe_checkout_session"/>
+        </service>
+
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.context.ui.shop.stripe_js"
+                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Shop\StripeJsShopContext">
+            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.stripe_js_mocker"/>
+            <argument type="service" id="sylius.behat.page.shop.checkout.complete"/>
+            <argument type="service" id="sylius.behat.page.shop.order.show"/>
+            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.external.stripe_js"/>
         </service>
 
     </services>

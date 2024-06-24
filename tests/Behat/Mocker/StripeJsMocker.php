@@ -12,11 +12,9 @@ use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\CheckoutSessionMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\PaymentIntentMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\RefundMocker;
 
-final class StripeCheckoutSessionMocker
+final class StripeJsMocker
 {
     private MockerInterface $mocker;
-
-    private CheckoutSessionMocker $checkoutSessionMocker;
 
     private PaymentIntentMocker $paymentIntentMocker;
 
@@ -24,24 +22,20 @@ final class StripeCheckoutSessionMocker
 
     public function __construct(
         MockerInterface $mocker,
-        CheckoutSessionMocker $checkoutSessionMocker,
         PaymentIntentMocker $paymentIntentMocker,
         RefundMocker $refundMocker
     ) {
         $this->mocker = $mocker;
-        $this->checkoutSessionMocker = $checkoutSessionMocker;
         $this->paymentIntentMocker = $paymentIntentMocker;
         $this->refundMocker = $refundMocker;
     }
 
     public function mockCreatePayment(callable $action): void
     {
-        $this->checkoutSessionMocker->mockCreateAction();
+        $this->paymentIntentMocker->mockCreateAction();
 
-        $this->mockSessionSync(
+        $this->mockPaymentIntentSync(
             $action,
-            Session::STATUS_OPEN,
-            Session::PAYMENT_STATUS_UNPAID,
             PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD
         );
     }
@@ -62,15 +56,6 @@ final class StripeCheckoutSessionMocker
         $this->refundMocker->mockCreateAction();
     }
 
-    public function mockExpirePayment(): void
-    {
-        $this->mocker->unmockAll();
-
-        $this->checkoutSessionMocker->mockExpireAction();
-        $this->checkoutSessionMocker->mockRetrieveAction(Session::STATUS_EXPIRED, Session::PAYMENT_STATUS_UNPAID);
-        $this->paymentIntentMocker->mockRetrieveAction(PaymentIntent::STATUS_CANCELED);
-    }
-
     public function mockCaptureAuthorization(string $status, string $captureMethod): void
     {
         $this->mocker->unmockAll();
@@ -82,21 +67,16 @@ final class StripeCheckoutSessionMocker
 
     public function mockGoBackPayment(callable $action): void
     {
-        $this->mockExpireSession(Session::STATUS_OPEN);
-        $this->mockSessionSync(
+        $this->mockPaymentIntentSync(
             $action,
-            Session::STATUS_OPEN,
-            Session::PAYMENT_STATUS_UNPAID,
             PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD
         );
     }
 
     public function mockSuccessfulPayment(callable $notifyAction, callable $action): void
     {
-        $this->mockSessionSync(
+        $this->mockPaymentIntentSync(
             $notifyAction,
-            Session::STATUS_COMPLETE,
-            Session::PAYMENT_STATUS_PAID,
             PaymentIntent::STATUS_SUCCEEDED
         );
         $this->mockPaymentIntentSync($action,PaymentIntent::STATUS_SUCCEEDED);
@@ -104,10 +84,8 @@ final class StripeCheckoutSessionMocker
 
     public function mockAuthorizePayment(callable $notifyAction, callable $action): void
     {
-        $this->mockSessionSync(
+        $this->mockPaymentIntentSync(
             $notifyAction,
-            Session::STATUS_COMPLETE,
-            Session::PAYMENT_STATUS_UNPAID,
             PaymentIntent::STATUS_REQUIRES_CAPTURE
         );
         $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_REQUIRES_CAPTURE);
@@ -115,20 +93,16 @@ final class StripeCheckoutSessionMocker
 
     public function mockSuccessfulPaymentWithoutWebhook(callable $action ): void
     {
-        $this->mockSessionSync(
+        $this->mockPaymentIntentSync(
             $action,
-            Session::STATUS_COMPLETE,
-            Session::PAYMENT_STATUS_PAID,
             PaymentIntent::STATUS_SUCCEEDED
         );
     }
 
     public function mockSuccessfulPaymentWithoutWebhookUsingAuthorize(callable $action): void
     {
-        $this->mockSessionSync(
+        $this->mockPaymentIntentSync(
             $action,
-            Session::STATUS_COMPLETE,
-            Session::PAYMENT_STATUS_UNPAID,
             PaymentIntent::STATUS_REQUIRES_CAPTURE
         );
     }
@@ -140,21 +114,5 @@ final class StripeCheckoutSessionMocker
         $action();
 
         $this->mocker->unmockAll();
-    }
-
-    public function mockSessionSync(
-        callable $action,
-        string $sessionStatus,
-        string $paymentStatus,
-        string $paymentIntentStatus
-    ): void {
-        $this->checkoutSessionMocker->mockRetrieveAction($sessionStatus, $paymentStatus);
-        $this->mockPaymentIntentSync($action, $paymentIntentStatus);
-    }
-
-    public function mockExpireSession(string $sessionStatus): void
-    {
-        $this->checkoutSessionMocker->mockAllAction($sessionStatus);
-        $this->checkoutSessionMocker->mockExpireAction();
     }
 }

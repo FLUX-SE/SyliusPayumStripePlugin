@@ -25,29 +25,39 @@
         </service>
 
         <!-- Payment Intent -->
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.create_payment_intent"
+                 class="FluxSE\PayumStripe\Action\Api\Resource\CreatePaymentIntentAction" public="true">
+            <tag name="payum.action" factory="stripe_js" prepend="true" />
+        </service>
+
         <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.retrieve_payment_intent"
                  class="FluxSE\PayumStripe\Action\Api\Resource\RetrievePaymentIntentAction" public="true">
+            <tag name="payum.action" factory="stripe_js" prepend="true" />
             <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
         </service>
 
         <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.update_payment_intent"
                  class="FluxSE\PayumStripe\Action\Api\Resource\UpdatePaymentIntentAction" public="true">
+            <tag name="payum.action" factory="stripe_js" prepend="true" />
             <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
         </service>
 
         <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.cancel_payment_intent"
                  class="FluxSE\PayumStripe\Action\Api\Resource\CancelPaymentIntentAction" public="true">
+            <tag name="payum.action" factory="stripe_js" prepend="true" />
             <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
         </service>
 
         <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.capture_payment_intent"
                  class="FluxSE\PayumStripe\Action\Api\Resource\CapturePaymentIntentAction" public="true">
+            <tag name="payum.action" factory="stripe_js" prepend="true" />
             <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
         </service>
 
         <!-- Refund -->
         <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.create_refund"
                  class="FluxSE\PayumStripe\Action\Api\Resource\CreateRefundAction" public="true">
+            <tag name="payum.action" factory="stripe_js" prepend="true" />
             <tag name="payum.action" factory="stripe_checkout_session" prepend="true" />
         </service>
 

@@ -14,19 +14,17 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\HttpKernel\HttpKernelBrowser;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Shop\PayumNotifyPageInterface;
 
-final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterface
+final class StripePage extends Page implements StripePageInterface
 {
-    /** @var RepositoryInterface */
-    private $securityTokenRepository;
+    private RepositoryInterface $securityTokenRepository;
 
-    /** @var HttpKernelBrowser */
-    private $client;
+    private HttpKernelBrowser $client;
 
-    /** @var PayumNotifyPageInterface */
-    private $payumNotifyPage;
+    private PayumNotifyPageInterface $payumNotifyPage;
 
     /** @var string[] */
-    private $deadTokens = [];
+    private array $deadTokens = [];
+    private string $gatewayName;
 
     /**
      * @param array|ArrayAccess $minkParameters
@@ -36,13 +34,15 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
         $minkParameters,
         RepositoryInterface $securityTokenRepository,
         HttpKernelBrowser $client,
-        PayumNotifyPageInterface $payumNotifyPage
+        PayumNotifyPageInterface $payumNotifyPage,
+        string $gatewayName
     ) {
         parent::__construct($session, $minkParameters);
 
         $this->securityTokenRepository = $securityTokenRepository;
         $this->client = $client;
         $this->payumNotifyPage = $payumNotifyPage;
+        $this->gatewayName = $gatewayName;
     }
 
     /**
@@ -89,7 +89,7 @@ final class StripeCheckoutPage extends Page implements StripeCheckoutPageInterfa
         $notifyToken = $this->findToken('notify');
 
         $notifyUrl = $this->payumNotifyPage->getNotifyUrl([
-            'gateway' => 'stripe_checkout_session',
+            'gateway' => $this->gatewayName,
         ]);
 
         $payload = sprintf($content, $notifyToken->getHash());
