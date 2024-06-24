@@ -1,7 +1,7 @@
 services:
 
   flux_se.sylius_payum_stripe.form.type.gateway_configuration.stripe_js:
-    class: FluxSE\SyliusPayumStripePlugin\Form\Type\StripeCheckoutSessionGatewayConfigurationType
+    class: FluxSE\SyliusPayumStripePlugin\Form\Type\StripeGatewayConfigurationType
     tags:
       - name: sylius.gateway_configuration_type
         type: stripe_js

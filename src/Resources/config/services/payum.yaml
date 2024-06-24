@@ -1,15 +1,5 @@
 services:
 
-  flux_se.sylius_payum_stripe.action.convert_payment:
-    public: true
-    class: FluxSE\SyliusPayumStripePlugin\Action\ConvertPaymentAction
-    arguments:
-      $detailsProvider: '@flux_se.sylius_payum_stripe.provider.details'
-    tags:
-      - name: payum.action
-        factory: stripe_checkout_session
-        alias: flux_se.sylius_payum_stripe.convert_payment
-
   flux_se.sylius_payum_stripe.extension.update_payment_state:
     public: true
     class: FluxSE\SyliusPayumStripePlugin\Extension\UpdatePaymentStateExtension
@@ -24,14 +14,6 @@ services:
       - name: payum.extension
         factory: stripe_checkout_session
         alias: flux_se.sylius_payum_stripe.extension.update_payment_state
-
-  flux_se.sylius_payum_stripe.extension.cancel_existing_payment_intent:
-    public: true
-    class: FluxSE\SyliusPayumStripePlugin\Extension\CancelExistingPaymentIntentExtension
-    arguments:
-      $expireSessionRequestFactory: '@flux_se.sylius_payum_stripe.factory.expire_session_request'
-      $allSessionRequestFactory: '@flux_se.sylius_payum_stripe.factory.all_session_request'
-    tags:
       - name: payum.extension
-        factory: stripe_checkout_session
-        alias: flux_se.sylius_payum_stripe.extension.cancel_existing_payment_intent
+        factory: stripe_js
+        alias: flux_se.sylius_payum_stripe.extension.update_payment_state
