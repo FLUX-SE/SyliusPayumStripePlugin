@@ -7,7 +7,7 @@ winzou_state_machine:
     callbacks:
       after:
         flux_se.sylius_payum_stripe_refund:
-          # By default this callback is disabled to avoid mistake
+          # By default, this callback is disabled to avoid mistake
           # you can enable it using this plugin config : `refund_disabled: false`
           on: ["refund"]
           do: ["@flux_se.sylius_payum_stripe.state_machine.refund", "__invoke"]
