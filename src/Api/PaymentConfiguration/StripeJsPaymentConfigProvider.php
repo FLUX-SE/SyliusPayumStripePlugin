@@ -14,6 +14,7 @@ final class StripeJsPaymentConfigProvider implements PaymentConfigurationProvide
     use StripePaymentConfigProviderTrait {
         StripePaymentConfigProviderTrait::__construct as private __stripePaymentConfigProviderConstruct;
     }
+
     private CaptureProcessorInterface $captureProcessor;
 
     public function __construct(

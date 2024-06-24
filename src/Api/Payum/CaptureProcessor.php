@@ -15,7 +15,9 @@ use Webmozart\Assert\Assert;
 final class CaptureProcessor implements CaptureProcessorInterface
 {
     private Payum $payum;
+
     private CaptureRequestFactoryInterface $captureRequestFactory;
+
     private AfterUrlProviderInterface $afterUrlProvider;
 
     public function __construct(
@@ -27,6 +29,7 @@ final class CaptureProcessor implements CaptureProcessorInterface
         $this->captureRequestFactory = $captureRequestFactory;
         $this->afterUrlProvider = $afterUrlProvider;
     }
+
     public function __invoke(PaymentInterface $payment): array
     {
         $tokenFactory = $this->payum->getTokenFactory();

@@ -13,13 +13,13 @@ class StripeCheckoutSessionGatewayConfigurationType extends AbstractType
 {
     public function __construct()
     {
-        trigger_error(
+        @trigger_error(
             sprintf(
                 '"%s" class has been deprecated please use "%s" instead.',
                 __CLASS__,
                 StripeGatewayConfigurationType::class
             ),
-            E_USER_DEPRECATED
+            \E_USER_DEPRECATED
         );
     }
 

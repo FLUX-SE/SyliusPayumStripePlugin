@@ -9,6 +9,7 @@ use Sylius\Component\Core\Model\PaymentInterface;
 final class AfterUrlProvider implements AfterUrlProviderInterface
 {
     private string $afterPath;
+
     private array $afterParameters;
 
     public function __construct(

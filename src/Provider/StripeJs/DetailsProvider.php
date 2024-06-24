@@ -9,7 +9,9 @@ use Sylius\Component\Core\Model\PaymentInterface;
 final class DetailsProvider implements DetailsProviderInterface
 {
     private AmountProviderInterface $amountProvider;
+
     private CurrencyProviderInterface $currencyProvider;
+
     private PaymentMethodTypesProviderInterface $paymentMethodTypesProvider;
 
     public function __construct(
