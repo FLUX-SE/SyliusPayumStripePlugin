@@ -12,7 +12,7 @@
     ],
     "require": {
         "flux-se/payum-stripe-bundle": "^2.0",
-        "sylius/sylius": "^1.4"
+        "sylius/sylius": "^1.9"
     },
     "require-dev": {
         "ext-json": "*",
