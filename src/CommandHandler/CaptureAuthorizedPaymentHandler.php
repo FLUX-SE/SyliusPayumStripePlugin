@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\CommandHandler;
 
 use FluxSE\SyliusPayumStripePlugin\Command\CaptureAuthorizedPayment;
-use FluxSE\SyliusPayumStripePlugin\Factory\CaptureRequestFactoryInterface;
+use FluxSE\SyliusPayumStripePlugin\Factory\ModelAggregateFactoryInterface;
 use Payum\Core\Payum;
 use Payum\Core\Reply\ReplyInterface;
 use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
@@ -13,14 +13,14 @@ use Webmozart\Assert\Assert;
 
 final class CaptureAuthorizedPaymentHandler extends AbstractPayumPaymentHandler
 {
-    /** @var CaptureRequestFactoryInterface */
+    /** @var ModelAggregateFactoryInterface */
     private $captureRequestFactory;
 
     /**
      * @param string[] $supportedGateways
      */
     public function __construct(
-        CaptureRequestFactoryInterface $captureRequestFactory,
+        ModelAggregateFactoryInterface $captureRequestFactory,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
         array $supportedGateways

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\Api\PaymentConfiguration;
 
-use FluxSE\SyliusPayumStripePlugin\Api\Payum\CaptureProcessorInterface;
-use Stripe\Checkout\Session;
+use FluxSE\SyliusPayumStripePlugin\Api\Payum\ProcessorInterface;
+use Payum\Core\Reply\HttpRedirect;
 use Sylius\Bundle\ApiBundle\Payment\PaymentConfigurationProviderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 
@@ -15,10 +15,10 @@ final class StripeCheckoutSessionPaymentConfigProvider implements PaymentConfigu
         StripePaymentConfigProviderTrait::__construct as private __stripePaymentConfigProviderConstruct;
     }
 
-    private CaptureProcessorInterface $captureProcessor;
+    private ProcessorInterface $captureProcessor;
 
     public function __construct(
-        CaptureProcessorInterface $captureProcessor,
+        ProcessorInterface $captureProcessor,
         string $factoryName
     ) {
         $this->captureProcessor = $captureProcessor;
@@ -29,9 +29,12 @@ final class StripeCheckoutSessionPaymentConfigProvider implements PaymentConfigu
     {
         $config = $this->provideDefaultConfiguration($payment);
 
-        $details = $this->captureProcessor->__invoke($payment);
-        $session = Session::constructFrom($details);
-        $config['stripe_checkout_session_url'] = $session->url;
+        $data = $this->captureProcessor->__invoke($payment, $config['use_authorize']);
+        $reply = $data['reply'];
+
+        if ($reply instanceof HttpRedirect) {
+            $config['stripe_checkout_session_url'] = $reply->getUrl();
+        }
 
         return $config;
     }

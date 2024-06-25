@@ -6,7 +6,6 @@ namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker;
 
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
-use Stripe\Refund;
 use Sylius\Behat\Service\Mocker\MockerInterface;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\CheckoutSessionMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\PaymentIntentMocker;
@@ -99,7 +98,7 @@ final class StripeCheckoutSessionMocker
             Session::PAYMENT_STATUS_PAID,
             PaymentIntent::STATUS_SUCCEEDED
         );
-        $this->mockPaymentIntentSync($action,PaymentIntent::STATUS_SUCCEEDED);
+        $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_SUCCEEDED);
     }
 
     public function mockAuthorizePayment(callable $notifyAction, callable $action): void
@@ -113,7 +112,7 @@ final class StripeCheckoutSessionMocker
         $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_REQUIRES_CAPTURE);
     }
 
-    public function mockSuccessfulPaymentWithoutWebhook(callable $action ): void
+    public function mockSuccessfulPaymentWithoutWebhook(callable $action): void
     {
         $this->mockSessionSync(
             $action,

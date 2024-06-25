@@ -13,7 +13,6 @@ use FluxSE\PayumStripe\Request\Api\Resource\CapturePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\CreatePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\RetrievePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\UpdatePaymentIntent;
-use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
 use Sylius\Behat\Service\Mocker\MockerInterface;
 
@@ -52,11 +51,12 @@ final class PaymentIntentMocker
             ->andReturnUsing(function (CreatePaymentIntent $request) {
                 /** @var ArrayObject $rModel */
                 $rModel = $request->getModel();
-                $session = Session::constructFrom(array_merge([
+                $paymentIntent = PaymentIntent::constructFrom(array_merge([
                     'id' => 'pi_1',
                     'object' => PaymentIntent::OBJECT_NAME,
+                    'client_secret' => '1234567890',
                 ], $rModel->getArrayCopy()));
-                $request->setApiResource($session);
+                $request->setApiResource($paymentIntent);
             });
     }
 
@@ -88,6 +88,7 @@ final class PaymentIntentMocker
                     'id' => $request->getId(),
                     'object' => PaymentIntent::OBJECT_NAME,
                     'status' => $status,
+                    'client_secret' => '1234567890',
                 ]));
             });
     }

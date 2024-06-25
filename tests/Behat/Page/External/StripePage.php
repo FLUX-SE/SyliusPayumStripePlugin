@@ -24,6 +24,7 @@ final class StripePage extends Page implements StripePageInterface
 
     /** @var string[] */
     private array $deadTokens = [];
+
     private string $gatewayName;
 
     /**
@@ -139,6 +140,7 @@ final class StripePage extends Page implements StripePageInterface
 
             if (null === $relatedToken) {
                 $this->deadTokens[] = $foundToken->getHash();
+
                 return $this->findToken($type);
             }
         }

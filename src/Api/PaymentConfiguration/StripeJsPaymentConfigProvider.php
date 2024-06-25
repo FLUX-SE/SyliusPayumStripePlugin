@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\Api\PaymentConfiguration;
 
-use FluxSE\SyliusPayumStripePlugin\Api\Payum\CaptureProcessorInterface;
+use FluxSE\SyliusPayumStripePlugin\Api\Payum\ProcessorInterface;
 use Stripe\PaymentIntent;
 use Sylius\Bundle\ApiBundle\Payment\PaymentConfigurationProviderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
@@ -15,10 +15,10 @@ final class StripeJsPaymentConfigProvider implements PaymentConfigurationProvide
         StripePaymentConfigProviderTrait::__construct as private __stripePaymentConfigProviderConstruct;
     }
 
-    private CaptureProcessorInterface $captureProcessor;
+    private ProcessorInterface $captureProcessor;
 
     public function __construct(
-        CaptureProcessorInterface $captureProcessor,
+        ProcessorInterface $captureProcessor,
         string $factoryName
     ) {
         $this->captureProcessor = $captureProcessor;
@@ -29,8 +29,8 @@ final class StripeJsPaymentConfigProvider implements PaymentConfigurationProvide
     {
         $config = $this->provideDefaultConfiguration($payment);
 
-        $details = $this->captureProcessor->__invoke($payment);
-        $paymentIntent = PaymentIntent::constructFrom($details);
+        $data = $this->captureProcessor->__invoke($payment, $config['use_authorize']);
+        $paymentIntent = PaymentIntent::constructFrom($data['details']);
         $config['stripe_payment_intent_client_secret'] = $paymentIntent->client_secret;
 
         return $config;

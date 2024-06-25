@@ -3,16 +3,17 @@ services:
   flux_se.sylius_payum_stripe.api.payment_provider.stripe_js:
     class: FluxSE\SyliusPayumStripePlugin\Api\PaymentConfiguration\StripeJsPaymentConfigProvider
     arguments:
-      $captureProcessor: '@flux_se.sylius_payum_stripe.api.payum.capture_processor.stripe_js'
+      $captureProcessor: '@flux_se.sylius_payum_stripe.api.payum.processor.stripe_js'
       $factoryName: 'stripe_js'
     tags:
       - name: sylius.api.payment_method_handler
 
-  flux_se.sylius_payum_stripe.api.payum.capture_processor.stripe_js:
-    class: FluxSE\SyliusPayumStripePlugin\Api\Payum\CaptureProcessor
+  flux_se.sylius_payum_stripe.api.payum.processor.stripe_js:
+    class: FluxSE\SyliusPayumStripePlugin\Api\Payum\Processor
     arguments:
       $payum: '@payum'
       $captureRequestFactory: '@flux_se.sylius_payum_stripe.factory.capture_request'
+      $authorizeRequestFactory: '@flux_se.sylius_payum_stripe.factory.authorize_request'
       $afterUrlProvider: '@flux_se.sylius_payum_stripe.api.payum.after_url.stripe_js'
 
   flux_se.sylius_payum_stripe.api.payum.after_url.stripe_js:

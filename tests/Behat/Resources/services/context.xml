@@ -40,5 +40,14 @@
             <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.external.stripe_js"/>
         </service>
 
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.context.api.shop.cart"
+                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Api\Shop\CartContext">
+            <argument type="service" id="sylius.behat.api_platform_client.shop" />
+            <argument type="service" id="Sylius\Behat\Client\ResponseCheckerInterface" />
+            <argument type="service" id="sylius.behat.shared_storage" />
+            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.stripe_checkout_session_mocker" />
+            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.stripe_js_mocker" />
+        </service>
+
     </services>
 </container>

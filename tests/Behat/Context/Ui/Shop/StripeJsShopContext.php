@@ -7,7 +7,6 @@ namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Shop;
 use Behat\Behat\Context\Context;
 use Behat\MinkExtension\Context\MinkContext;
 use RuntimeException;
-use Stripe\Checkout\Session;
 use Stripe\Event;
 use Stripe\PaymentIntent;
 use Sylius\Behat\Page\Shop\Checkout\CompletePageInterface;
@@ -91,7 +90,7 @@ class StripeJsShopContext extends MinkContext implements Context
                         ],
                     ],
                 ];
-                $payload = json_encode($jsonEvent,\JSON_THROW_ON_ERROR);
+                $payload = json_encode($jsonEvent, \JSON_THROW_ON_ERROR);
 
                 $this->paymentPage->notify($payload);
             },

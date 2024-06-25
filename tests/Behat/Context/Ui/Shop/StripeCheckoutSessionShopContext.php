@@ -101,7 +101,7 @@ class StripeCheckoutSessionShopContext extends MinkContext implements Context
                         ],
                     ],
                 ];
-                $payload = json_encode($jsonEvent,\JSON_THROW_ON_ERROR);
+                $payload = json_encode($jsonEvent, \JSON_THROW_ON_ERROR);
 
                 $this->paymentPage->notify($payload);
             },

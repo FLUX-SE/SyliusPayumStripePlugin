@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\Api\Payum;
 
-use FluxSE\SyliusPayumStripePlugin\Factory\CaptureRequestFactoryInterface;
+use FluxSE\SyliusPayumStripePlugin\Factory\ModelAggregateFactoryInterface;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Payum;
 use Sylius\Bundle\PayumBundle\Model\GatewayConfigInterface;
@@ -12,44 +12,62 @@ use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Webmozart\Assert\Assert;
 
-final class CaptureProcessor implements CaptureProcessorInterface
+final class Processor implements ProcessorInterface
 {
     private Payum $payum;
 
-    private CaptureRequestFactoryInterface $captureRequestFactory;
+    private ModelAggregateFactoryInterface $captureRequestFactory;
+
+    private ModelAggregateFactoryInterface $authorizeRequestFactory;
 
     private AfterUrlProviderInterface $afterUrlProvider;
 
     public function __construct(
         Payum $payum,
-        CaptureRequestFactoryInterface $captureRequestFactory,
+        ModelAggregateFactoryInterface $captureRequestFactory,
+        ModelAggregateFactoryInterface $authorizeRequestFactory,
         AfterUrlProviderInterface $afterUrlProvider
     ) {
         $this->payum = $payum;
         $this->captureRequestFactory = $captureRequestFactory;
+        $this->authorizeRequestFactory = $authorizeRequestFactory;
         $this->afterUrlProvider = $afterUrlProvider;
     }
 
-    public function __invoke(PaymentInterface $payment): array
+    public function __invoke(PaymentInterface $payment, bool $useAuthorize): array
     {
         $tokenFactory = $this->payum->getTokenFactory();
         $gatewayName = $this->getGatewayConfig($payment)->getGatewayName();
 
-        $token = $tokenFactory->createCaptureToken(
-            $gatewayName,
-            $payment,
-            $this->afterUrlProvider->getAfterPath($payment),
-            $this->afterUrlProvider->getAfterParameters($payment)
-        );
         $gateway = $this->payum->getGateway($gatewayName);
 
-        $captureRequest = $this->captureRequestFactory->createNewWithToken($token);
-        $gateway->execute($captureRequest, true);
+        if ($useAuthorize) {
+            $token = $tokenFactory->createAuthorizeToken(
+                $gatewayName,
+                $payment,
+                $this->afterUrlProvider->getAfterPath($payment),
+                $this->afterUrlProvider->getAfterParameters($payment)
+            );
+            $request = $this->authorizeRequestFactory->createNewWithToken($token);
+        } else {
+            $token = $tokenFactory->createCaptureToken(
+                $gatewayName,
+                $payment,
+                $this->afterUrlProvider->getAfterPath($payment),
+                $this->afterUrlProvider->getAfterParameters($payment)
+            );
+            $request = $this->captureRequestFactory->createNewWithToken($token);
+        }
+
+        $reply = $gateway->execute($request, true);
 
         /** @var ArrayObject $details */
-        $details = $captureRequest->getModel();
+        $details = $request->getModel();
 
-        return $details->getArrayCopy();
+        return [
+            'reply' => $reply,
+            'details' => $details->getArrayCopy(),
+        ];
     }
 
     private function getGatewayConfig(PaymentInterface $payment): GatewayConfigInterface

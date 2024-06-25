@@ -56,6 +56,7 @@ final class CheckoutSessionMocker
                     'id' => 'cs_1',
                     'object' => Session::OBJECT_NAME,
                     'payment_intent' => 'pi_1',
+                    'url' => 'https://checkout.stripe.com/c/pay/cs_1',
                 ], $rModel->getArrayCopy()));
                 $request->setApiResource($session);
             });
@@ -126,7 +127,8 @@ final class CheckoutSessionMocker
                             'object' => Session::OBJECT_NAME,
                             'status' => $status,
                         ],
-                    ]]));
+                    ]])
+                );
             });
     }
 
