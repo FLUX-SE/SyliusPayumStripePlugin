@@ -17,7 +17,7 @@
     "require-dev": {
         "ext-json": "*",
         "behat/behat": "^3.7",
-        "dbrekelmans/bdi": "^1.3",
+        "dbrekelmans/bdi": "^1.2",
         "dmore/behat-chrome-extension": "^1.4",
         "dmore/chrome-mink-driver": "^2.8",
         "friends-of-behat/mink": "^1.9",
