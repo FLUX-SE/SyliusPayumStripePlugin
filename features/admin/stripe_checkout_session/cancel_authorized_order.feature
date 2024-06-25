@@ -1,5 +1,5 @@
 @managing_orders
-Feature: Canceling an authorized order
+Feature: Canceling an authorized order with Stripe Checkout Session
   In order to cancel an order already authorized
   As an Administrator
   I want to be able to cancel a Stripe authorized order
@@ -8,7 +8,7 @@ Feature: Canceling an authorized order
     Given the store operates on a single channel in "United States"
     And the store has a product "Green Arrow"
     And the store ships everywhere for free
-    And the store has a payment method "Stripe" with a code "stripe" and Stripe payment gateway using authorize
+    And the store has a payment method "Stripe" with a code "stripe" and Stripe Checkout Session payment gateway using authorize
     And there is a customer "oliver@teamarrow.com" that placed an order "#00000001"
     And the customer bought a single "Green Arrow"
     And the customer chose "Free" shipping method to "United States" with "Stripe" payment

@@ -19,14 +19,11 @@ use Webmozart\Assert\Assert;
 
 class ManagingOrdersContext implements Context
 {
-    /** @var FactoryInterface */
-    private $stateMachineFactory;
+    private FactoryInterface $stateMachineFactory;
 
-    /** @var ObjectManager */
-    private $objectManager;
+    private ObjectManager $objectManager;
 
-    /** @var StripeCheckoutSessionMocker */
-    private $stripeCheckoutSessionMocker;
+    private StripeCheckoutSessionMocker $stripeCheckoutSessionMocker;
 
     public function __construct(
         FactoryInterface $stateMachineFactory,
@@ -85,9 +82,9 @@ class ManagingOrdersContext implements Context
     }
 
     /**
-     * @Given /^(this order) is not yet paid as "([^"]+)" Stripe checkout session$/
+     * @Given /^(this order) is not yet paid as "([^"]+)" Stripe Checkout Session$/
      */
-    public function thisOrderIsNotYetPaid(OrderInterface $order, string $stripeCheckoutSessionId): void
+    public function thisOrderIsNotYetPaidStripeCheckoutSession(OrderInterface $order, string $stripeCheckoutSessionId): void
     {
         /** @var PaymentInterface $payment */
         $payment = $order->getPayments()->first();
@@ -97,6 +94,24 @@ class ManagingOrdersContext implements Context
             'id' => $stripeCheckoutSessionId,
             'status' => Session::STATUS_OPEN,
             'payment_status' => Session::PAYMENT_STATUS_UNPAID,
+        ];
+        $payment->setDetails($details);
+
+        $this->objectManager->flush();
+    }
+
+    /**
+     * @Given /^(this order) is not yet paid as "([^"]+)" Stripe JS$/
+     */
+    public function thisOrderIsNotYetPaidStripeJs(OrderInterface $order, string $stripePaymentIntentId): void
+    {
+        /** @var PaymentInterface $payment */
+        $payment = $order->getPayments()->first();
+
+        $details = [
+            'object' => PaymentIntent::OBJECT_NAME,
+            'id' => $stripePaymentIntentId,
+            'status' => PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
         ];
         $payment->setDetails($details);
 
@@ -139,6 +154,17 @@ class ManagingOrdersContext implements Context
     public function iAmPreparedToExpireTheCheckoutSessionOnThisOrder(): void
     {
         $this->stripeCheckoutSessionMocker->mockExpirePayment();
+    }
+
+    /**
+     * @Given I am prepared to cancel the payment intent on this order
+     */
+    public function iAmPreparedToExpireThePaymentIntentOnThisOrder(): void
+    {
+        $this->stripeCheckoutSessionMocker->mockCancelPayment(
+            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
+            PaymentIntent::CAPTURE_METHOD_AUTOMATIC
+        );
     }
 
     /**
