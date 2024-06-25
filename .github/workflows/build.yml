@@ -292,6 +292,6 @@ jobs:
                 uses: actions/upload-artifact@v4
                 if: failure()
                 with:
-                    name: Behat logs
+                    name: Behat logs for Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, MySQL ${{ matrix.mysql }}
                     path: etc/build/
                     if-no-files-found: ignore
