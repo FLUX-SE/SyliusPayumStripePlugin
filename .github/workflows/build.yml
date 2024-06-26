@@ -28,8 +28,8 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [ 8.1 ]
-                symfony: [ ^5.4, ^6.4 ]
+                php: [ "8.1" ]
+                symfony: [ "^5.4", "^6.4" ]
 
         steps:
             -
@@ -108,22 +108,13 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: ["7.4", "8.0", "8.1", "8.2", "8.3"]
+                php: ["8.0", "8.1", "8.2", "8.3"]
                 symfony: ["^5.4", "^6.4"]
-                sylius: ["~1.10.0", "~1.11.0", "~1.12.0", "~1.13.0"]
+                sylius: ["~1.12.0", "~1.13.0"]
                 node: ["20.x"]
                 mysql: ["8.0"]
 
                 exclude:
-                    -
-                        sylius: "~1.10.0"
-                        symfony: "^6.4"
-                    -
-                        sylius: "~1.11.0"
-                        php: "7.4"
-                    -
-                        sylius: "~1.11.0"
-                        symfony: "^6.4"
                     -
                         sylius: "~1.12.0"
                         php: "7.4"
@@ -133,9 +124,6 @@ jobs:
                     -
                         sylius: "~1.13.0"
                         php: "8.0"
-                    -
-                        php: "7.4"
-                        symfony: "^6.4"
                     -
                         php: "8.0"
                         symfony: "^6.4"
@@ -205,16 +193,6 @@ jobs:
                 if: matrix.sylius != ''
                 run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
 
-            -
-                name: Fix build on Sylius 1.10
-                if: matrix.sylius == '~1.10.0'
-                run: |
-                    composer require "nyholm/psr7" --no-update --no-scripts --no-interaction
-            -
-                name: Fix build on Sylius 1.11
-                if: matrix.sylius == '~1.11.0'
-                run: |
-                    composer require "nyholm/psr7" --no-update --no-scripts --no-interaction
             -
                 name: Fix build with PHP 8.3
                 if: matrix.php == '8.3'
@@ -292,6 +270,8 @@ jobs:
                 uses: actions/upload-artifact@v4
                 if: failure()
                 with:
-                    name: Behat logs for Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, MySQL ${{ matrix.mysql }}
-                    path: etc/build/
+                    name: Logs for Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, MySQL ${{ matrix.mysql }}
+                    path: |
+                        etc/build/
+                        tests/Application/var/log
                     if-no-files-found: ignore

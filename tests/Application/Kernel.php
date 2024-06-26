@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Application;
 
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
-use Sylius\Bundle\CoreBundle\Application\Kernel as SyliusKernel;
+use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-/**
- * @property string $environment
- */
 final class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
@@ -118,27 +114,13 @@ final class Kernel extends BaseKernel
     private function getConfigurationDirectories(): iterable
     {
         yield $this->getProjectDir() . '/config';
-        $syliusConfigDir = $this->getProjectDir() . '/config/sylius/' . SyliusKernel::MAJOR_VERSION . '.' . SyliusKernel::MINOR_VERSION;
+        $syliusConfigDir = $this->getProjectDir() . '/config/sylius/' . SyliusCoreBundle::MAJOR_VERSION . '.' . SyliusCoreBundle::MINOR_VERSION;
         if (is_dir($syliusConfigDir)) {
             yield $syliusConfigDir;
         }
         $symfonyConfigDir = $this->getProjectDir() . '/config/symfony/' . BaseKernel::MAJOR_VERSION . '.' . BaseKernel::MINOR_VERSION;
         if (is_dir($symfonyConfigDir)) {
             yield $symfonyConfigDir;
-        }
-    }
-
-    protected function build(ContainerBuilder $container)
-    {
-        // Fix APIPlatform issue during console initialisation
-        // Service "api_platform.error_listener": Parent definition "exception_listener" does not exist.
-        $sfVersion = sprintf('%d.%d', BaseKernel::MAJOR_VERSION, BaseKernel::MINOR_VERSION);
-        if ('4.4' !== $sfVersion) {
-            return;
-        }
-
-        if (false === $container->hasDefinition('exception_listener')) {
-            $container->setAlias('exception_listener', new Alias('console.error_listener'));
         }
     }
 }

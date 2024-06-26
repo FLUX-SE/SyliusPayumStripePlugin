@@ -33,7 +33,7 @@
         "phpstan/phpstan-doctrine": "^1.0",
         "phpstan/phpstan-strict-rules": "^1.0",
         "phpstan/phpstan-webmozart-assert": "^1.0",
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^10.5",
         "polishsymfonycommunity/symfony-mocker-container": "^1.0",
         "robertfausk/behat-panther-extension": "^1.1",
         "sylius-labs/coding-standard": "^4.1",
@@ -52,6 +52,7 @@
     },
     "autoload-dev": {
         "psr-4": {
+            "spec\\FluxSE\\SyliusPayumStripePlugin\\": "spec/",
             "Tests\\FluxSE\\SyliusPayumStripePlugin\\": "tests/",
             "Tests\\FluxSE\\SyliusPayumStripePlugin\\App\\": "tests/Application/src/"
         }
