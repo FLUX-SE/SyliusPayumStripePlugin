@@ -80,7 +80,7 @@ final class CartContext implements Context
         Assert::eq($value, $expectedValue);
     }
 
-    function showPaymentConfiguration(): void
+    public function showPaymentConfiguration(): void
     {
         $tokenValue = $this->getCartTokenValue();
 
