@@ -126,7 +126,7 @@ class StripeJsShopContext extends MinkContext implements Context
      */
     public function iConfirmMyOrderWithStripePayment(): void
     {
-        $this->stripeJsMocker->mockCreatePayment(function () {
+        $this->stripeJsMocker->mockCaptureOrAuthorize(function () {
             $this->summaryPage->confirmOrder();
         });
     }
@@ -147,7 +147,7 @@ class StripeJsShopContext extends MinkContext implements Context
      */
     public function iTryToPayAgainWithStripePayment(): void
     {
-        $this->stripeJsMocker->mockCreatePayment(function () {
+        $this->stripeJsMocker->mockCaptureOrAuthorize(function () {
             $this->orderDetails->pay();
         });
     }

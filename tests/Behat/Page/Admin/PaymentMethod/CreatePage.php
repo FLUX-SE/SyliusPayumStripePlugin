@@ -56,6 +56,8 @@ final class CreatePage extends BaseCreatePage implements CreatePageInterface
         } else {
             $this->getElement('use_authorize')->uncheck();
         }
+
+        sleep(1);
     }
 
     /**

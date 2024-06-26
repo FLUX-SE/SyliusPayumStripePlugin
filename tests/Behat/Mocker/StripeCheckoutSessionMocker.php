@@ -33,7 +33,7 @@ final class StripeCheckoutSessionMocker
         $this->refundMocker = $refundMocker;
     }
 
-    public function mockCreatePayment(callable $action): void
+    public function mockCaptureOrAuthorize(callable $action): void
     {
         $this->checkoutSessionMocker->mockCreateAction();
 

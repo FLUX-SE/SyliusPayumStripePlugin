@@ -41,24 +41,12 @@ final class CartContext implements Context
     }
 
     /**
-     * @When /^I see the payment configuration$/
+     * @When /^I see the payment configuration for Stripe Checkout Session$/
      */
-    public function iSeeThePaymentConfiguration(): void
+    public function iSeeThePaymentConfigurationForStripeCheckoutSession(): void
     {
-        $this->stripeCheckoutSessionMocker->mockCreatePayment(function () {
-            $tokenValue = $this->getCartTokenValue();
-
-            $this->shopClient->show(
-                Resources::ORDERS,
-                sprintf(
-                    '%s/%s/%s/configuration',
-                    $tokenValue,
-                    Resources::PAYMENTS,
-                    $this->getCart()['payments'][0]['id']
-                )
-            );
-
-            $this->sharedStorage->set('response', $this->shopClient->getLastResponse());
+        $this->stripeCheckoutSessionMocker->mockCaptureOrAuthorize(function () {
+            $this->showPaymentConfiguration();
         });
     }
 
@@ -67,20 +55,8 @@ final class CartContext implements Context
      */
     public function iSeeThePaymentConfigurationForStripeJs(): void
     {
-        $this->stripeJsMocker->mockCreatePayment(function () {
-            $tokenValue = $this->getCartTokenValue();
-
-            $this->shopClient->show(
-                Resources::ORDERS,
-                sprintf(
-                    '%s/%s/%s/configuration',
-                    $tokenValue,
-                    Resources::PAYMENTS,
-                    $this->getCart()['payments'][0]['id']
-                )
-            );
-
-            $this->sharedStorage->set('response', $this->shopClient->getLastResponse());
+        $this->stripeJsMocker->mockCaptureOrAuthorize(function () {
+            $this->showPaymentConfiguration();
         });
     }
 
@@ -102,6 +78,23 @@ final class CartContext implements Context
         $response = $this->sharedStorage->get('response');
         $value = $this->responseChecker->getValue($response, $key);
         Assert::eq($value, $expectedValue);
+    }
+
+    function showPaymentConfiguration(): void
+    {
+        $tokenValue = $this->getCartTokenValue();
+
+        $this->shopClient->show(
+            Resources::ORDERS,
+            sprintf(
+                '%s/%s/%s/configuration',
+                $tokenValue,
+                Resources::PAYMENTS,
+                $this->getCart()['payments'][0]['id']
+            )
+        );
+
+        $this->sharedStorage->set('response', $this->shopClient->getLastResponse());
     }
 
     private function getCart(): array

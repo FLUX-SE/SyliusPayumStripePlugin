@@ -27,10 +27,11 @@ final class StripeJsMocker
         $this->refundMocker = $refundMocker;
     }
 
-    public function mockCreatePayment(callable $action): void
+    public function mockCaptureOrAuthorize(callable $action): void
     {
-        $this->paymentIntentMocker->mockCreateAction();
+        $this->mocker->unmockAll();
 
+        $this->paymentIntentMocker->mockCreateAction();
         $this->mockPaymentIntentSync(
             $action,
             PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD
