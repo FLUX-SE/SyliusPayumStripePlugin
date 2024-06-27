@@ -1,7 +1,6 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
 [![Build Status][ico-github-actions]][link-github-actions]
-[![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Sylius Payum Stripe gateway plugin
 
@@ -205,9 +204,7 @@ You will have access to the Sylius `Payment` to decide what is the url/route and
 [ico-version]: https://img.shields.io/packagist/v/Flux-SE/sylius-payum-stripe-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-github-actions]: https://github.com/FLUX-SE/SyliusPayumStripePlugin/workflows/Build/badge.svg
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/Flux-SE/SyliusPayumStripePlugin.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/flux-se/sylius-payum-stripe-plugin
 [link-scrutinizer]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin/code-structure
 [link-github-actions]: https://github.com/FLUX-SE/SyliusPayumStripePlugin/actions?query=workflow%3A"Build"
-[link-code-quality]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin
