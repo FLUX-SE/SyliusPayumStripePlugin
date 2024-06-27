@@ -8,6 +8,11 @@ use Symplify\EasyCodingStandard\Config\ECSConfig;
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->import(__DIR__ . '/vendor/sylius-labs/coding-standard/ecs.php');
 
+    $ecsConfig->paths([
+        'src',
+        'tests/Behat',
+    ]);
+
     $services = $ecsConfig->services();
 
     // PHP 7 compatibility

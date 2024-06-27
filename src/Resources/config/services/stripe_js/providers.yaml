@@ -1,0 +1,20 @@
+services:
+    flux_se.sylius_payum_stripe.provider.stripe_js.details:
+        class: FluxSE\SyliusPayumStripePlugin\Provider\StripeJs\DetailsProvider
+        arguments:
+            $amountProvider: '@flux_se.sylius_payum_stripe.provider.stripe_js.amount'
+            $currencyProvider: '@flux_se.sylius_payum_stripe.provider.stripe_js.currency'
+            $paymentMethodTypesProvider: '@flux_se.sylius_payum_stripe.provider.stripe_js.payment_method_types'
+
+
+    flux_se.sylius_payum_stripe.provider.stripe_js.amount:
+        class: FluxSE\SyliusPayumStripePlugin\Provider\StripeJs\AmountProvider
+
+    flux_se.sylius_payum_stripe.provider.stripe_js.currency:
+        class: FluxSE\SyliusPayumStripePlugin\Provider\StripeJs\CurrencyProvider
+
+
+    flux_se.sylius_payum_stripe.provider.stripe_js.payment_method_types:
+        class: FluxSE\SyliusPayumStripePlugin\Provider\StripeJs\PaymentMethodTypesProvider
+        arguments:
+            $paymentMethodTypes: '%flux_se.sylius_payum_stripe.payment_method_types%'

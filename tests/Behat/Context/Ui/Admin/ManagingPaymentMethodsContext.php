@@ -20,13 +20,23 @@ class ManagingPaymentMethodsContext implements Context
     }
 
     /**
-     * @Given /^I want to create a new Stripe payment method$/
+     * @Given /^I want to create a new Stripe Checkout Session payment method$/
      *
      * @throws UnexpectedPageException
      */
-    public function iWantToCreateANewStripePaymentMethod(): void
+    public function iWantToCreateANewStripeCheckoutSessionPaymentMethod(): void
     {
         $this->createPage->open(['factory' => 'stripe_checkout_session']);
+    }
+
+    /**
+     * @Given /^I want to create a new Stripe JS payment method$/
+     *
+     * @throws UnexpectedPageException
+     */
+    public function iWantToCreateANewStripeJsPaymentMethod(): void
+    {
+        $this->createPage->open(['factory' => 'stripe_js']);
     }
 
     /**

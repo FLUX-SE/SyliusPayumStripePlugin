@@ -1,7 +1,6 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
 [![Build Status][ico-github-actions]][link-github-actions]
-[![Quality Score][ico-code-quality]][link-code-quality]
 
 ## Sylius Payum Stripe gateway plugin
 
@@ -158,9 +157,45 @@ in the Sylius admin.
 > ⚠️ Using `stripe trigger checkout.session.completed` will always result in a `500 error`,
 > because the test object will not embed any usable metadata.
 
-## Advanced usages
+### More?
 
 See documentation here : https://github.com/FLUX-SE/PayumStripe/blob/master/README.md
+
+## API (Sylius Api Platform)
+
+### Stripe JS gateway
+
+The endpoint : `GET /api/v2/shop/orders/{tokenValue}/payments/{paymentId}/configuration`
+will make a Payum `Capture` and respond with the Stripe Payment Intent client secret, like this :
+
+```json
+{
+ 'publishable_key':  'pk_test_1234567890',
+ 'use_authorize': false,
+ 'stripe_payment_intent_client_secret': 'a_secret'
+}
+```
+
+After calling this endpoint your will be able to use Stripe Elements to display a Stripe Payment form, the same as this template is doing it:
+https://github.com/FLUX-SE/PayumStripe/blob/master/src/Resources/views/Action/stripeJsPaymentIntent.html.twig.
+More information here : https://docs.stripe.com/payments/payment-element
+
+### Stripe Checkout Session gateway
+
+The endpoint : `GET /api/v2/shop/orders/{tokenValue}/payments/{paymentId}/configuration`
+will make a Payum `Capture` and respond with the Stripe Checkout Session url, like this :
+
+```json
+{
+ 'publishable_key':  'pk_test_1234567890',
+ 'use_authorize': false,
+ 'stripe_checkout_session_url': 'https://checkout.stripe.com/c/pay/cs_test...'
+}
+```
+
+Since this endpoint is not able to get any data from you, a service can be decorated to specify the Stripe Checkout Session `success_url` you need. 
+Decorate this service : `flux_se.sylius_payum_stripe.api.payum.after_url.stripe_checkout_session` to generate your own dedicated url.
+You will have access to the Sylius `Payment` to decide what is the url/route and the parameters of it.
 
 [docs-assets-create-payment-method]: docs/assets/create-payment-method.png
 [docs-assets-gateway-configuration]: docs/assets/gateway-configuration.png
@@ -169,9 +204,7 @@ See documentation here : https://github.com/FLUX-SE/PayumStripe/blob/master/READ
 [ico-version]: https://img.shields.io/packagist/v/Flux-SE/sylius-payum-stripe-plugin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-github-actions]: https://github.com/FLUX-SE/SyliusPayumStripePlugin/workflows/Build/badge.svg
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/Flux-SE/SyliusPayumStripePlugin.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/flux-se/sylius-payum-stripe-plugin
 [link-scrutinizer]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin/code-structure
 [link-github-actions]: https://github.com/FLUX-SE/SyliusPayumStripePlugin/actions?query=workflow%3A"Build"
-[link-code-quality]: https://scrutinizer-ci.com/g/FLUX-SE/SyliusPayumStripePlugin

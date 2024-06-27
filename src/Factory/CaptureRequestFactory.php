@@ -8,7 +8,7 @@ use Payum\Core\Model\ModelAggregateInterface;
 use Payum\Core\Request\Capture;
 use Payum\Core\Security\TokenInterface;
 
-final class CaptureRequestFactory implements CaptureRequestFactoryInterface
+final class CaptureRequestFactory implements ModelAggregateFactoryInterface
 {
     public function createNewWithToken(TokenInterface $token): ModelAggregateInterface
     {

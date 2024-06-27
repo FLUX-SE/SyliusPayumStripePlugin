@@ -6,7 +6,6 @@ namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker;
 
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
-use Stripe\Refund;
 use Sylius\Behat\Service\Mocker\MockerInterface;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\CheckoutSessionMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\PaymentIntentMocker;
@@ -14,17 +13,13 @@ use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\RefundMocker;
 
 final class StripeCheckoutSessionMocker
 {
-    /** @var MockerInterface */
-    private $mocker;
+    private MockerInterface $mocker;
 
-    /** @var CheckoutSessionMocker */
-    private $checkoutSessionMocker;
+    private CheckoutSessionMocker $checkoutSessionMocker;
 
-    /** @var PaymentIntentMocker */
-    private $paymentIntentMocker;
+    private PaymentIntentMocker $paymentIntentMocker;
 
-    /** @var RefundMocker */
-    private $refundMocker;
+    private RefundMocker $refundMocker;
 
     public function __construct(
         MockerInterface $mocker,
@@ -38,7 +33,7 @@ final class StripeCheckoutSessionMocker
         $this->refundMocker = $refundMocker;
     }
 
-    public function mockCreatePayment(callable $action): void
+    public function mockCaptureOrAuthorize(callable $action): void
     {
         $this->checkoutSessionMocker->mockCreateAction();
 
@@ -103,7 +98,7 @@ final class StripeCheckoutSessionMocker
             Session::PAYMENT_STATUS_PAID,
             PaymentIntent::STATUS_SUCCEEDED
         );
-        $this->mockPaymentIntentSync($action,PaymentIntent::STATUS_SUCCEEDED);
+        $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_SUCCEEDED);
     }
 
     public function mockAuthorizePayment(callable $notifyAction, callable $action): void
@@ -117,7 +112,7 @@ final class StripeCheckoutSessionMocker
         $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_REQUIRES_CAPTURE);
     }
 
-    public function mockSuccessfulPaymentWithoutWebhook(callable $action ): void
+    public function mockSuccessfulPaymentWithoutWebhook(callable $action): void
     {
         $this->mockSessionSync(
             $action,

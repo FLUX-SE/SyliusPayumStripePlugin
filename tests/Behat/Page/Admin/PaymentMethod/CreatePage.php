@@ -9,14 +9,14 @@ use Sylius\Behat\Page\Admin\PaymentMethod\CreatePage as BaseCreatePage;
 
 final class CreatePage extends BaseCreatePage implements CreatePageInterface
 {
-    /** @var int */
-    private $webhookSecretKeysListIndex = 0;
+    private int $webhookSecretKeysListIndex = 0;
 
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
             'webhook_secret_keys_list_element' => '#sylius_payment_method_gatewayConfig_config_webhook_secret_keys_%index%',
             'use_authorize_info' => '#sylius_payment_method_gatewayConfig_config_use_authorize_info',
+            'use_authorize' => '#sylius_payment_method_gatewayConfig_config_use_authorize',
         ]);
     }
 
@@ -51,10 +51,13 @@ final class CreatePage extends BaseCreatePage implements CreatePageInterface
     public function setStripeIsAuthorized(bool $isAuthorized): void
     {
         if ($isAuthorized) {
-            $this->getDocument()->checkField('Use authorize');
+            // ->check() is not working anymore because the checkbox is not visible
+            $this->getElement('use_authorize')->click();
         } else {
-            $this->getDocument()->uncheckField('Use authorize');
+            $this->getElement('use_authorize')->uncheck();
         }
+
+        sleep(1);
     }
 
     /**

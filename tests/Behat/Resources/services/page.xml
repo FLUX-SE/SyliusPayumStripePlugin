@@ -14,12 +14,22 @@
             <argument>payum_notify_do_unsafe</argument>
         </service>
 
-        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.page_checkout.external"
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.external.stripe_checkout_session"
                  parent="sylius.behat.page"
-                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripeCheckoutPage">
+                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripePage">
             <argument type="service" id="sylius.repository.payment_security_token" />
             <argument type="service" id="test.client" />
             <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.shop.payum_notify_page" />
+            <argument type="string">stripe_checkout_session</argument>
+        </service>
+
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.external.stripe_js"
+                 parent="sylius.behat.page"
+                 class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripePage">
+            <argument type="service" id="sylius.repository.payment_security_token" />
+            <argument type="service" id="test.client" />
+            <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.page.shop.payum_notify_page" />
+            <argument type="string">stripe_js</argument>
         </service>
 
     </services>

@@ -21,6 +21,9 @@ class FluxSESyliusPayumStripePlugin extends Bundle
             'stripe_checkout_session' => [
                 'payum.template.layout' => '@SyliusPayum/layout.html.twig',
             ],
+            'stripe_js' => [
+                'payum.template.layout' => '@SyliusPayum/layout.html.twig',
+            ],
         ]));
 
         $container->addCompilerPass(new WinzouStateMachineCallbacksModifier());
