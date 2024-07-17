@@ -141,20 +141,27 @@ First login to your Stripe account (needed every 90 days) :
 stripe login
 ```
 
-Then start to listen for the 2 required events, forwarding request to your local server :
+Then start to listen for the Stripe events (minimal ones are used here), forwarding request to your local server :
 
-```shell
-stripe listen \
-    --events checkout.session.completed,checkout.session.async_payment_failed,checkout.session.async_payment_succeeded \
-    --forward-to https://localhost/payment/notify/unsafe/stripe_checkout_session_with_sca
-```
+1. Example with `stripe_checkout_session_with_sca` as gateway name:
+   ```shell
+   stripe listen \
+      --events checkout.session.completed,checkout.session.async_payment_failed,checkout.session.async_payment_succeeded \
+      --forward-to https://localhost/payment/notify/unsafe/stripe_checkout_session_with_sca
+   ```
+1. Example with `stripe_js_with_sca` as gateway name:
+   ```shell
+   stripe listen \
+      --events payment_intent.canceled,payment_intent.succeeded \
+      --forward-to https://localhost/payment/notify/unsafe/stripe_js_with_sca
+   ```
 
 > 💡 Replace the --forward-to argument value with the right one you need.
 
 When the command finishes a webhook secret key is displayed, copy it to your Payment method
 in the Sylius admin.
 
-> ⚠️ Using `stripe trigger checkout.session.completed` will always result in a `500 error`,
+> ⚠️ Using the command `stripe trigger checkout.session.completed` will always result in a `500 error`,
 > because the test object will not embed any usable metadata.
 
 ### More?
@@ -166,7 +173,7 @@ See documentation here : https://github.com/FLUX-SE/PayumStripe/blob/master/READ
 ### Stripe JS gateway
 
 The endpoint : `GET /api/v2/shop/orders/{tokenValue}/payments/{paymentId}/configuration`
-will make a Payum `Capture` and respond with the Stripe Payment Intent client secret, like this :
+will make a Payum `Capture` or an `Authorize` and respond with the Stripe Payment Intent client secret, like this :
 
 ```json
 {
@@ -183,7 +190,7 @@ More information here : https://docs.stripe.com/payments/payment-element
 ### Stripe Checkout Session gateway
 
 The endpoint : `GET /api/v2/shop/orders/{tokenValue}/payments/{paymentId}/configuration`
-will make a Payum `Capture` and respond with the Stripe Checkout Session url, like this :
+will make a Payum `Capture` or an `Authorize` and respond with the Stripe Checkout Session url, like this :
 
 ```json
 {
