@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\Abstraction\StateMachine;
 
 use SM\Factory\FactoryInterface;
-use Sylius\Resource\StateMachine\StateMachineInterface as SyliusStateMachineInterface;
+use Sylius\Component\Resource\StateMachine\StateMachine as SyliusStateMachineInterface;
 use Webmozart\Assert\Assert;
 
 final class WinzouStateMachine implements StateMachineInterface
