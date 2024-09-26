@@ -6,11 +6,11 @@ Feature: Adding a new Stripe JS payment method
 
   Background:
     Given the store operates on a single channel in "United States"
-    And I am logged in as an administrator
 
   @ui @javascript
   Scenario: Adding a new stripe payment method using authorize
-    Given I want to create a new Stripe JS payment method
+    Given I am logged in as an administrator
+    And I want to create a new Stripe JS payment method
     When I name it "Stripe JS" in "English (United States)"
     And I specify its code as "stripe_sca_test"
     And I configure it with test stripe gateway data "TEST", "TEST"
@@ -23,7 +23,8 @@ Feature: Adding a new Stripe JS payment method
 
   @ui @javascript
   Scenario: Adding a new stripe payment method not using authorize
-    Given I want to create a new Stripe JS payment method
+    Given I am logged in as an administrator
+    And I want to create a new Stripe JS payment method
     When I name it "Stripe JS" in "English (United States)"
     And I specify its code as "stripe_sca_test"
     And I configure it with test stripe gateway data "TEST", "TEST"
