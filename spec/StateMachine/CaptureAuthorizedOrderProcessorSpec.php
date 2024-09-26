@@ -29,7 +29,7 @@ final class CaptureAuthorizedOrderProcessorSpec extends ObjectBehavior
         $command = new CaptureAuthorizedPayment(1);
         $commandBus->dispatch($command)->willReturn(new Envelope($command));
 
-        $this->__invoke($payment, $event);
+        $this->__invoke($payment);
     }
 
     public function it_do_nothing_when_it_is_completed(
@@ -38,7 +38,7 @@ final class CaptureAuthorizedOrderProcessorSpec extends ObjectBehavior
     ): void {
         $event->getState()->willReturn(PaymentInterface::STATE_COMPLETED);
 
-        $this->__invoke($payment, $event);
+        $this->__invoke($payment);
     }
 
     public function it_do_nothing_when_it_is_refunded(
@@ -47,6 +47,6 @@ final class CaptureAuthorizedOrderProcessorSpec extends ObjectBehavior
     ): void {
         $event->getState()->willReturn(PaymentInterface::STATE_REFUNDED);
 
-        $this->__invoke($payment, $event);
+        $this->__invoke($payment);
     }
 }

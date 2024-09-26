@@ -1,0 +1,3 @@
+twig:
+  form_themes:
+    - '@FluxSESyliusPayumStripePlugin/Admin/PaymentMethod/Form/useAuthorize.html.twig'

@@ -47,5 +47,10 @@ class FluxSESyliusPayumStripeExtension extends Extension
             new FileLocator(dirname(__DIR__) . '/Resources/config'),
         );
         $loader->load('services.yaml');
+
+        if ($container->hasExtension('sylius_state_machine_abstraction')) {
+            $loader->load('services/abstraction/abstraction.yaml');
+            $loader->load('services/listener/workflow/sylius_payment.yaml');
+        }
     }
 }

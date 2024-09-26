@@ -29,7 +29,7 @@ final class CancelOrderProcessorSpec extends ObjectBehavior
         $command = new CancelPayment(1);
         $commandBus->dispatch($command)->willReturn(new Envelope($command));
 
-        $this->__invoke($payment, $event);
+        $this->__invoke($payment);
     }
 
     public function it_is_invokable_when_is_authorized(
@@ -45,7 +45,7 @@ final class CancelOrderProcessorSpec extends ObjectBehavior
         $command = new CancelPayment(1);
         $commandBus->dispatch($command)->willReturn(new Envelope($command));
 
-        $this->__invoke($payment, $event);
+        $this->__invoke($payment);
     }
 
     public function it_do_nothing_when_it_is_completed(
@@ -54,7 +54,7 @@ final class CancelOrderProcessorSpec extends ObjectBehavior
     ): void {
         $event->getState()->willReturn(PaymentInterface::STATE_COMPLETED);
 
-        $this->__invoke($payment, $event);
+        $this->__invoke($payment);
     }
 
     public function it_do_nothing_when_it_is_refunded(
@@ -63,6 +63,6 @@ final class CancelOrderProcessorSpec extends ObjectBehavior
     ): void {
         $event->getState()->willReturn(PaymentInterface::STATE_REFUNDED);
 
-        $this->__invoke($payment, $event);
+        $this->__invoke($payment);
     }
 }

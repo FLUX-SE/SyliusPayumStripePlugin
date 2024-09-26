@@ -121,8 +121,8 @@ class StripeJsShopContext extends MinkContext implements Context
     }
 
     /**
-     * @When I confirm my order with Stripe payment
      * @Given I have confirmed my order with Stripe payment
+     * @When I confirm my order with Stripe payment
      */
     public function iConfirmMyOrderWithStripePayment(): void
     {

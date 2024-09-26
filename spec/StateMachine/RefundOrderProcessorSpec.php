@@ -29,7 +29,7 @@ final class RefundOrderProcessorSpec extends ObjectBehavior
         $command = new RefundPayment(1);
         $commandBus->dispatch($command)->willReturn(new Envelope($command));
 
-        $this->__invoke($payment, $event);
+        $this->__invoke($payment);
     }
 
     public function it_do_nothing_when_it_is_authorized(
@@ -38,6 +38,6 @@ final class RefundOrderProcessorSpec extends ObjectBehavior
     ): void {
         $event->getState()->willReturn(PaymentInterface::STATE_AUTHORIZED);
 
-        $this->__invoke($payment, $event);
+        $this->__invoke($payment);
     }
 }

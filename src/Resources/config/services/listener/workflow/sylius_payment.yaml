@@ -1,0 +1,25 @@
+services:
+
+  flux_se.sylius_payum_stripe_plugin.event_listener.workflow.payment_complete_state.cancel:
+    class: FluxSE\SyliusPayumStripePlugin\EventListener\Workflow\PaymentCompletedStateListener
+    arguments:
+      $paymentStateProcessor: '@flux_se.sylius_payum_stripe.state_machine.cancel'
+    tags:
+      - name: kernel.event_listener
+        event: workflow.sylius_payment.completed.cancel
+
+  flux_se.sylius_payum_stripe_plugin.event_listener.workflow.payment_complete_state.refund:
+    class: FluxSE\SyliusPayumStripePlugin\EventListener\Workflow\PaymentCompletedStateListener
+    arguments:
+      $paymentStateProcessor: '@flux_se.sylius_payum_stripe.state_machine.refund'
+    tags:
+      - name: kernel.event_listener
+        event: workflow.sylius_payment.completed.refund
+
+  flux_se.sylius_payum_stripe_plugin.event_listener.workflow.payment_complete_state.complete_authorized:
+    class: FluxSE\SyliusPayumStripePlugin\EventListener\Workflow\PaymentCompletedStateListener
+    arguments:
+      $paymentStateProcessor: '@flux_se.sylius_payum_stripe.state_machine.capture_authorized'
+    tags:
+      - name: kernel.event_listener
+        event: workflow.sylius_payment.completed.complete

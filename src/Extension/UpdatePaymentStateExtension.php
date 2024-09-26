@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\Extension;
 
+use FluxSE\SyliusPayumStripePlugin\Abstraction\StateMachine\StateMachineInterface;
 use Payum\Core\Extension\Context;
 use Payum\Core\Extension\ExtensionInterface;
 use Payum\Core\Model\ModelAggregateInterface;
 use Payum\Core\Storage\IdentityInterface;
 use Payum\Core\Storage\StorageInterface;
-use SM\Factory\FactoryInterface;
-use SM\SMException;
 use Sylius\Bundle\PayumBundle\Factory\GetStatusFactoryInterface;
 use Sylius\Component\Payment\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
-use Sylius\Component\Resource\StateMachine\StateMachineInterface;
-use Webmozart\Assert\Assert;
 
 /**
  * Reproduction of the Payum Core StorageExtension behaviour for Sylius payments
@@ -24,26 +21,14 @@ use Webmozart\Assert\Assert;
  */
 final class UpdatePaymentStateExtension implements ExtensionInterface
 {
-    /** @var FactoryInterface */
-    private $factory;
-
-    /** @var StorageInterface */
-    private $storage;
-
-    /** @var GetStatusFactoryInterface */
-    private $getStatusRequestFactory;
-
     /** @var PaymentInterface[] */
-    private $scheduledPaymentsToProcess = [];
+    private array $scheduledPaymentsToProcess = [];
 
     public function __construct(
-        FactoryInterface $factory,
-        StorageInterface $storage,
-        GetStatusFactoryInterface $getStatusRequestFactory
+        private StateMachineInterface $stateMachine,
+        private StorageInterface $storage,
+        private GetStatusFactoryInterface $getStatusRequestFactory
     ) {
-        $this->factory = $factory;
-        $this->storage = $storage;
-        $this->getStatusRequestFactory = $getStatusRequestFactory;
     }
 
     public function onPreExecute(Context $context): void
@@ -73,9 +58,6 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
     {
     }
 
-    /**
-     * @throws SMException
-     */
     public function onPostExecute(Context $context): void
     {
         if (null !== $context->getException()) {
@@ -105,9 +87,6 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
         }
     }
 
-    /**
-     * @throws SMException
-     */
     private function processPayment(Context $context, PaymentInterface $payment): void
     {
         $status = $this->getStatusRequestFactory->createNewWithModel($payment);
@@ -125,21 +104,22 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
         $this->updatePaymentState($payment, $value);
     }
 
-    /**
-     * @throws SMException
-     */
     private function updatePaymentState(PaymentInterface $payment, string $nextState): void
     {
-        $stateMachine = $this->factory->get($payment, PaymentTransitions::GRAPH);
-
-        Assert::isInstanceOf($stateMachine, StateMachineInterface::class);
-
-        $transition = $stateMachine->getTransitionToState($nextState);
+        $transition = $this->stateMachine->getTransitionToState(
+            $payment,
+            PaymentTransitions::GRAPH,
+            $nextState
+        );
         if (null === $transition) {
             return;
         }
 
-        $stateMachine->apply($transition);
+        $this->stateMachine->apply(
+            $payment,
+            PaymentTransitions::GRAPH,
+            $transition
+        );
     }
 
     private function scheduleForProcessingIfSupported(PaymentInterface $payment): void
