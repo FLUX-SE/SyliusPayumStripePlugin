@@ -15,7 +15,7 @@ default:
 
         FriendsOfBehat\MinkDebugExtension:
             directory: etc/build
-            clean_start: false
+            clean_start: true
             screenshot: true
 
         Behat\MinkExtension:
