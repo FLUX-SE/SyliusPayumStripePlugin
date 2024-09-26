@@ -19,34 +19,25 @@ final class CaptureAuthorizedOrderProcessorSpec extends ObjectBehavior
 
     public function it_is_invokable(
         PaymentInterface $payment,
-        TransitionEvent $event,
         MessageBusInterface $commandBus
     ): void {
-        $event->getState()->willReturn(PaymentInterface::STATE_AUTHORIZED);
-
         $payment->getId()->willReturn(1);
 
         $command = new CaptureAuthorizedPayment(1);
         $commandBus->dispatch($command)->willReturn(new Envelope($command));
 
-        $this->__invoke($payment);
+        $this->__invoke($payment, PaymentInterface::STATE_AUTHORIZED);
     }
 
     public function it_do_nothing_when_it_is_completed(
-        PaymentInterface $payment,
-        TransitionEvent $event
+        PaymentInterface $payment
     ): void {
-        $event->getState()->willReturn(PaymentInterface::STATE_COMPLETED);
-
-        $this->__invoke($payment);
+        $this->__invoke($payment, PaymentInterface::STATE_COMPLETED);
     }
 
     public function it_do_nothing_when_it_is_refunded(
-        PaymentInterface $payment,
-        TransitionEvent $event
+        PaymentInterface $payment
     ): void {
-        $event->getState()->willReturn(PaymentInterface::STATE_REFUNDED);
-
-        $this->__invoke($payment);
+        $this->__invoke($payment, PaymentInterface::STATE_REFUNDED);
     }
 }

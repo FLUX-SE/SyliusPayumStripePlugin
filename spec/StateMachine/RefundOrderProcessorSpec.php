@@ -14,30 +14,31 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final class RefundOrderProcessorSpec extends ObjectBehavior
 {
     public function let(MessageBusInterface $commandBus): void {
-        $this->beConstructedWith($commandBus);
+        $this->beConstructedWith($commandBus, false);
     }
 
     public function it_is_invokable(
         PaymentInterface $payment,
-        TransitionEvent $event,
         MessageBusInterface $commandBus
     ): void {
-        $event->getState()->willReturn(PaymentInterface::STATE_COMPLETED);
-
         $payment->getId()->willReturn(1);
 
         $command = new RefundPayment(1);
         $commandBus->dispatch($command)->willReturn(new Envelope($command));
 
-        $this->__invoke($payment);
+        $this->__invoke($payment, PaymentInterface::STATE_COMPLETED);
     }
 
-    public function it_do_nothing_when_it_is_authorized(
+    public function it_do_nothing_when_it_is_disabled(
         PaymentInterface $payment,
-        TransitionEvent $event
+        MessageBusInterface $commandBus
     ): void {
-        $event->getState()->willReturn(PaymentInterface::STATE_AUTHORIZED);
 
-        $this->__invoke($payment);
+        $this->beConstructedWith($commandBus, true);
+
+        $command = new RefundPayment(1);
+        $commandBus->dispatch($command)->shouldNotBeCalled();
+
+        $this->__invoke($payment, PaymentInterface::STATE_COMPLETED);
     }
 }
