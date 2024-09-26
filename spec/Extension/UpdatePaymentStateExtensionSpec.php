@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace spec\FluxSE\SyliusPayumStripePlugin\Extension;
 
 use Exception;
+use FluxSE\SyliusPayumStripePlugin\Abstraction\StateMachine\StateMachineInterface;
 use Payum\Core\Extension\Context;
 use Payum\Core\Extension\ExtensionInterface;
 use Payum\Core\GatewayInterface;
@@ -15,20 +16,18 @@ use Payum\Core\Security\TokenAggregateInterface;
 use Payum\Core\Storage\IdentityInterface;
 use Payum\Core\Storage\StorageInterface;
 use PhpSpec\ObjectBehavior;
-use SM\Factory\FactoryInterface;
 use Sylius\Bundle\PayumBundle\Factory\GetStatusFactoryInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
-use Sylius\Component\Resource\StateMachine\StateMachineInterface;
 
 final class UpdatePaymentStateExtensionSpec extends ObjectBehavior
 {
     public function let(
-        FactoryInterface $factory,
+        StateMachineInterface $stateMachine,
         StorageInterface $storage,
         GetStatusFactoryInterface $getStatusRequestFactory
     ): void {
-        $this->beConstructedWith($factory, $storage, $getStatusRequestFactory);
+        $this->beConstructedWith($stateMachine, $storage, $getStatusRequestFactory);
     }
 
     public function it_is_initializable(): void
@@ -96,7 +95,6 @@ final class UpdatePaymentStateExtensionSpec extends ObjectBehavior
         GetStatusInterface $status,
         GetStatusFactoryInterface $getStatusRequestFactory,
         GatewayInterface $gateway,
-        FactoryInterface $factory,
         StateMachineInterface $stateMachine
     ): void {
         $context->getException()->willReturn(null);
@@ -114,9 +112,16 @@ final class UpdatePaymentStateExtensionSpec extends ObjectBehavior
         $payment->getState()->willReturn(PaymentInterface::STATE_NEW);
         $status->getValue()->willReturn(PaymentInterface::STATE_COMPLETED);
 
-        $factory->get($payment, PaymentTransitions::GRAPH)->willReturn($stateMachine);
-        $stateMachine->getTransitionToState(PaymentInterface::STATE_COMPLETED)->willReturn('complete');
-        $stateMachine->apply('complete')->shouldBeCalled();
+        $stateMachine->getTransitionToState(
+            $payment,
+            PaymentTransitions::GRAPH,
+            PaymentInterface::STATE_COMPLETED
+        )->willReturn('complete');
+        $stateMachine->apply(
+            $payment,
+            PaymentTransitions::GRAPH,
+            'complete'
+        )->shouldBeCalled();
 
         $this->onPostExecute($context);
     }
@@ -131,7 +136,6 @@ final class UpdatePaymentStateExtensionSpec extends ObjectBehavior
         GetStatusInterface $status,
         GetStatusFactoryInterface $getStatusRequestFactory,
         GatewayInterface $gateway,
-        FactoryInterface $factory,
         StateMachineInterface $stateMachine
     ): void {
         $context->getException()->willReturn(null);
@@ -152,9 +156,16 @@ final class UpdatePaymentStateExtensionSpec extends ObjectBehavior
         $previousPayment->getState()->willReturn(PaymentInterface::STATE_NEW);
         $status->getValue()->willReturn(PaymentInterface::STATE_COMPLETED);
 
-        $factory->get($previousPayment, PaymentTransitions::GRAPH)->willReturn($stateMachine);
-        $stateMachine->getTransitionToState(PaymentInterface::STATE_COMPLETED)->willReturn('complete');
-        $stateMachine->apply('complete')->shouldBeCalled();
+        $stateMachine->getTransitionToState(
+            $previousPayment,
+            PaymentTransitions::GRAPH,
+            PaymentInterface::STATE_COMPLETED
+        )->willReturn('complete');
+        $stateMachine->apply(
+            $previousPayment,
+            PaymentTransitions::GRAPH,
+            'complete'
+        )->shouldBeCalled();
 
         $this->onPreExecute($previousContext);
 

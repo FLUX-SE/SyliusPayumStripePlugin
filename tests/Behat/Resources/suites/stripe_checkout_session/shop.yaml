@@ -47,6 +47,7 @@ default:
       contexts:
         - sylius.behat.context.hook.doctrine_orm
         - sylius.behat.context.transform.address
+        - sylius.behat.context.transform.cart
         - sylius.behat.context.transform.customer
         - sylius.behat.context.transform.lexical
         - sylius.behat.context.transform.locale

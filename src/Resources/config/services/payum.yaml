@@ -1,10 +1,18 @@
 services:
 
+  flux_se.sylius_payum_stripe.abstraction.state_machine.winzou:
+    class: FluxSE\SyliusPayumStripePlugin\Abstraction\StateMachine\WinzouStateMachine
+    arguments:
+      $factory: '@sm.factory'
+
+  flux_se.sylius_payum_stripe.abstraction.state_machine.composite:
+    alias: flux_se.sylius_payum_stripe.abstraction.state_machine.winzou
+
   flux_se.sylius_payum_stripe.extension.update_payment_state:
     public: true
     class: FluxSE\SyliusPayumStripePlugin\Extension\UpdatePaymentStateExtension
     arguments:
-      $factory: '@sm.factory'
+      $stateMachine: '@flux_se.sylius_payum_stripe.abstraction.state_machine.composite'
       # Alias of "@payum.storage.sylius_component_core_model_payment"
       # or "@payum.storage.app_entity_payment_payment" or any other available
       # Payum storage handling Payment entity

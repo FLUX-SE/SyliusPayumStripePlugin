@@ -5,6 +5,7 @@ services:
     class: FluxSE\SyliusPayumStripePlugin\StateMachine\RefundOrderProcessor
     arguments:
       $commandBus: '@sylius.command_bus'
+      $disabled: '%flux_se.sylius_payum_stripe.refund.disabled%'
 
   flux_se.sylius_payum_stripe.state_machine.cancel:
     public: true

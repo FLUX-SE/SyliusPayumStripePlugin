@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 
 use FluxSE\SyliusPayumStripePlugin\Command\CancelPayment;
-use SM\Event\TransitionEvent;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Webmozart\Assert\Assert;
 
-final class CancelOrderProcessor
+final class CancelOrderProcessor implements PaymentStateProcessorInterface
 {
-    /** @var MessageBusInterface */
-    private $commandBus;
+    private MessageBusInterface $commandBus;
 
     public function __construct(
         MessageBusInterface $commandBus
@@ -21,9 +19,9 @@ final class CancelOrderProcessor
         $this->commandBus = $commandBus;
     }
 
-    public function __invoke(PaymentInterface $payment, TransitionEvent $event): void
+    public function __invoke(PaymentInterface $payment, string $fromState): void
     {
-        if (false === in_array($event->getState(), [
+        if (false === in_array($fromState, [
                 PaymentInterface::STATE_NEW,
                 PaymentInterface::STATE_AUTHORIZED,
             ], true)) {
@@ -32,7 +30,7 @@ final class CancelOrderProcessor
 
         /** @var int|null $paymentId */
         $paymentId = $payment->getId();
-        Assert::notNull($paymentId);
+        Assert::notNull($paymentId, 'A payment ID was not provided on the payment object.');
         $this->commandBus->dispatch(new CancelPayment($paymentId));
     }
 }

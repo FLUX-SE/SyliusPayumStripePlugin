@@ -1,0 +1,2 @@
+sylius_state_machine_abstraction:
+    default_adapter: symfony_workflow

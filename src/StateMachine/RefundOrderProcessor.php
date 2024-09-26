@@ -5,30 +5,33 @@ declare(strict_types=1);
 namespace FluxSE\SyliusPayumStripePlugin\StateMachine;
 
 use FluxSE\SyliusPayumStripePlugin\Command\RefundPayment;
-use SM\Event\TransitionEvent;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Webmozart\Assert\Assert;
 
-final class RefundOrderProcessor
+final class RefundOrderProcessor implements PaymentStateProcessorInterface
 {
-    /** @var MessageBusInterface */
-    private $commandBus;
+    private MessageBusInterface $commandBus;
 
-    public function __construct(MessageBusInterface $commandBus)
-    {
+    private bool $disabled;
+
+    public function __construct(
+        MessageBusInterface $commandBus,
+        bool $disabled
+    ) {
         $this->commandBus = $commandBus;
+        $this->disabled = $disabled;
     }
 
-    public function __invoke(PaymentInterface $payment, TransitionEvent $event): void
+    public function __invoke(PaymentInterface $payment, string $fromState): void
     {
-        if (PaymentInterface::STATE_COMPLETED !== $event->getState()) {
+        if ($this->disabled) {
             return;
         }
 
         /** @var int|null $paymentId */
         $paymentId = $payment->getId();
-        Assert::notNull($paymentId);
+        Assert::notNull($paymentId, 'A payment ID was not provided on the payment object.');
         $this->commandBus->dispatch(new RefundPayment($paymentId));
     }
 }
