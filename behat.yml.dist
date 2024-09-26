@@ -10,7 +10,6 @@ default:
             snippets: false
 
     extensions:
-        DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
         Robertfausk\Behat\PantherExtension: ~
 
         FriendsOfBehat\MinkDebugExtension:
@@ -22,15 +21,11 @@ default:
             files_path: "%paths.base%/vendor/sylius/sylius/src/Sylius/Behat/Resources/fixtures/"
             base_url: "https://127.0.0.1:8080/"
             default_session: symfony
-            javascript_session: panther
+            javascript_session: javascript_chrome
             sessions:
                 symfony:
                     symfony: ~
-                chromedriver:
-                    chrome:
-                        api_url: http://127.0.0.1:9222
-                        validate_certificate: false
-                panther:
+                javascript_chrome:
                     panther:
                         options:
                             webServerDir: "%paths.base%/tests/Application/public"
@@ -45,6 +40,7 @@ default:
                                 acceptInsecureCerts: true
                                 unexpectedAlertBehaviour: accept
             show_auto: false
+            browser_name: 'behat_browser'
 
         FriendsOfBehat\SymfonyExtension:
             bootstrap: tests/Application/config/bootstrap.php
