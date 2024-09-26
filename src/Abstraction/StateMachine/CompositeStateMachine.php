@@ -20,7 +20,8 @@ final class CompositeStateMachine implements StateMachineInterface
         return $this->stateMachine->getTransitionToState($subject, $graphName, $toState);
     }
 
-    public function apply(object $subject, string $graphName, string $transition, array $context = []): void {
+    public function apply(object $subject, string $graphName, string $transition, array $context = []): void
+    {
         $this->stateMachine->apply($subject, $graphName, $transition, $context);
     }
 }
