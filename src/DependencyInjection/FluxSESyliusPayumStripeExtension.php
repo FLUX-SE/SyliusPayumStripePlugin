@@ -8,9 +8,10 @@ use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class FluxSESyliusPayumStripeExtension extends Extension
+class FluxSESyliusPayumStripeExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * @throws Exception
@@ -47,6 +48,14 @@ class FluxSESyliusPayumStripeExtension extends Extension
             new FileLocator(dirname(__DIR__) . '/Resources/config'),
         );
         $loader->load('services.yaml');
+    }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        $loader = new YamlFileLoader(
+            $container,
+            new FileLocator(dirname(__DIR__) . '/Resources/config'),
+        );
 
         if ($container->hasExtension('sylius_state_machine_abstraction')) {
             $loader->load('services/abstraction/abstraction.yaml');
