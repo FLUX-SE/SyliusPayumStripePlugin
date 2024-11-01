@@ -1,0 +1,8 @@
+flux_se_sylius_payum_stripe_plugin:
+    stripe:
+        webhook_secret_keys:
+            not_blank: Bitte geben Sie den Stripe Webhook-Geheimschlüssel ein.
+        secret_key:
+            not_blank: Bitte geben Sie den Stripe-Geheimschlüssel ein.
+        publishable_key:
+            not_blank: Bitte geben Sie den Stripe-öffentlichen Schlüssel ein.
