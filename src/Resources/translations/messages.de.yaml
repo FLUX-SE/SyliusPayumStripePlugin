@@ -1,0 +1,17 @@
+flux_se_sylius_payum_stripe_plugin:
+    payum_gateway_factory:
+        stripe_checkout_session: Stripe Checkout-Session (mit SCA-Unterstützung)
+        stripe_js: Stripe JS (mit SCA-Unterstützung)
+    form:
+        gateway_configuration:
+            stripe:
+                publishable_key: Öffentlicher Schlüssel
+                secret_key: Geheimschlüssel
+                use_authorize: Autorisierung verwenden
+                webhook_secret_keys: Geheimschlüssel für Webhooks
+                help:
+                    use_authorize: >
+                        Wenn eine Zahlung autorisiert wird, garantiert die Bank den Betrag und reserviert ihn bis zu sieben Tage auf der Karte des Kunden.
+                        <a href="https://stripe.com/docs/payments/capture-later" target="_blank">
+                            Weiterlesen
+                        </a>
