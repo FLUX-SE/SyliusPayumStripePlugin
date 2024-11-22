@@ -48,7 +48,7 @@ final class CancelOrderProcessorSpec extends ObjectBehavior
     }
 
     public function it_do_nothing_when_it_is_refunded(
-        PaymentInterface $payment,
+        PaymentInterface $payment
     ): void {
         $this->__invoke($payment, PaymentInterface::STATE_REFUNDED);
     }
