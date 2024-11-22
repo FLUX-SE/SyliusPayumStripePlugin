@@ -6,20 +6,20 @@ namespace spec\FluxSE\SyliusPayumStripePlugin\StateMachine;
 
 use FluxSE\SyliusPayumStripePlugin\Command\CancelPayment;
 use PhpSpec\ObjectBehavior;
-use SM\Event\TransitionEvent;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CancelOrderProcessorSpec extends ObjectBehavior
 {
-    public function let(MessageBusInterface $commandBus): void {
+    public function let(MessageBusInterface $commandBus): void
+    {
         $this->beConstructedWith($commandBus);
     }
 
     public function it_is_invokable_when_it_is_new(
         PaymentInterface $payment,
-        MessageBusInterface $commandBus,
+        MessageBusInterface $commandBus
     ): void {
         $payment->getId()->willReturn(1);
 
@@ -48,7 +48,7 @@ final class CancelOrderProcessorSpec extends ObjectBehavior
     }
 
     public function it_do_nothing_when_it_is_refunded(
-        PaymentInterface $payment,
+        PaymentInterface $payment
     ): void {
         $this->__invoke($payment, PaymentInterface::STATE_REFUNDED);
     }

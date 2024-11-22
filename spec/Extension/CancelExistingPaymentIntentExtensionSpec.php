@@ -104,9 +104,9 @@ final class CancelExistingPaymentIntentExtensionSpec extends ObjectBehavior
             ->willReturn($allSessionRequest);
 
         $allSessionRequest->setParameters([
-            'payment_intent' => $piId
+            'payment_intent' => $piId,
         ])->shouldBeCalled();
-        $allSessionRequest->getApiResources()->willReturn(Collection::constructFrom(['data'=>[]]));
+        $allSessionRequest->getApiResources()->willReturn(Collection::constructFrom(['data' => []]));
 
         $gateway->execute($allSessionRequest)->shouldBeCalled();
 
@@ -139,15 +139,15 @@ final class CancelExistingPaymentIntentExtensionSpec extends ObjectBehavior
             ->willReturn($allSessionRequest);
 
         $allSessionRequest->setParameters([
-            'payment_intent' => $piId
+            'payment_intent' => $piId,
         ])->shouldBeCalled();
         $allSessionRequest->getApiResources()->willReturn(Collection::constructFrom([
-            'data'=>[
+            'data' => [
                 [
                     'id' => $csId,
                     'status' => Session::STATUS_EXPIRED,
-                ]
-            ]
+                ],
+            ],
         ]));
 
         $gateway->execute($allSessionRequest)->shouldBeCalled();
@@ -183,15 +183,15 @@ final class CancelExistingPaymentIntentExtensionSpec extends ObjectBehavior
             ->willReturn($allSessionRequest);
 
         $allSessionRequest->setParameters([
-            'payment_intent' => $piId
+            'payment_intent' => $piId,
         ])->shouldBeCalled();
         $allSessionRequest->getApiResources()->willReturn(Collection::constructFrom([
-            'data'=>[
+            'data' => [
                 [
                     'id' => $csId,
                     'status' => Session::STATUS_OPEN,
-                ]
-            ]
+                ],
+            ],
         ]));
 
         $gateway->execute($allSessionRequest)->shouldBeCalled();

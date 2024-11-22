@@ -11,9 +11,10 @@ return static function (ECSConfig $config): void {
     $config->paths([
         'src',
         'tests/Behat',
+        'spec',
+        'ecs.php',
     ]);
 
     // PHP 7 compatibility
     $config->ruleWithConfiguration(TrailingCommaInMultilineFixer::class, ['elements' => ['arrays']]);
-
 };
