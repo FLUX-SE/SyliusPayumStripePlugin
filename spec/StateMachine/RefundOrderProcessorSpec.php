@@ -6,14 +6,14 @@ namespace spec\FluxSE\SyliusPayumStripePlugin\StateMachine;
 
 use FluxSE\SyliusPayumStripePlugin\Command\RefundPayment;
 use PhpSpec\ObjectBehavior;
-use SM\Event\TransitionEvent;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RefundOrderProcessorSpec extends ObjectBehavior
 {
-    public function let(MessageBusInterface $commandBus): void {
+    public function let(MessageBusInterface $commandBus): void
+    {
         $this->beConstructedWith($commandBus, false);
     }
 
@@ -33,7 +33,6 @@ final class RefundOrderProcessorSpec extends ObjectBehavior
         PaymentInterface $payment,
         MessageBusInterface $commandBus
     ): void {
-
         $this->beConstructedWith($commandBus, true);
 
         $command = new RefundPayment(1);

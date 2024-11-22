@@ -6,14 +6,14 @@ namespace spec\FluxSE\SyliusPayumStripePlugin\StateMachine;
 
 use FluxSE\SyliusPayumStripePlugin\Command\CaptureAuthorizedPayment;
 use PhpSpec\ObjectBehavior;
-use SM\Event\TransitionEvent;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 final class CaptureAuthorizedOrderProcessorSpec extends ObjectBehavior
 {
-    public function let(MessageBusInterface $commandBus): void {
+    public function let(MessageBusInterface $commandBus): void
+    {
         $this->beConstructedWith($commandBus);
     }
 
