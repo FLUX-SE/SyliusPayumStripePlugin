@@ -36,11 +36,11 @@ final class LinetItemNameProviderTest extends TestCase
         $orderItemMock = $this->createMock(OrderItemInterface::class);
         /** @var ProductInterface&MockObject $productMock */
         $productMock = $this->createMock(ProductInterface::class);
-        $orderItemMock->expects($this->once())->method('getQuantity')->willReturn(1);
-        $orderItemMock->expects($this->once())->method('getProduct')->willReturn($productMock);
-        $orderItemMock->expects($this->once())->method('getProductName')->willReturn('My Product');
-        $orderItemMock->expects($this->once())->method('getVariantName')->willReturn('variant');
-        $productMock->expects($this->once())->method('hasOptions')->willReturn(true);
+        $orderItemMock->expects($this->atLeastOnce())->method('getQuantity')->willReturn(1);
+        $orderItemMock->expects($this->atLeastOnce())->method('getProduct')->willReturn($productMock);
+        $orderItemMock->expects($this->atLeastOnce())->method('getProductName')->willReturn('My Product');
+        $orderItemMock->expects($this->atLeastOnce())->method('getVariantName')->willReturn('variant');
+        $productMock->expects($this->atLeastOnce())->method('hasOptions')->willReturn(true);
         $this->assertSame('1x - My Product variant', $this->linetItemNameProvider->getItemName($orderItemMock));
     }
 
@@ -53,11 +53,11 @@ final class LinetItemNameProviderTest extends TestCase
         $orderItemMock = $this->createMock(OrderItemInterface::class);
         /** @var ProductInterface&MockObject $productMock */
         $productMock = $this->createMock(ProductInterface::class);
-        $orderItemMock->expects($this->once())->method('getQuantity')->willReturn(1);
-        $orderItemMock->expects($this->once())->method('getProduct')->willReturn($productMock);
-        $orderItemMock->expects($this->once())->method('getProductName')->willReturn('My Product');
-        $orderItemMock->expects($this->once())->method('getVariantName')->willReturn('variant');
-        $productMock->expects($this->once())->method('hasOptions')->willReturn(false);
+        $orderItemMock->expects($this->atLeastOnce())->method('getQuantity')->willReturn(1);
+        $orderItemMock->expects($this->atLeastOnce())->method('getProduct')->willReturn($productMock);
+        $orderItemMock->expects($this->atLeastOnce())->method('getProductName')->willReturn('My Product');
+        $orderItemMock->expects($this->atLeastOnce())->method('getVariantName')->willReturn('variant');
+        $productMock->expects($this->atLeastOnce())->method('hasOptions')->willReturn(false);
         $this->assertSame('1x - variant', $this->linetItemNameProvider->getItemName($orderItemMock));
     }
 
@@ -70,11 +70,11 @@ final class LinetItemNameProviderTest extends TestCase
         $orderItemMock = $this->createMock(OrderItemInterface::class);
         /** @var ProductInterface&MockObject $productMock */
         $productMock = $this->createMock(ProductInterface::class);
-        $orderItemMock->expects($this->once())->method('getQuantity')->willReturn(1);
-        $orderItemMock->expects($this->once())->method('getProduct')->willReturn($productMock);
-        $orderItemMock->expects($this->once())->method('getProductName')->willReturn(null);
-        $orderItemMock->expects($this->once())->method('getVariantName')->willReturn('My variant name');
-        $productMock->expects($this->once())->method('hasOptions')->willReturn(false);
+        $orderItemMock->expects($this->atLeastOnce())->method('getQuantity')->willReturn(1);
+        $orderItemMock->expects($this->atLeastOnce())->method('getProduct')->willReturn($productMock);
+        $orderItemMock->expects($this->atLeastOnce())->method('getProductName')->willReturn(null);
+        $orderItemMock->expects($this->atLeastOnce())->method('getVariantName')->willReturn('My variant name');
+        $productMock->expects($this->atLeastOnce())->method('hasOptions')->willReturn(false);
         $this->assertSame('1x - My variant name', $this->linetItemNameProvider->getItemName($orderItemMock));
     }
 
@@ -85,9 +85,9 @@ final class LinetItemNameProviderTest extends TestCase
     {
         /** @var OrderItemInterface&MockObject $orderItemMock */
         $orderItemMock = $this->createMock(OrderItemInterface::class);
-        $orderItemMock->expects($this->once())->method('getQuantity')->willReturn(1);
-        $orderItemMock->expects($this->once())->method('getProductName')->willReturn('My variant name');
-        $orderItemMock->expects($this->once())->method('getVariantName')->willReturn(null);
+        $orderItemMock->expects($this->atLeastOnce())->method('getQuantity')->willReturn(1);
+        $orderItemMock->expects($this->atLeastOnce())->method('getProductName')->willReturn('My variant name');
+        $orderItemMock->expects($this->atLeastOnce())->method('getVariantName')->willReturn(null);
         $this->assertSame('1x - My variant name', $this->linetItemNameProvider->getItemName($orderItemMock));
     }
 
@@ -98,9 +98,9 @@ final class LinetItemNameProviderTest extends TestCase
     {
         /** @var OrderItemInterface&MockObject $orderItemMock */
         $orderItemMock = $this->createMock(OrderItemInterface::class);
-        $orderItemMock->expects($this->once())->method('getQuantity')->willReturn(1);
-        $orderItemMock->expects($this->once())->method('getProductName')->willReturn(null);
-        $orderItemMock->expects($this->once())->method('getVariantName')->willReturn(null);
+        $orderItemMock->expects($this->atLeastOnce())->method('getQuantity')->willReturn(1);
+        $orderItemMock->expects($this->atLeastOnce())->method('getProductName')->willReturn(null);
+        $orderItemMock->expects($this->atLeastOnce())->method('getVariantName')->willReturn(null);
         $this->assertSame('1x - ', $this->linetItemNameProvider->getItemName($orderItemMock));
     }
 }

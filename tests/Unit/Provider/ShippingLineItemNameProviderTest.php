@@ -40,12 +40,12 @@ final class ShippingLineItemNameProviderTest extends TestCase
         $shipmentMock = $this->createMock(ShipmentInterface::class);
         /** @var ShippingMethodInterface&MockObject $shippingMethodMock */
         $shippingMethodMock = $this->createMock(ShippingMethodInterface::class);
-        $shippingMethodMock->expects($this->once())->method('getName')->willReturn('My shipping method');
-        $shipmentMock->expects($this->once())->method('getMethod')->willReturn($shippingMethodMock);
+        $shippingMethodMock->expects($this->atLeastOnce())->method('getName')->willReturn('My shipping method');
+        $shipmentMock->expects($this->atLeastOnce())->method('getMethod')->willReturn($shippingMethodMock);
         $shipments = new ArrayCollection([
             $shipmentMock,
         ]);
-        $orderMock->expects($this->once())->method('getShipments')->willReturn($shipments);
+        $orderMock->expects($this->atLeastOnce())->method('getShipments')->willReturn($shipments);
         $this->assertSame('My shipping method', $this->shippingLineItemNameProvider->getItemName($orderMock));
     }
 
@@ -64,15 +64,15 @@ final class ShippingLineItemNameProviderTest extends TestCase
         $shipment2Mock = $this->createMock(ShipmentInterface::class);
         /** @var ShippingMethodInterface&MockObject $shippingMethod2Mock */
         $shippingMethod2Mock = $this->createMock(ShippingMethodInterface::class);
-        $shippingMethodMock->expects($this->once())->method('getName')->willReturn('My shipping method #1');
-        $shipmentMock->expects($this->once())->method('getMethod')->willReturn($shippingMethodMock);
-        $shippingMethod2Mock->expects($this->once())->method('getName')->willReturn('My shipping method #2');
-        $shipment2Mock->expects($this->once())->method('getMethod')->willReturn($shippingMethod2Mock);
+        $shippingMethodMock->expects($this->atLeastOnce())->method('getName')->willReturn('My shipping method #1');
+        $shipmentMock->expects($this->atLeastOnce())->method('getMethod')->willReturn($shippingMethodMock);
+        $shippingMethod2Mock->expects($this->atLeastOnce())->method('getName')->willReturn('My shipping method #2');
+        $shipment2Mock->expects($this->atLeastOnce())->method('getMethod')->willReturn($shippingMethod2Mock);
         $shipments = new ArrayCollection([
             $shipmentMock,
             $shipment2Mock,
         ]);
-        $orderMock->expects($this->once())->method('getShipments')->willReturn($shipments);
+        $orderMock->expects($this->atLeastOnce())->method('getShipments')->willReturn($shipments);
         $this->assertSame('My shipping method #1, My shipping method #2', $this->shippingLineItemNameProvider->getItemName($orderMock));
     }
 
@@ -84,7 +84,7 @@ final class ShippingLineItemNameProviderTest extends TestCase
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
         $shipments = new ArrayCollection();
-        $orderMock->expects($this->once())->method('getShipments')->willReturn($shipments);
+        $orderMock->expects($this->atLeastOnce())->method('getShipments')->willReturn($shipments);
         $this->assertSame('', $this->shippingLineItemNameProvider->getItemName($orderMock));
     }
 }

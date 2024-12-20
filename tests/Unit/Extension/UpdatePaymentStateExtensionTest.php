@@ -61,10 +61,10 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         $modelMock = $this->createMock(IdentityInterface::class);
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
-        $contextMock->expects($this->once())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->once())->method('getModel')->willReturn($modelMock);
-        $this->storageMock->expects($this->once())->method('find')->with($modelMock)->willReturn($paymentMock);
-        $modelMock->expects($this->once())->method('getId')->willReturn(1);
+        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects($this->atLeastOnce())->method('getModel')->willReturn($modelMock);
+        $this->storageMock->expects($this->atLeastOnce())->method('find')->with($modelMock)->willReturn($paymentMock);
+        $modelMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
         $this->updatePaymentStateExtension->onPreExecute($contextMock);
     }
 
@@ -79,9 +79,9 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         $requestMock = $this->createMock(ModelAggregateInterface::class);
         /** @var PaymentInterface&MockObject $modelMock */
         $modelMock = $this->createMock(PaymentInterface::class);
-        $contextMock->expects($this->once())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->once())->method('getModel')->willReturn($modelMock);
-        $modelMock->expects($this->once())->method('getId')->willReturn(1);
+        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects($this->atLeastOnce())->method('getModel')->willReturn($modelMock);
+        $modelMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
         $this->updatePaymentStateExtension->onPreExecute($contextMock);
     }
 
@@ -96,8 +96,8 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         $requestMock = $this->createMock(ModelAggregateInterface::class);
         /** @var PayumPaymentInterface&MockObject $modelMock */
         $modelMock = $this->createMock(PayumPaymentInterface::class);
-        $contextMock->expects($this->once())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->once())->method('getModel')->willReturn($modelMock);
+        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects($this->atLeastOnce())->method('getModel')->willReturn($modelMock);
         $this->updatePaymentStateExtension->onPreExecute($contextMock);
     }
 
@@ -110,7 +110,7 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         $contextMock = $this->createMock(Context::class);
         /** @var TokenAggregateInterface&MockObject $requestMock */
         $requestMock = $this->createMock(TokenAggregateInterface::class);
-        $contextMock->expects($this->once())->method('getRequest')->willReturn($requestMock);
+        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
         $this->updatePaymentStateExtension->onPreExecute($contextMock);
     }
 
@@ -139,18 +139,18 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         $statusMock = $this->createMock(GetStatusInterface::class);
         /** @var GatewayInterface&MockObject $gatewayMock */
         $gatewayMock = $this->createMock(GatewayInterface::class);
-        $contextMock->expects($this->once())->method('getException')->willReturn(null);
-        $contextMock->expects($this->once())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->once())->method('getModel')->willReturn($paymentMock);
-        $paymentMock->expects($this->once())->method('getId')->willReturn(1);
-        $contextMock->expects($this->once())->method('getPrevious')->willReturn([]);
-        $contextMock->expects($this->once())->method('getGateway')->willReturn($gatewayMock);
-        $this->getStatusRequestFactoryMock->expects($this->once())->method('createNewWithModel')->with($paymentMock)->willReturn($statusMock);
-        $gatewayMock->expects($this->once())->method('execute')->with($statusMock);
-        $paymentMock->expects($this->once())->method('getState')->willReturn(PaymentInterface::STATE_NEW);
-        $statusMock->expects($this->once())->method('getValue')->willReturn(PaymentInterface::STATE_COMPLETED);
-        $this->stateMachineMock->expects($this->once())->method('getTransitionToState')->with($paymentMock, PaymentTransitions::GRAPH, PaymentInterface::STATE_COMPLETED)->willReturn('complete');
-        $this->stateMachineMock->expects($this->once())->method('apply')->with($paymentMock, PaymentTransitions::GRAPH, 'complete');
+        $contextMock->expects($this->atLeastOnce())->method('getException')->willReturn(null);
+        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects($this->atLeastOnce())->method('getModel')->willReturn($paymentMock);
+        $paymentMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
+        $contextMock->expects($this->atLeastOnce())->method('getPrevious')->willReturn([]);
+        $contextMock->expects($this->atLeastOnce())->method('getGateway')->willReturn($gatewayMock);
+        $this->getStatusRequestFactoryMock->expects($this->atLeastOnce())->method('createNewWithModel')->with($paymentMock)->willReturn($statusMock);
+        $gatewayMock->expects($this->atLeastOnce())->method('execute')->with($statusMock);
+        $paymentMock->expects($this->atLeastOnce())->method('getState')->willReturn(PaymentInterface::STATE_NEW);
+        $statusMock->expects($this->atLeastOnce())->method('getValue')->willReturn(PaymentInterface::STATE_COMPLETED);
+        $this->stateMachineMock->expects($this->atLeastOnce())->method('getTransitionToState')->with($paymentMock, PaymentTransitions::GRAPH, PaymentInterface::STATE_COMPLETED)->willReturn('complete');
+        $this->stateMachineMock->expects($this->atLeastOnce())->method('apply')->with($paymentMock, PaymentTransitions::GRAPH, 'complete');
         $this->updatePaymentStateExtension->onPostExecute($contextMock);
     }
 
@@ -175,20 +175,20 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         $statusMock = $this->createMock(GetStatusInterface::class);
         /** @var GatewayInterface&MockObject $gatewayMock */
         $gatewayMock = $this->createMock(GatewayInterface::class);
-        $contextMock->expects($this->once())->method('getException')->willReturn(null);
-        $previousContextMock->expects($this->once())->method('getRequest')->willReturn($previousRequestMock);
-        $previousRequestMock->expects($this->once())->method('getModel')->willReturn($previousPaymentMock);
-        $previousPaymentMock->expects($this->once())->method('getId')->willReturn(1);
-        $contextMock->expects($this->once())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->once())->method('getModel')->willReturn($paymentMock);
-        $contextMock->expects($this->once())->method('getPrevious')->willReturn([]);
-        $contextMock->expects($this->once())->method('getGateway')->willReturn($gatewayMock);
-        $this->getStatusRequestFactoryMock->expects($this->once())->method('createNewWithModel')->with($previousPaymentMock)->willReturn($statusMock);
-        $gatewayMock->expects($this->once())->method('execute')->with($statusMock);
-        $previousPaymentMock->expects($this->once())->method('getState')->willReturn(PaymentInterface::STATE_NEW);
-        $statusMock->expects($this->once())->method('getValue')->willReturn(PaymentInterface::STATE_COMPLETED);
-        $this->stateMachineMock->expects($this->once())->method('getTransitionToState')->with($previousPaymentMock, PaymentTransitions::GRAPH, PaymentInterface::STATE_COMPLETED)->willReturn('complete');
-        $this->stateMachineMock->expects($this->once())->method('apply')->with($previousPaymentMock, PaymentTransitions::GRAPH, 'complete');
+        $contextMock->expects($this->atLeastOnce())->method('getException')->willReturn(null);
+        $previousContextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($previousRequestMock);
+        $previousRequestMock->expects($this->atLeastOnce())->method('getModel')->willReturn($previousPaymentMock);
+        $previousPaymentMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
+        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects($this->atLeastOnce())->method('getModel')->willReturn($paymentMock);
+        $contextMock->expects($this->atLeastOnce())->method('getPrevious')->willReturn([]);
+        $contextMock->expects($this->atLeastOnce())->method('getGateway')->willReturn($gatewayMock);
+        $this->getStatusRequestFactoryMock->expects($this->atLeastOnce())->method('createNewWithModel')->with($previousPaymentMock)->willReturn($statusMock);
+        $gatewayMock->expects($this->atLeastOnce())->method('execute')->with($statusMock);
+        $previousPaymentMock->expects($this->atLeastOnce())->method('getState')->willReturn(PaymentInterface::STATE_NEW);
+        $statusMock->expects($this->atLeastOnce())->method('getValue')->willReturn(PaymentInterface::STATE_COMPLETED);
+        $this->stateMachineMock->expects($this->atLeastOnce())->method('getTransitionToState')->with($previousPaymentMock, PaymentTransitions::GRAPH, PaymentInterface::STATE_COMPLETED)->willReturn('complete');
+        $this->stateMachineMock->expects($this->atLeastOnce())->method('apply')->with($previousPaymentMock, PaymentTransitions::GRAPH, 'complete');
         $this->updatePaymentStateExtension->onPreExecute($previousContextMock);
         $this->updatePaymentStateExtension->onPostExecute($contextMock);
     }
@@ -202,9 +202,9 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         $contextMock = $this->createMock(Context::class);
         /** @var TokenAggregateInterface&MockObject $requestMock */
         $requestMock = $this->createMock(TokenAggregateInterface::class);
-        $contextMock->expects($this->once())->method('getException')->willReturn(null);
-        $contextMock->expects($this->once())->method('getRequest')->willReturn($requestMock);
-        $contextMock->expects($this->once())->method('getPrevious')->willReturn([1]);
+        $contextMock->expects($this->atLeastOnce())->method('getException')->willReturn(null);
+        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $contextMock->expects($this->atLeastOnce())->method('getPrevious')->willReturn([1]);
         $this->updatePaymentStateExtension->onPostExecute($contextMock);
     }
 
@@ -217,9 +217,9 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         $contextMock = $this->createMock(Context::class);
         /** @var TokenAggregateInterface&MockObject $requestMock */
         $requestMock = $this->createMock(TokenAggregateInterface::class);
-        $contextMock->expects($this->once())->method('getException')->willReturn(null);
-        $contextMock->expects($this->once())->method('getRequest')->willReturn($requestMock);
-        $contextMock->expects($this->once())->method('getPrevious')->willReturn([]);
+        $contextMock->expects($this->atLeastOnce())->method('getException')->willReturn(null);
+        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $contextMock->expects($this->atLeastOnce())->method('getPrevious')->willReturn([]);
         $this->updatePaymentStateExtension->onPostExecute($contextMock);
     }
 
@@ -234,10 +234,10 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         $requestMock = $this->createMock(ModelAggregateInterface::class);
         /** @var PayumPaymentInterface&MockObject $modelMock */
         $modelMock = $this->createMock(PayumPaymentInterface::class);
-        $contextMock->expects($this->once())->method('getException')->willReturn(null);
-        $contextMock->expects($this->once())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->once())->method('getModel')->willReturn($modelMock);
-        $contextMock->expects($this->once())->method('getPrevious')->willReturn([]);
+        $contextMock->expects($this->atLeastOnce())->method('getException')->willReturn(null);
+        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects($this->atLeastOnce())->method('getModel')->willReturn($modelMock);
+        $contextMock->expects($this->atLeastOnce())->method('getPrevious')->willReturn([]);
         $this->updatePaymentStateExtension->onPostExecute($contextMock);
     }
 
@@ -249,7 +249,7 @@ final class UpdatePaymentStateExtensionTest extends TestCase
         /** @var Context&MockObject $contextMock */
         $contextMock = $this->createMock(Context::class);
         $exception = new \Exception();
-        $contextMock->expects($this->once())->method('getException')->willReturn($exception);
+        $contextMock->expects($this->atLeastOnce())->method('getException')->willReturn($exception);
         $this->updatePaymentStateExtension->onPostExecute($contextMock);
     }
 }

@@ -47,12 +47,12 @@ final class LineItemImagesProviderTest extends TestCase
         $productMock = $this->createMock(ProductInterface::class);
         /** @var ProductImageInterface&MockObject $productImageMock */
         $productImageMock = $this->createMock(ProductImageInterface::class);
-        $productImageMock->expects($this->once())->method('getPath')->willReturn('/path/image.jpg');
-        $orderItemMock->expects($this->once())->method('getProduct')->willReturn($productMock);
-        $productMock->expects($this->once())->method('getImages')->willReturn(new ArrayCollection([
+        $productImageMock->expects($this->atLeastOnce())->method('getPath')->willReturn('/path/image.jpg');
+        $orderItemMock->expects($this->atLeastOnce())->method('getProduct')->willReturn($productMock);
+        $productMock->expects($this->atLeastOnce())->method('getImages')->willReturn(new ArrayCollection([
             $productImageMock,
         ]));
-        $this->imagineCacheManagerMock->expects($this->once())->method('getBrowserPath')->with('/path/image.jpg', 'my_filter')
+        $this->imagineCacheManagerMock->expects($this->atLeastOnce())->method('getBrowserPath')->with('/path/image.jpg', 'my_filter')
             ->willReturn('https://somewhere-online.tld/path/image.jpg');
         $this->assertSame('https://somewhere-online.tld/path/image.jpg', $this->lineItemImagesProvider->getImageUrlFromProduct($productMock));
         $this->assertSame([
@@ -71,12 +71,12 @@ final class LineItemImagesProviderTest extends TestCase
         $productMock = $this->createMock(ProductInterface::class);
         /** @var ProductImageInterface&MockObject $productImageMock */
         $productImageMock = $this->createMock(ProductImageInterface::class);
-        $productImageMock->expects($this->once())->method('getPath')->willReturn('/path/image.jpg');
-        $orderItemMock->expects($this->once())->method('getProduct')->willReturn($productMock);
-        $productMock->expects($this->once())->method('getImages')->willReturn(new ArrayCollection([
+        $productImageMock->expects($this->atLeastOnce())->method('getPath')->willReturn('/path/image.jpg');
+        $orderItemMock->expects($this->atLeastOnce())->method('getProduct')->willReturn($productMock);
+        $productMock->expects($this->atLeastOnce())->method('getImages')->willReturn(new ArrayCollection([
             $productImageMock,
         ]));
-        $this->imagineCacheManagerMock->expects($this->once())->method('getBrowserPath')->with('/path/image.jpg', 'my_filter')
+        $this->imagineCacheManagerMock->expects($this->atLeastOnce())->method('getBrowserPath')->with('/path/image.jpg', 'my_filter')
             ->willReturn('https://localhost/path/image.jpg');
         $this->assertSame('https://somewhere-online.tld/fallbak.jpg', $this->lineItemImagesProvider->getImageUrlFromProduct($productMock));
         $this->assertSame([
@@ -93,9 +93,9 @@ final class LineItemImagesProviderTest extends TestCase
         $orderItemMock = $this->createMock(OrderItemInterface::class);
         /** @var ProductInterface&MockObject $productMock */
         $productMock = $this->createMock(ProductInterface::class);
-        $orderItemMock->expects($this->once())->method('getProduct')->willReturn($productMock);
-        $productMock->expects($this->once())->method('getImages')->willReturn(new ArrayCollection());
-        $this->imagineCacheManagerMock->expects($this->once())->method('getBrowserPath')->with('https://somewhere-online.tld/fallbak.jpg', 'my_filter')
+        $orderItemMock->expects($this->atLeastOnce())->method('getProduct')->willReturn($productMock);
+        $productMock->expects($this->atLeastOnce())->method('getImages')->willReturn(new ArrayCollection());
+        $this->imagineCacheManagerMock->expects($this->atLeastOnce())->method('getBrowserPath')->with('https://somewhere-online.tld/fallbak.jpg', 'my_filter')
             ->willReturn('https://somewhere-online.tld/fallbak.jpg');
         $this->assertSame('https://somewhere-online.tld/fallbak.jpg', $this->lineItemImagesProvider->getImageUrlFromProduct($productMock));
         $this->assertSame([

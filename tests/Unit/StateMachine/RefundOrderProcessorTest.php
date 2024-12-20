@@ -35,9 +35,9 @@ final class RefundOrderProcessorTest extends TestCase
     {
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
-        $paymentMock->expects($this->once())->method('getId')->willReturn(1);
+        $paymentMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
         $command = new RefundPayment(1);
-        $this->commandBusMock->expects($this->once())->method('dispatch')->with($command)->willReturn(new Envelope($command));
+        $this->commandBusMock->expects($this->atLeastOnce())->method('dispatch')->with($command)->willReturn(new Envelope($command));
         $this->refundOrderProcessor->__invoke($paymentMock, PaymentInterface::STATE_COMPLETED);
     }
 

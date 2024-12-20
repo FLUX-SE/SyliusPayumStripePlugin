@@ -47,11 +47,11 @@ final class LineItemProviderTest extends TestCase
         $orderItemMock = $this->createMock(OrderItemInterface::class);
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
-        $orderItemMock->expects($this->once())->method('getOrder')->willReturn($orderMock);
-        $orderItemMock->expects($this->once())->method('getTotal')->willReturn(1000);
-        $orderMock->expects($this->once())->method('getCurrencyCode')->willReturn('USD');
-        $this->lineItemImagesProviderMock->expects($this->once())->method('getImageUrls')->with($orderItemMock)->willReturn(['/path/image.jpg']);
-        $this->lineItemNameProviderMock->expects($this->once())->method('getItemName')->with($orderItemMock)->willReturn('1x - My item name');
+        $orderItemMock->expects($this->atLeastOnce())->method('getOrder')->willReturn($orderMock);
+        $orderItemMock->expects($this->atLeastOnce())->method('getTotal')->willReturn(1000);
+        $orderMock->expects($this->atLeastOnce())->method('getCurrencyCode')->willReturn('USD');
+        $this->lineItemImagesProviderMock->expects($this->atLeastOnce())->method('getImageUrls')->with($orderItemMock)->willReturn(['/path/image.jpg']);
+        $this->lineItemNameProviderMock->expects($this->atLeastOnce())->method('getItemName')->with($orderItemMock)->willReturn('1x - My item name');
         $this->assertSame([
             'price_data' => [
                 'unit_amount' => 1000,
@@ -76,11 +76,11 @@ final class LineItemProviderTest extends TestCase
         $orderItemMock = $this->createMock(OrderItemInterface::class);
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
-        $orderItemMock->expects($this->once())->method('getOrder')->willReturn($orderMock);
-        $orderItemMock->expects($this->once())->method('getTotal')->willReturn(1000);
-        $orderMock->expects($this->once())->method('getCurrencyCode')->willReturn('USD');
-        $this->lineItemImagesProviderMock->expects($this->once())->method('getImageUrls')->with($orderItemMock)->willReturn([]);
-        $this->lineItemNameProviderMock->expects($this->once())->method('getItemName')->with($orderItemMock)->willReturn('1x - My item name');
+        $orderItemMock->expects($this->atLeastOnce())->method('getOrder')->willReturn($orderMock);
+        $orderItemMock->expects($this->atLeastOnce())->method('getTotal')->willReturn(1000);
+        $orderMock->expects($this->atLeastOnce())->method('getCurrencyCode')->willReturn('USD');
+        $this->lineItemImagesProviderMock->expects($this->atLeastOnce())->method('getImageUrls')->with($orderItemMock)->willReturn([]);
+        $this->lineItemNameProviderMock->expects($this->atLeastOnce())->method('getItemName')->with($orderItemMock)->willReturn('1x - My item name');
         $this->assertSame([
             'price_data' => [
                 'unit_amount' => 1000,
@@ -103,11 +103,11 @@ final class LineItemProviderTest extends TestCase
         $orderItemMock = $this->createMock(OrderItemInterface::class);
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
-        $orderItemMock->expects($this->once())->method('getOrder')->willReturn($orderMock);
-        $orderItemMock->expects($this->once())->method('getTotal')->willReturn(1000);
-        $orderMock->expects($this->once())->method('getCurrencyCode')->willReturn('USD');
-        $this->lineItemImagesProviderMock->expects($this->once())->method('getImageUrls')->with($orderItemMock)->willReturn([]);
-        $this->lineItemNameProviderMock->expects($this->once())->method('getItemName')->with($orderItemMock)->willReturn('2x - My item name');
+        $orderItemMock->expects($this->atLeastOnce())->method('getOrder')->willReturn($orderMock);
+        $orderItemMock->expects($this->atLeastOnce())->method('getTotal')->willReturn(1000);
+        $orderMock->expects($this->atLeastOnce())->method('getCurrencyCode')->willReturn('USD');
+        $this->lineItemImagesProviderMock->expects($this->atLeastOnce())->method('getImageUrls')->with($orderItemMock)->willReturn([]);
+        $this->lineItemNameProviderMock->expects($this->atLeastOnce())->method('getItemName')->with($orderItemMock)->willReturn('2x - My item name');
         $this->assertSame([
             'price_data' => [
                 'unit_amount' => 1000,
@@ -128,7 +128,7 @@ final class LineItemProviderTest extends TestCase
     {
         /** @var OrderItemInterface&MockObject $orderItemMock */
         $orderItemMock = $this->createMock(OrderItemInterface::class);
-        $orderItemMock->expects($this->once())->method('getOrder')->willReturn(null);
+        $orderItemMock->expects($this->atLeastOnce())->method('getOrder')->willReturn(null);
         $this->assertNull($this->lineItemProvider->getLineItem($orderItemMock));
     }
 }

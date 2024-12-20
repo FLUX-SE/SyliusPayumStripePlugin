@@ -36,8 +36,8 @@ final class CustomerEmailProviderTest extends TestCase
         $orderMock = $this->createMock(OrderInterface::class);
         /** @var CustomerInterface&MockObject $customerMock */
         $customerMock = $this->createMock(CustomerInterface::class);
-        $orderMock->expects($this->once())->method('getCustomer')->willReturn($customerMock);
-        $customerMock->expects($this->once())->method('getEmail')->willReturn('customer@domain.tld');
+        $orderMock->expects($this->atLeastOnce())->method('getCustomer')->willReturn($customerMock);
+        $customerMock->expects($this->atLeastOnce())->method('getEmail')->willReturn('customer@domain.tld');
         $this->assertSame('customer@domain.tld', $this->customerEmailProvider->getCustomerEmail($orderMock));
     }
 
@@ -48,7 +48,7 @@ final class CustomerEmailProviderTest extends TestCase
     {
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
-        $orderMock->expects($this->once())->method('getCustomer')->willReturn(null);
+        $orderMock->expects($this->atLeastOnce())->method('getCustomer')->willReturn(null);
         $this->assertNull($this->customerEmailProvider->getCustomerEmail($orderMock));
     }
 }

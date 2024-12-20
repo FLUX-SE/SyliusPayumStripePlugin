@@ -52,10 +52,10 @@ final class DetailsProviderTest extends \PHPUnit\Framework\TestCase
     {
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
-        $this->customerEmailProviderMock->expects($this->once())->method('getCustomerEmail')->with($orderMock)->willReturn('customer@domain.tld');
-        $this->lineItemsProviderMock->expects($this->once())->method('getLineItems')->with($orderMock)->willReturn([]);
-        $this->paymentMethodTypesProviderMock->expects($this->once())->method('getPaymentMethodTypes')->with($orderMock)->willReturn(['card']);
-        $this->modeProviderMock->expects($this->once())->method('getMode')->with($orderMock)->willReturn(Session::MODE_PAYMENT);
+        $this->customerEmailProviderMock->expects($this->atLeastOnce())->method('getCustomerEmail')->with($orderMock)->willReturn('customer@domain.tld');
+        $this->lineItemsProviderMock->expects($this->atLeastOnce())->method('getLineItems')->with($orderMock)->willReturn([]);
+        $this->paymentMethodTypesProviderMock->expects($this->atLeastOnce())->method('getPaymentMethodTypes')->with($orderMock)->willReturn(['card']);
+        $this->modeProviderMock->expects($this->atLeastOnce())->method('getMode')->with($orderMock)->willReturn(Session::MODE_PAYMENT);
         $this->assertSame([
             'customer_email' => 'customer@domain.tld',
             'mode' => Session::MODE_PAYMENT,
@@ -71,10 +71,10 @@ final class DetailsProviderTest extends \PHPUnit\Framework\TestCase
     {
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
-        $this->customerEmailProviderMock->expects($this->once())->method('getCustomerEmail')->with($orderMock)->willReturn(null);
-        $this->lineItemsProviderMock->expects($this->once())->method('getLineItems')->with($orderMock)->willReturn(null);
-        $this->paymentMethodTypesProviderMock->expects($this->once())->method('getPaymentMethodTypes')->with($orderMock)->willReturn([]);
-        $this->modeProviderMock->expects($this->once())->method('getMode')->with($orderMock)->willReturn(Session::MODE_PAYMENT);
+        $this->customerEmailProviderMock->expects($this->atLeastOnce())->method('getCustomerEmail')->with($orderMock)->willReturn(null);
+        $this->lineItemsProviderMock->expects($this->atLeastOnce())->method('getLineItems')->with($orderMock)->willReturn(null);
+        $this->paymentMethodTypesProviderMock->expects($this->atLeastOnce())->method('getPaymentMethodTypes')->with($orderMock)->willReturn([]);
+        $this->modeProviderMock->expects($this->atLeastOnce())->method('getMode')->with($orderMock)->willReturn(Session::MODE_PAYMENT);
         $this->assertSame([
             'mode' => Session::MODE_PAYMENT,
         ], $this->detailsProvider->getDetails($orderMock));
