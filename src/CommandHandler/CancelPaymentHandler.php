@@ -21,7 +21,7 @@ final class CancelPaymentHandler extends AbstractPayumPaymentHandler
         CancelRequestFactoryInterface $cancelRequestFactory,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
-        array $supportedGateways
+        array $supportedGateways,
     ) {
         $this->cancelRequestFactory = $cancelRequestFactory;
 

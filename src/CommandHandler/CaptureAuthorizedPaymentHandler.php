@@ -23,7 +23,7 @@ final class CaptureAuthorizedPaymentHandler extends AbstractPayumPaymentHandler
         ModelAggregateFactoryInterface $captureRequestFactory,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
-        array $supportedGateways
+        array $supportedGateways,
     ) {
         $this->captureRequestFactory = $captureRequestFactory;
 

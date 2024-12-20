@@ -25,7 +25,7 @@ final class StripeCheckoutSessionMocker
         MockerInterface $mocker,
         CheckoutSessionMocker $checkoutSessionMocker,
         PaymentIntentMocker $paymentIntentMocker,
-        RefundMocker $refundMocker
+        RefundMocker $refundMocker,
     ) {
         $this->mocker = $mocker;
         $this->checkoutSessionMocker = $checkoutSessionMocker;
@@ -41,7 +41,7 @@ final class StripeCheckoutSessionMocker
             $action,
             Session::STATUS_OPEN,
             Session::PAYMENT_STATUS_UNPAID,
-            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD
+            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
         );
     }
 
@@ -86,7 +86,7 @@ final class StripeCheckoutSessionMocker
             $action,
             Session::STATUS_OPEN,
             Session::PAYMENT_STATUS_UNPAID,
-            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD
+            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
         );
     }
 
@@ -96,7 +96,7 @@ final class StripeCheckoutSessionMocker
             $notifyAction,
             Session::STATUS_COMPLETE,
             Session::PAYMENT_STATUS_PAID,
-            PaymentIntent::STATUS_SUCCEEDED
+            PaymentIntent::STATUS_SUCCEEDED,
         );
         $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_SUCCEEDED);
     }
@@ -107,7 +107,7 @@ final class StripeCheckoutSessionMocker
             $notifyAction,
             Session::STATUS_COMPLETE,
             Session::PAYMENT_STATUS_UNPAID,
-            PaymentIntent::STATUS_REQUIRES_CAPTURE
+            PaymentIntent::STATUS_REQUIRES_CAPTURE,
         );
         $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_REQUIRES_CAPTURE);
     }
@@ -118,7 +118,7 @@ final class StripeCheckoutSessionMocker
             $action,
             Session::STATUS_COMPLETE,
             Session::PAYMENT_STATUS_PAID,
-            PaymentIntent::STATUS_SUCCEEDED
+            PaymentIntent::STATUS_SUCCEEDED,
         );
     }
 
@@ -128,7 +128,7 @@ final class StripeCheckoutSessionMocker
             $action,
             Session::STATUS_COMPLETE,
             Session::PAYMENT_STATUS_UNPAID,
-            PaymentIntent::STATUS_REQUIRES_CAPTURE
+            PaymentIntent::STATUS_REQUIRES_CAPTURE,
         );
     }
 
@@ -145,7 +145,7 @@ final class StripeCheckoutSessionMocker
         callable $action,
         string $sessionStatus,
         string $paymentStatus,
-        string $paymentIntentStatus
+        string $paymentIntentStatus,
     ): void {
         $this->checkoutSessionMocker->mockRetrieveAction($sessionStatus, $paymentStatus);
         $this->mockPaymentIntentSync($action, $paymentIntentStatus);

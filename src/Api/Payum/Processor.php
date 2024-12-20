@@ -26,7 +26,7 @@ final class Processor implements ProcessorInterface
         Payum $payum,
         ModelAggregateFactoryInterface $captureRequestFactory,
         ModelAggregateFactoryInterface $authorizeRequestFactory,
-        AfterUrlProviderInterface $afterUrlProvider
+        AfterUrlProviderInterface $afterUrlProvider,
     ) {
         $this->payum = $payum;
         $this->captureRequestFactory = $captureRequestFactory;
@@ -46,7 +46,7 @@ final class Processor implements ProcessorInterface
                 $gatewayName,
                 $payment,
                 $this->afterUrlProvider->getAfterPath($payment),
-                $this->afterUrlProvider->getAfterParameters($payment)
+                $this->afterUrlProvider->getAfterParameters($payment),
             );
             $request = $this->authorizeRequestFactory->createNewWithToken($token);
         } else {
@@ -54,7 +54,7 @@ final class Processor implements ProcessorInterface
                 $gatewayName,
                 $payment,
                 $this->afterUrlProvider->getAfterPath($payment),
-                $this->afterUrlProvider->getAfterParameters($payment)
+                $this->afterUrlProvider->getAfterParameters($payment),
             );
             $request = $this->captureRequestFactory->createNewWithToken($token);
         }

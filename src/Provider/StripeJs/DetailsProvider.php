@@ -17,7 +17,7 @@ final class DetailsProvider implements DetailsProviderInterface
     public function __construct(
         AmountProviderInterface $amountProvider,
         CurrencyProviderInterface $currencyProvider,
-        PaymentMethodTypesProviderInterface $paymentMethodTypesProvider
+        PaymentMethodTypesProviderInterface $paymentMethodTypesProvider,
     ) {
         $this->amountProvider = $amountProvider;
         $this->currencyProvider = $currencyProvider;

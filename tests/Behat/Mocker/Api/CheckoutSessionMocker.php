@@ -30,7 +30,7 @@ final class CheckoutSessionMocker
     {
         $mockCreateSession = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.create_session',
-            AbstractCreateAction::class
+            AbstractCreateAction::class,
         );
 
         $mockCreateSession
@@ -66,7 +66,7 @@ final class CheckoutSessionMocker
     {
         $mock = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.retrieve_session',
-            AbstractRetrieveAction::class
+            AbstractRetrieveAction::class,
         );
 
         $mock
@@ -100,7 +100,7 @@ final class CheckoutSessionMocker
     {
         $mock = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.all_session',
-            AbstractAllAction::class
+            AbstractAllAction::class,
         );
 
         $mock
@@ -127,7 +127,7 @@ final class CheckoutSessionMocker
                             'object' => Session::OBJECT_NAME,
                             'status' => $status,
                         ],
-                    ]])
+                    ]]),
                 );
             });
     }
@@ -136,7 +136,7 @@ final class CheckoutSessionMocker
     {
         $mock = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.expire_session',
-            AbstractRetrieveAction::class
+            AbstractRetrieveAction::class,
         );
 
         $mock

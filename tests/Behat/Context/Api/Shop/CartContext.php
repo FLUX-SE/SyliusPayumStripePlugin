@@ -31,7 +31,7 @@ final class CartContext implements Context
         ResponseCheckerInterface $responseChecker,
         SharedStorageInterface $sharedStorage,
         StripeCheckoutSessionMocker $stripeCheckoutSessionMocker,
-        StripeJsMocker $stripeJsMocker
+        StripeJsMocker $stripeJsMocker,
     ) {
         $this->shopClient = $shopClient;
         $this->responseChecker = $responseChecker;
@@ -90,8 +90,8 @@ final class CartContext implements Context
                 '%s/%s/%s/configuration',
                 $tokenValue,
                 Resources::PAYMENTS,
-                $this->getCart()['payments'][0]['id']
-            )
+                $this->getCart()['payments'][0]['id'],
+            ),
         );
 
         $this->sharedStorage->set('response', $this->shopClient->getLastResponse());

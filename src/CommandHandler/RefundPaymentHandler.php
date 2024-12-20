@@ -21,7 +21,7 @@ final class RefundPaymentHandler extends AbstractPayumPaymentHandler
         RefundRequestFactoryInterface $refundRequestFactory,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
-        array $supportedGateways
+        array $supportedGateways,
     ) {
         $this->refundRequestFactory = $refundRequestFactory;
 

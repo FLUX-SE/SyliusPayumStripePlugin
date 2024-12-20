@@ -36,7 +36,7 @@ final class StripePage extends Page implements StripePageInterface
         RepositoryInterface $securityTokenRepository,
         HttpKernelBrowser $client,
         PayumNotifyPageInterface $payumNotifyPage,
-        string $gatewayName
+        string $gatewayName,
     ) {
         parent::__construct($session, $minkParameters);
 
@@ -100,7 +100,7 @@ final class StripePage extends Page implements StripePageInterface
             [],
             [],
             $this->generateSignature($payload),
-            $payload
+            $payload,
         );
     }
 

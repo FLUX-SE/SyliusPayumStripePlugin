@@ -28,7 +28,7 @@ class StripeCheckoutSessionShopContext extends MinkContext implements Context
         StripeCheckoutSessionMocker $stripeCheckoutSessionMocker,
         CompletePageInterface $summaryPage,
         ShowPageInterface $orderDetails,
-        StripePage $paymentPage
+        StripePage $paymentPage,
     ) {
         $this->stripeCheckoutSessionMocker = $stripeCheckoutSessionMocker;
         $this->summaryPage = $summaryPage;
@@ -75,7 +75,7 @@ class StripeCheckoutSessionShopContext extends MinkContext implements Context
             },
             function () {
                 $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
-            }
+            },
         );
     }
 
@@ -107,7 +107,7 @@ class StripeCheckoutSessionShopContext extends MinkContext implements Context
             },
             function () {
                 $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
-            }
+            },
         );
     }
 

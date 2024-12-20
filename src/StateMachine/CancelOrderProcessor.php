@@ -14,7 +14,7 @@ final class CancelOrderProcessor implements PaymentStateProcessorInterface
     private MessageBusInterface $commandBus;
 
     public function __construct(
-        MessageBusInterface $commandBus
+        MessageBusInterface $commandBus,
     ) {
         $this->commandBus = $commandBus;
     }

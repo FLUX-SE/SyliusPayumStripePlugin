@@ -26,7 +26,7 @@ class StripeContext implements Context
         SharedStorageInterface $sharedStorage,
         PaymentMethodRepositoryInterface $paymentMethodRepository,
         ExampleFactoryInterface $paymentMethodExampleFactory,
-        EntityManagerInterface $paymentMethodManager
+        EntityManagerInterface $paymentMethodManager,
     ) {
         $this->sharedStorage = $sharedStorage;
         $this->paymentMethodRepository = $paymentMethodRepository;
@@ -41,13 +41,13 @@ class StripeContext implements Context
     public function theStoreHasAPaymentMethodWithACodeAndStripeCheckoutSessionPaymentGateway(
         string $paymentMethodName,
         string $paymentMethodCode,
-        bool $useAuthorize = false
+        bool $useAuthorize = false,
     ): void {
         $paymentMethod = $this->createPaymentMethodStripe(
             $paymentMethodName,
             $paymentMethodCode,
             'stripe_checkout_session',
-            'Stripe Checkout Session'
+            'Stripe Checkout Session',
         );
 
         $this->createPaymentMethod($paymentMethod, $useAuthorize);
@@ -58,7 +58,7 @@ class StripeContext implements Context
      */
     public function theStoreHasAPaymentMethodWithACodeAndStripeCheckoutSessionPaymentGatewayUsingAuthorize(
         string $paymentMethodName,
-        string $paymentMethodCode
+        string $paymentMethodCode,
     ): void {
         $this->theStoreHasAPaymentMethodWithACodeAndStripeCheckoutSessionPaymentGateway($paymentMethodName, $paymentMethodCode, true);
     }
@@ -70,13 +70,13 @@ class StripeContext implements Context
     public function theStoreHasAPaymentMethodWithACodeAndStripeJsPaymentGateway(
         string $paymentMethodName,
         string $paymentMethodCode,
-        bool $useAuthorize = false
+        bool $useAuthorize = false,
     ): void {
         $paymentMethod = $this->createPaymentMethodStripe(
             $paymentMethodName,
             $paymentMethodCode,
             'stripe_js',
-            'Stripe JS'
+            'Stripe JS',
         );
 
         $this->createPaymentMethod($paymentMethod, $useAuthorize);
@@ -87,7 +87,7 @@ class StripeContext implements Context
      */
     public function theStoreHasAPaymentMethodWithACodeAndStripeJsPaymentGatewayUsingAuthorize(
         string $paymentMethodName,
-        string $paymentMethodCode
+        string $paymentMethodCode,
     ): void {
         $this->theStoreHasAPaymentMethodWithACodeAndStripeJsPaymentGateway($paymentMethodName, $paymentMethodCode, true);
     }
@@ -98,7 +98,7 @@ class StripeContext implements Context
         string $factoryName,
         string $description = '',
         bool $addForCurrentChannel = true,
-        int $position = null
+        int $position = null,
     ): PaymentMethodInterface {
         /** @var PaymentMethodInterface $paymentMethod */
         $paymentMethod = $this->paymentMethodExampleFactory->create([

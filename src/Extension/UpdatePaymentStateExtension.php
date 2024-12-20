@@ -24,20 +24,11 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
     /** @var PaymentInterface[] */
     private array $scheduledPaymentsToProcess = [];
 
-    private StateMachineInterface $stateMachine;
-
-    private StorageInterface $storage;
-
-    private GetStatusFactoryInterface $getStatusRequestFactory;
-
     public function __construct(
-        StateMachineInterface $stateMachine,
-        StorageInterface $storage,
-        GetStatusFactoryInterface $getStatusRequestFactory
+        private StateMachineInterface $stateMachine,
+        private StorageInterface $storage,
+        private GetStatusFactoryInterface $getStatusRequestFactory,
     ) {
-        $this->getStatusRequestFactory = $getStatusRequestFactory;
-        $this->storage = $storage;
-        $this->stateMachine = $stateMachine;
     }
 
     public function onPreExecute(Context $context): void
@@ -118,7 +109,7 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
         $transition = $this->stateMachine->getTransitionToState(
             $payment,
             PaymentTransitions::GRAPH,
-            $nextState
+            $nextState,
         );
         if (null === $transition) {
             return;
@@ -127,7 +118,7 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
         $this->stateMachine->apply(
             $payment,
             PaymentTransitions::GRAPH,
-            $transition
+            $transition,
         );
     }
 

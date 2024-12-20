@@ -26,7 +26,7 @@ class ManagingOrdersContext implements Context
     public function __construct(
         FactoryInterface $stateMachineFactory,
         ObjectManager $objectManager,
-        StripeCheckoutSessionMocker $stripeCheckoutSessionMocker
+        StripeCheckoutSessionMocker $stripeCheckoutSessionMocker,
     ) {
         $this->stateMachineFactory = $stateMachineFactory;
         $this->objectManager = $objectManager;
@@ -161,7 +161,7 @@ class ManagingOrdersContext implements Context
     {
         $this->stripeCheckoutSessionMocker->mockCancelPayment(
             PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
-            PaymentIntent::CAPTURE_METHOD_AUTOMATIC
+            PaymentIntent::CAPTURE_METHOD_AUTOMATIC,
         );
     }
 

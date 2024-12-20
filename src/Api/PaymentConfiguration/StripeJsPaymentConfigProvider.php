@@ -19,7 +19,7 @@ final class StripeJsPaymentConfigProvider implements PaymentConfigurationProvide
 
     public function __construct(
         ProcessorInterface $captureProcessor,
-        string $factoryName
+        string $factoryName,
     ) {
         $this->captureProcessor = $captureProcessor;
         $this->__stripePaymentConfigProviderConstruct($factoryName);

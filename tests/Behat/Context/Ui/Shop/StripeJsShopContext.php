@@ -28,7 +28,7 @@ class StripeJsShopContext extends MinkContext implements Context
         StripeJsMocker $stripeJsMocker,
         CompletePageInterface $summaryPage,
         ShowPageInterface $orderDetails,
-        StripePage $paymentPage
+        StripePage $paymentPage,
     ) {
         $this->stripeJsMocker = $stripeJsMocker;
         $this->summaryPage = $summaryPage;
@@ -64,7 +64,7 @@ class StripeJsShopContext extends MinkContext implements Context
             },
             function () {
                 $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
-            }
+            },
         );
     }
 
@@ -96,7 +96,7 @@ class StripeJsShopContext extends MinkContext implements Context
             },
             function () {
                 $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
-            }
+            },
         );
     }
 

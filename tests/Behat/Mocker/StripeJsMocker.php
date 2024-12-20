@@ -20,7 +20,7 @@ final class StripeJsMocker
     public function __construct(
         MockerInterface $mocker,
         PaymentIntentMocker $paymentIntentMocker,
-        RefundMocker $refundMocker
+        RefundMocker $refundMocker,
     ) {
         $this->mocker = $mocker;
         $this->paymentIntentMocker = $paymentIntentMocker;
@@ -34,7 +34,7 @@ final class StripeJsMocker
         $this->paymentIntentMocker->mockCreateAction();
         $this->mockPaymentIntentSync(
             $action,
-            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD
+            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
         );
     }
 
@@ -67,7 +67,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $action,
-            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD
+            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
         );
     }
 
@@ -75,7 +75,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $notifyAction,
-            PaymentIntent::STATUS_SUCCEEDED
+            PaymentIntent::STATUS_SUCCEEDED,
         );
         $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_SUCCEEDED);
     }
@@ -84,7 +84,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $notifyAction,
-            PaymentIntent::STATUS_REQUIRES_CAPTURE
+            PaymentIntent::STATUS_REQUIRES_CAPTURE,
         );
         $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_REQUIRES_CAPTURE);
     }
@@ -93,7 +93,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $action,
-            PaymentIntent::STATUS_SUCCEEDED
+            PaymentIntent::STATUS_SUCCEEDED,
         );
     }
 
@@ -101,7 +101,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $action,
-            PaymentIntent::STATUS_REQUIRES_CAPTURE
+            PaymentIntent::STATUS_REQUIRES_CAPTURE,
         );
     }
 

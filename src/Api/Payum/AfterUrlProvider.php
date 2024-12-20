@@ -14,7 +14,7 @@ final class AfterUrlProvider implements AfterUrlProviderInterface
 
     public function __construct(
         string $afterPath,
-        array $afterParameters = []
+        array $afterParameters = [],
     ) {
         $this->afterPath = $afterPath;
         $this->afterParameters = $afterParameters;

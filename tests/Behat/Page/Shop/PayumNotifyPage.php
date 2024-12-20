@@ -16,7 +16,7 @@ class PayumNotifyPage extends SymfonyPage implements PayumNotifyPageInterface
         Session $session,
         $minkParameters,
         RouterInterface $router,
-        string $routeName
+        string $routeName,
     ) {
         parent::__construct($session, $minkParameters, $router);
         $this->routeName = $routeName;

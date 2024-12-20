@@ -29,7 +29,7 @@ final class PaymentIntentMocker
     {
         $mockCreatePaymentIntent = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.create_payment_intent',
-            AbstractCreateAction::class
+            AbstractCreateAction::class,
         );
 
         $mockCreatePaymentIntent
@@ -64,7 +64,7 @@ final class PaymentIntentMocker
     {
         $mock = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.retrieve_payment_intent',
-            AbstractRetrieveAction::class
+            AbstractRetrieveAction::class,
         );
 
         $mock
@@ -97,7 +97,7 @@ final class PaymentIntentMocker
     {
         $mock = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.update_payment_intent',
-            AbstractUpdateAction::class
+            AbstractUpdateAction::class,
         );
 
         $mock
@@ -131,7 +131,7 @@ final class PaymentIntentMocker
     {
         $mock = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.cancel_payment_intent',
-            AbstractRetrieveAction::class
+            AbstractRetrieveAction::class,
         );
 
         $mock
@@ -164,7 +164,7 @@ final class PaymentIntentMocker
     {
         $mock = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.capture_payment_intent',
-            AbstractRetrieveAction::class
+            AbstractRetrieveAction::class,
         );
 
         $mock

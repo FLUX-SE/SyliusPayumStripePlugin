@@ -25,7 +25,7 @@ final class RefundMocker
     {
         $mockCreateSession = $this->mocker->mockService(
             'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.create_refund',
-            AbstractCreateAction::class
+            AbstractCreateAction::class,
         );
 
         $mockCreateSession

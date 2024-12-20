@@ -17,7 +17,7 @@ final class RefundOrderProcessor implements PaymentStateProcessorInterface
 
     public function __construct(
         MessageBusInterface $commandBus,
-        bool $disabled
+        bool $disabled,
     ) {
         $this->commandBus = $commandBus;
         $this->disabled = $disabled;

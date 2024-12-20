@@ -30,7 +30,7 @@ abstract class AbstractPayumPaymentHandler
     public function __construct(
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
-        array $supportedGateways
+        array $supportedGateways,
     ) {
         $this->paymentRepository = $paymentRepository;
         $this->payum = $payum;

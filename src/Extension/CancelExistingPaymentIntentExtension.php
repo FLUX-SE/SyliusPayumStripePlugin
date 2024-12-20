@@ -35,7 +35,7 @@ final class CancelExistingPaymentIntentExtension implements ExtensionInterface
 
     public function __construct(
         ExpireSessionRequestFactoryInterface $expireSessionRequestFactory,
-        AllSessionRequestFactoryInterface $allSessionRequestFactory
+        AllSessionRequestFactoryInterface $allSessionRequestFactory,
     ) {
         $this->expireSessionRequestFactory = $expireSessionRequestFactory;
         $this->allSessionRequestFactory = $allSessionRequestFactory;

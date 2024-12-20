@@ -24,7 +24,7 @@ final class DetailsProvider implements DetailsProviderInterface
         CustomerEmailProviderInterface $customerEmailProvider,
         LineItemsProviderInterface $lineItemsProvider,
         PaymentMethodTypesProviderInterface $paymentMethodTypesProvider,
-        ModeProviderInterface $modeProvider
+        ModeProviderInterface $modeProvider,
     ) {
         $this->customerEmailProvider = $customerEmailProvider;
         $this->lineItemsProvider = $lineItemsProvider;

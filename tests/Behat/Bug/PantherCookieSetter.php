@@ -10,16 +10,10 @@ use Sylius\Behat\Service\Setter\CookieSetterInterface;
 
 final class PantherCookieSetter implements CookieSetterInterface
 {
-    private Session $minkSession;
-
-    private CookieSetterInterface $decoratedCookieSetter;
-
     public function __construct(
-        Session $minkSession,
-        CookieSetterInterface $decoratedCookieSetter
+        private Session $minkSession,
+        private CookieSetterInterface $decoratedCookieSetter,
     ) {
-        $this->decoratedCookieSetter = $decoratedCookieSetter;
-        $this->minkSession = $minkSession;
     }
 
     public function setCookie($name, $value): void
