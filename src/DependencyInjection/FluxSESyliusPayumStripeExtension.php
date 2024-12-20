@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\DependencyInjection;
 
-use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class FluxSESyliusPayumStripeExtension extends Extension implements PrependExtensionInterface
+class FluxSESyliusPayumStripeExtension extends Extension
 {
-    /**
-     * @throws Exception
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration([], $container);
@@ -45,21 +40,8 @@ class FluxSESyliusPayumStripeExtension extends Extension implements PrependExten
 
         $loader = new YamlFileLoader(
             $container,
-            new FileLocator(dirname(__DIR__) . '/Resources/config'),
+            new FileLocator(dirname(__DIR__) . '/../config'),
         );
         $loader->load('services.yaml');
-    }
-
-    public function prepend(ContainerBuilder $container): void
-    {
-        $loader = new YamlFileLoader(
-            $container,
-            new FileLocator(dirname(__DIR__) . '/Resources/config'),
-        );
-
-        if ($container->hasExtension('sylius_state_machine_abstraction')) {
-            $loader->load('services/abstraction/abstraction.yaml');
-            $loader->load('services/listener/workflow/sylius_payment.yaml');
-        }
     }
 }

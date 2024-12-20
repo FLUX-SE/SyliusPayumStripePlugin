@@ -29,4 +29,9 @@ class FluxSESyliusPayumStripePlugin extends Bundle
 
         parent::build($container);
     }
+
+    public function getPath(): string
+    {
+        return dirname(__DIR__);
+    }
 }

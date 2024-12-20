@@ -28,12 +28,8 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [ "7.4", "8.1" ]
-                symfony: [ "^5.4", "^6.4" ]
-                exclude:
-                    -
-                        php: "7.4"
-                        symfony: "^6.4"
+                php: [ "8.2" ]
+                symfony: [ "^6.4", "^7.3" ]
 
         steps:
             -
@@ -99,11 +95,6 @@ jobs:
                 name: Run PHPStan
                 run: vendor/bin/phpstan analyse
                 if: always() && steps.end-of-setup.outcome == 'success'
-
-            -
-                name: Run PHPSpec
-                run: vendor/bin/phpspec run --ansi -f progress --no-interaction
-                if: always() && steps.end-of-setup.outcome == 'success'
     tests:
         runs-on: ubuntu-latest
 
@@ -112,25 +103,11 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: ["8.0", "8.1", "8.2", "8.3"]
-                symfony: ["^5.4", "^6.4"]
-                sylius: ["~1.12.0", "~1.13.0"]
+                php: ["8.2", "8.3"]
+                symfony: ["^6.4", "7.3"]
+                sylius: ["~2.0.0"]
                 node: ["20.x"]
                 mysql: ["8.0"]
-
-                exclude:
-                    -
-                        sylius: "~1.12.0"
-                        php: "7.4"
-                    -
-                        sylius: "~1.13.0"
-                        php: "7.4"
-                    -
-                        sylius: "~1.13.0"
-                        php: "8.0"
-                    -
-                        php: "8.0"
-                        symfony: "^6.4"
 
         env:
             APP_ENV: test

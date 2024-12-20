@@ -1,6 +1,0 @@
-services:
-
-  flux_se.sylius_payum_stripe.abstraction.state_machine.composite:
-    class: FluxSE\SyliusPayumStripePlugin\Abstraction\StateMachine\CompositeStateMachine
-    arguments:
-      $stateMachine: '@sylius_abstraction.state_machine.composite'
