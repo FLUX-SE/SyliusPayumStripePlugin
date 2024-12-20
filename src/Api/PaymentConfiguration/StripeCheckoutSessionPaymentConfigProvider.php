@@ -15,13 +15,10 @@ final class StripeCheckoutSessionPaymentConfigProvider implements PaymentConfigu
         StripePaymentConfigProviderTrait::__construct as private __stripePaymentConfigProviderConstruct;
     }
 
-    private ProcessorInterface $captureProcessor;
-
     public function __construct(
-        ProcessorInterface $captureProcessor,
+        private ProcessorInterface $captureProcessor,
         string $factoryName,
     ) {
-        $this->captureProcessor = $captureProcessor;
         $this->__stripePaymentConfigProviderConstruct($factoryName);
     }
 

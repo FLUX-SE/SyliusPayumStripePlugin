@@ -7,7 +7,6 @@ use Rector\Set\ValueObject\LevelSetList;
 
 return RectorConfig::configure()
     ->withPaths([
-        __DIR__ . '/spec',
         __DIR__ . '/src',
         __DIR__ . '/tests/Behat',
         __DIR__ . '/tests/Unit',

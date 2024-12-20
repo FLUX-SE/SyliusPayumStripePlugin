@@ -11,26 +11,17 @@ use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\CheckoutSessionMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\PaymentIntentMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\RefundMocker;
 
-final class StripeCheckoutSessionMocker
+final readonly class StripeCheckoutSessionMocker
 {
     private MockerInterface $mocker;
 
-    private CheckoutSessionMocker $checkoutSessionMocker;
-
-    private PaymentIntentMocker $paymentIntentMocker;
-
-    private RefundMocker $refundMocker;
-
     public function __construct(
         MockerInterface $mocker,
-        CheckoutSessionMocker $checkoutSessionMocker,
-        PaymentIntentMocker $paymentIntentMocker,
-        RefundMocker $refundMocker,
+        private CheckoutSessionMocker $checkoutSessionMocker,
+        private PaymentIntentMocker $paymentIntentMocker,
+        private RefundMocker $refundMocker,
     ) {
         $this->mocker = $mocker;
-        $this->checkoutSessionMocker = $checkoutSessionMocker;
-        $this->paymentIntentMocker = $paymentIntentMocker;
-        $this->refundMocker = $refundMocker;
     }
 
     public function mockCaptureOrAuthorize(callable $action): void

@@ -25,9 +25,9 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
     private array $scheduledPaymentsToProcess = [];
 
     public function __construct(
-        private StateMachineInterface $stateMachine,
-        private StorageInterface $storage,
-        private GetStatusFactoryInterface $getStatusRequestFactory,
+        private readonly StateMachineInterface $stateMachine,
+        private readonly StorageInterface $storage,
+        private readonly GetStatusFactoryInterface $getStatusRequestFactory,
     ) {
     }
 

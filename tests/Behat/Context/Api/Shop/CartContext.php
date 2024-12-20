@@ -14,30 +14,10 @@ use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeCheckoutSessionMocke
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeJsMocker;
 use Webmozart\Assert\Assert;
 
-final class CartContext implements Context
+final readonly class CartContext implements Context
 {
-    private ApiClientInterface $shopClient;
-
-    private ResponseCheckerInterface $responseChecker;
-
-    private SharedStorageInterface $sharedStorage;
-
-    private StripeCheckoutSessionMocker $stripeCheckoutSessionMocker;
-
-    private StripeJsMocker $stripeJsMocker;
-
-    public function __construct(
-        ApiClientInterface $shopClient,
-        ResponseCheckerInterface $responseChecker,
-        SharedStorageInterface $sharedStorage,
-        StripeCheckoutSessionMocker $stripeCheckoutSessionMocker,
-        StripeJsMocker $stripeJsMocker,
-    ) {
-        $this->shopClient = $shopClient;
-        $this->responseChecker = $responseChecker;
-        $this->sharedStorage = $sharedStorage;
-        $this->stripeCheckoutSessionMocker = $stripeCheckoutSessionMocker;
-        $this->stripeJsMocker = $stripeJsMocker;
+    public function __construct(private ApiClientInterface $shopClient, private ResponseCheckerInterface $responseChecker, private SharedStorageInterface $sharedStorage, private StripeCheckoutSessionMocker $stripeCheckoutSessionMocker, private StripeJsMocker $stripeJsMocker)
+    {
     }
 
     /**

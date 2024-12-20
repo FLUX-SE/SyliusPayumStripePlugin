@@ -14,24 +14,8 @@ use Webmozart\Assert\Assert;
 
 class StripeContext implements Context
 {
-    private SharedStorageInterface $sharedStorage;
-
-    private PaymentMethodRepositoryInterface $paymentMethodRepository;
-
-    private ExampleFactoryInterface $paymentMethodExampleFactory;
-
-    private EntityManagerInterface $paymentMethodManager;
-
-    public function __construct(
-        SharedStorageInterface $sharedStorage,
-        PaymentMethodRepositoryInterface $paymentMethodRepository,
-        ExampleFactoryInterface $paymentMethodExampleFactory,
-        EntityManagerInterface $paymentMethodManager,
-    ) {
-        $this->sharedStorage = $sharedStorage;
-        $this->paymentMethodRepository = $paymentMethodRepository;
-        $this->paymentMethodExampleFactory = $paymentMethodExampleFactory;
-        $this->paymentMethodManager = $paymentMethodManager;
+    public function __construct(private readonly SharedStorageInterface $sharedStorage, private readonly PaymentMethodRepositoryInterface $paymentMethodRepository, private readonly ExampleFactoryInterface $paymentMethodExampleFactory, private readonly EntityManagerInterface $paymentMethodManager)
+    {
     }
 
     /**

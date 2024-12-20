@@ -10,30 +10,10 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Core\Model\ProductImageInterface;
 use Sylius\Component\Core\Model\ProductInterface;
 
-final class LineItemImagesProvider implements LineItemImagesProviderInterface
+final readonly class LineItemImagesProvider implements LineItemImagesProviderInterface
 {
-    /** @var CacheManager */
-    private $imagineCacheManager;
-
-    /** @var string */
-    private $filterName;
-
-    /** @var string */
-    private $fallbackImage;
-
-    /** @var string */
-    private $localhostPattern;
-
-    public function __construct(
-        CacheManager $imagineCacheManager,
-        string $filterName,
-        string $fallbackImage,
-        string $localhostPattern = '#//localhost#',
-    ) {
-        $this->imagineCacheManager = $imagineCacheManager;
-        $this->filterName = $filterName;
-        $this->fallbackImage = $fallbackImage;
-        $this->localhostPattern = $localhostPattern;
+    public function __construct(private CacheManager $imagineCacheManager, private string $filterName, private string $fallbackImage, private string $localhostPattern = '#//localhost#')
+    {
     }
 
     public function getImageUrls(OrderItemInterface $orderItem): array
@@ -85,7 +65,7 @@ final class LineItemImagesProvider implements LineItemImagesProviderInterface
 
         try {
             $url = $this->imagineCacheManager->getBrowserPath($path, $this->filterName);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return $this->fallbackImage;
         }
 

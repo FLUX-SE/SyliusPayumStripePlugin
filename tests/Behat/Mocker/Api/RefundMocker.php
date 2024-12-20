@@ -37,9 +37,7 @@ final class RefundMocker
 
         $mockCreateSession
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof CreateRefund;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof CreateRefund);
 
         $mockCreateSession
             ->shouldReceive('execute')

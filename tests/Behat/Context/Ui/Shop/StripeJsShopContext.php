@@ -16,24 +16,8 @@ use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripePage;
 
 class StripeJsShopContext extends MinkContext implements Context
 {
-    private StripeJsMocker $stripeJsMocker;
-
-    private CompletePageInterface $summaryPage;
-
-    private ShowPageInterface $orderDetails;
-
-    private StripePage $paymentPage;
-
-    public function __construct(
-        StripeJsMocker $stripeJsMocker,
-        CompletePageInterface $summaryPage,
-        ShowPageInterface $orderDetails,
-        StripePage $paymentPage,
-    ) {
-        $this->stripeJsMocker = $stripeJsMocker;
-        $this->summaryPage = $summaryPage;
-        $this->orderDetails = $orderDetails;
-        $this->paymentPage = $paymentPage;
+    public function __construct(private readonly StripeJsMocker $stripeJsMocker, private readonly CompletePageInterface $summaryPage, private readonly ShowPageInterface $orderDetails, private readonly StripePage $paymentPage)
+    {
     }
 
     /**

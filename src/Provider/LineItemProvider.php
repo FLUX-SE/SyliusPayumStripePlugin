@@ -7,20 +7,10 @@ namespace FluxSE\SyliusPayumStripePlugin\Provider;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 
-final class LineItemProvider implements LineItemProviderInterface
+final readonly class LineItemProvider implements LineItemProviderInterface
 {
-    /** @var LineItemImagesProviderInterface */
-    private $lineItemImagesProvider;
-
-    /** @var LinetItemNameProviderInterface */
-    private $lineItemNameProvider;
-
-    public function __construct(
-        LineItemImagesProviderInterface $lineItemImagesProvider,
-        LinetItemNameProviderInterface $lineItemNameProvider,
-    ) {
-        $this->lineItemImagesProvider = $lineItemImagesProvider;
-        $this->lineItemNameProvider = $lineItemNameProvider;
+    public function __construct(private LineItemImagesProviderInterface $lineItemImagesProvider, private LinetItemNameProviderInterface $lineItemNameProvider)
+    {
     }
 
     public function getLineItem(OrderItemInterface $orderItem): ?array

@@ -17,20 +17,14 @@ use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeCheckoutSessionMocke
 
 class ManagingOrdersContext implements Context
 {
-    private FactoryInterface $stateMachineFactory;
-
-    private ObjectManager $objectManager;
-
-    private StripeCheckoutSessionMocker $stripeCheckoutSessionMocker;
+    private readonly FactoryInterface $stateMachineFactory;
 
     public function __construct(
         FactoryInterface $stateMachineFactory,
-        ObjectManager $objectManager,
-        StripeCheckoutSessionMocker $stripeCheckoutSessionMocker,
+        private readonly ObjectManager $objectManager,
+        private readonly StripeCheckoutSessionMocker $stripeCheckoutSessionMocker,
     ) {
         $this->stateMachineFactory = $stateMachineFactory;
-        $this->objectManager = $objectManager;
-        $this->stripeCheckoutSessionMocker = $stripeCheckoutSessionMocker;
     }
 
     /**

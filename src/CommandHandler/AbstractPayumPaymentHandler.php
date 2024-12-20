@@ -15,26 +15,18 @@ use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 
 abstract class AbstractPayumPaymentHandler
 {
-    /** @var PaymentRepositoryInterface */
-    private $paymentRepository;
-
     /** @var Payum */
     protected $payum;
-
-    /** @var string[] */
-    protected array $supportedGateways;
 
     /**
      * @param string[] $supportedGateways
      */
     public function __construct(
-        PaymentRepositoryInterface $paymentRepository,
+        private readonly PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
-        array $supportedGateways,
+        protected array $supportedGateways,
     ) {
-        $this->paymentRepository = $paymentRepository;
         $this->payum = $payum;
-        $this->supportedGateways = $supportedGateways;
     }
 
     protected function retrievePayment(PaymentIdAwareCommandInterface $command): ?PaymentInterface

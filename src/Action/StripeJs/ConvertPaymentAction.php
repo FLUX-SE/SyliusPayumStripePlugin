@@ -9,14 +9,10 @@ use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\Request\Convert;
 use Sylius\Component\Core\Model\PaymentInterface;
 
-final class ConvertPaymentAction implements ConvertPaymentActionInterface
+final readonly class ConvertPaymentAction implements ConvertPaymentActionInterface
 {
-    /** @var DetailsProviderInterface */
-    private $detailsProvider;
-
-    public function __construct(DetailsProviderInterface $detailsProvider)
+    public function __construct(private DetailsProviderInterface $detailsProvider)
     {
-        $this->detailsProvider = $detailsProvider;
     }
 
     /** @param Convert $request */

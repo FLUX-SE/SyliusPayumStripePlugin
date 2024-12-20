@@ -10,16 +10,13 @@ use Symfony\Component\Routing\RouterInterface;
 
 class PayumNotifyPage extends SymfonyPage implements PayumNotifyPageInterface
 {
-    private string $routeName;
-
     public function __construct(
         Session $session,
         $minkParameters,
         RouterInterface $router,
-        string $routeName,
+        private readonly string $routeName,
     ) {
         parent::__construct($session, $minkParameters, $router);
-        $this->routeName = $routeName;
     }
 
     public function getNotifyUrl(array $urlParameters): string

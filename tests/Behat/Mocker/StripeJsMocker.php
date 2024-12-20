@@ -9,22 +9,16 @@ use Sylius\Behat\Service\Mocker\MockerInterface;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\PaymentIntentMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\RefundMocker;
 
-final class StripeJsMocker
+final readonly class StripeJsMocker
 {
     private MockerInterface $mocker;
 
-    private PaymentIntentMocker $paymentIntentMocker;
-
-    private RefundMocker $refundMocker;
-
     public function __construct(
         MockerInterface $mocker,
-        PaymentIntentMocker $paymentIntentMocker,
-        RefundMocker $refundMocker,
+        private PaymentIntentMocker $paymentIntentMocker,
+        private RefundMocker $refundMocker,
     ) {
         $this->mocker = $mocker;
-        $this->paymentIntentMocker = $paymentIntentMocker;
-        $this->refundMocker = $refundMocker;
     }
 
     public function mockCaptureOrAuthorize(callable $action): void

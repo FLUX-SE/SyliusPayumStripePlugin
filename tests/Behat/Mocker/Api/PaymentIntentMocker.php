@@ -16,7 +16,7 @@ use FluxSE\PayumStripe\Request\Api\Resource\UpdatePaymentIntent;
 use Stripe\PaymentIntent;
 use Sylius\Behat\Service\Mocker\MockerInterface;
 
-final class PaymentIntentMocker
+final readonly class PaymentIntentMocker
 {
     private MockerInterface $mocker;
 
@@ -41,9 +41,7 @@ final class PaymentIntentMocker
 
         $mockCreatePaymentIntent
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof CreatePaymentIntent;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof CreatePaymentIntent);
 
         $mockCreatePaymentIntent
             ->shouldReceive('execute')
@@ -76,9 +74,7 @@ final class PaymentIntentMocker
 
         $mock
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof RetrievePaymentIntent;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof RetrievePaymentIntent);
 
         $mock
             ->shouldReceive('execute')
@@ -109,9 +105,7 @@ final class PaymentIntentMocker
 
         $mock
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof UpdatePaymentIntent;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof UpdatePaymentIntent);
 
         $mock
             ->shouldReceive('execute')
@@ -143,9 +137,7 @@ final class PaymentIntentMocker
 
         $mock
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof CancelPaymentIntent;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof CancelPaymentIntent);
 
         $mock
             ->shouldReceive('execute')
@@ -176,9 +168,7 @@ final class PaymentIntentMocker
 
         $mock
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof CapturePaymentIntent;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof CapturePaymentIntent);
 
         $mock
             ->shouldReceive('execute')

@@ -9,13 +9,10 @@ use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class PaymentCompletedStateListener
+final readonly class PaymentCompletedStateListener
 {
-    private PaymentStateProcessorInterface $paymentStateProcessor;
-
-    public function __construct(PaymentStateProcessorInterface $paymentStateProcessor)
+    public function __construct(private PaymentStateProcessorInterface $paymentStateProcessor)
     {
-        $this->paymentStateProcessor = $paymentStateProcessor;
     }
 
     public function __invoke(CompletedEvent $event): void

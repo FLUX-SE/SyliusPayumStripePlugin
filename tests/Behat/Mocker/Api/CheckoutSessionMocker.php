@@ -42,9 +42,7 @@ final class CheckoutSessionMocker
 
         $mockCreateSession
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof CreateSession;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof CreateSession);
 
         $mockCreateSession
             ->shouldReceive('execute')
@@ -78,9 +76,7 @@ final class CheckoutSessionMocker
 
         $mock
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof RetrieveSession;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof RetrieveSession);
 
         $mock
             ->shouldReceive('execute')
@@ -112,9 +108,7 @@ final class CheckoutSessionMocker
 
         $mock
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof AllSession;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof AllSession);
 
         $mock
             ->shouldReceive('execute')
@@ -148,9 +142,7 @@ final class CheckoutSessionMocker
 
         $mock
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof ExpireSession;
-            });
+            ->andReturnUsing(fn($request) => $request instanceof ExpireSession);
 
         $mock
             ->shouldReceive('execute')

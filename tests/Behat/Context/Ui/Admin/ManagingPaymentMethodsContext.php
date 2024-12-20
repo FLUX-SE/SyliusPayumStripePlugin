@@ -11,12 +11,8 @@ use Webmozart\Assert\Assert;
 
 class ManagingPaymentMethodsContext implements Context
 {
-    /** @var CreatePageInterface */
-    private $createPage;
-
-    public function __construct(CreatePageInterface $createPage)
+    public function __construct(private readonly CreatePageInterface $createPage)
     {
-        $this->createPage = $createPage;
     }
 
     /**

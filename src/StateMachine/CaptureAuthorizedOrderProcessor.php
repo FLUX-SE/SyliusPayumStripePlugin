@@ -9,13 +9,10 @@ use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Webmozart\Assert\Assert;
 
-final class CaptureAuthorizedOrderProcessor implements PaymentStateProcessorInterface
+final readonly class CaptureAuthorizedOrderProcessor implements PaymentStateProcessorInterface
 {
-    private MessageBusInterface $commandBus;
-
-    public function __construct(MessageBusInterface $commandBus)
+    public function __construct(private MessageBusInterface $commandBus)
     {
-        $this->commandBus = $commandBus;
     }
 
     public function __invoke(PaymentInterface $payment, string $fromState): void

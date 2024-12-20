@@ -6,22 +6,10 @@ namespace FluxSE\SyliusPayumStripePlugin\Provider\StripeJs;
 
 use Sylius\Component\Core\Model\PaymentInterface;
 
-final class DetailsProvider implements DetailsProviderInterface
+final readonly class DetailsProvider implements DetailsProviderInterface
 {
-    private AmountProviderInterface $amountProvider;
-
-    private CurrencyProviderInterface $currencyProvider;
-
-    private PaymentMethodTypesProviderInterface $paymentMethodTypesProvider;
-
-    public function __construct(
-        AmountProviderInterface $amountProvider,
-        CurrencyProviderInterface $currencyProvider,
-        PaymentMethodTypesProviderInterface $paymentMethodTypesProvider,
-    ) {
-        $this->amountProvider = $amountProvider;
-        $this->currencyProvider = $currencyProvider;
-        $this->paymentMethodTypesProvider = $paymentMethodTypesProvider;
+    public function __construct(private AmountProviderInterface $amountProvider, private CurrencyProviderInterface $currencyProvider, private PaymentMethodTypesProviderInterface $paymentMethodTypesProvider)
+    {
     }
 
     public function getDetails(PaymentInterface $payment): array
