@@ -19,7 +19,7 @@
 
         <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.context.ui.admin.managing_orders"
                  class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Admin\ManagingOrdersContext">
-            <argument type="service" id="sm.factory" />
+            <argument type="service" id="sylius_abstraction.state_machine" />
             <argument type="service" id="sylius.manager.order" />
             <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.stripe_checkout_session_mocker" />
         </service>

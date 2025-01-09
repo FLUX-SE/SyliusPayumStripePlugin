@@ -6,25 +6,22 @@ namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
 use Doctrine\Persistence\ObjectManager;
-use SM\Factory\FactoryInterface;
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
+use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
-use Sylius\Component\Resource\StateMachine\StateMachineInterface;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\StripeCheckoutSessionMocker;
+use Webmozart\Assert\Assert;
 
 class ManagingOrdersContext implements Context
 {
-    private readonly FactoryInterface $stateMachineFactory;
-
     public function __construct(
-        FactoryInterface $stateMachineFactory,
+        private readonly StateMachineInterface $stateMachine,
         private readonly ObjectManager $objectManager,
         private readonly StripeCheckoutSessionMocker $stripeCheckoutSessionMocker,
     ) {
-        $this->stateMachineFactory = $stateMachineFactory;
     }
 
     /**
@@ -43,9 +40,7 @@ class ManagingOrdersContext implements Context
         ];
         $payment->setDetails($details);
 
-        /** @var StateMachineInterface $stateMachine */
-        $stateMachine = $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH);
-        $stateMachine->apply(PaymentTransitions::TRANSITION_COMPLETE);
+        $this->applyTransitionToState($payment, PaymentTransitions::TRANSITION_COMPLETE);
 
         $this->objectManager->flush();
     }
@@ -66,9 +61,7 @@ class ManagingOrdersContext implements Context
         ];
         $payment->setDetails($details);
 
-        /** @var StateMachineInterface $stateMachine */
-        $stateMachine = $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH);
-        $stateMachine->apply(PaymentTransitions::TRANSITION_AUTHORIZE);
+        $this->applyTransitionToState($payment, PaymentTransitions::TRANSITION_AUTHORIZE);
 
         $this->objectManager->flush();
     }
@@ -81,13 +74,12 @@ class ManagingOrdersContext implements Context
         /** @var PaymentInterface $payment */
         $payment = $order->getPayments()->first();
 
-        $details = [
+        $payment->setDetails([
             'object' => Session::OBJECT_NAME,
             'id' => $stripeCheckoutSessionId,
             'status' => Session::STATUS_OPEN,
             'payment_status' => Session::PAYMENT_STATUS_UNPAID,
-        ];
-        $payment->setDetails($details);
+        ]);
 
         $this->objectManager->flush();
     }
@@ -100,12 +92,11 @@ class ManagingOrdersContext implements Context
         /** @var PaymentInterface $payment */
         $payment = $order->getPayments()->first();
 
-        $details = [
+        $payment->setDetails([
             'object' => PaymentIntent::OBJECT_NAME,
             'id' => $stripePaymentIntentId,
             'status' => PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
-        ];
-        $payment->setDetails($details);
+        ]);
 
         $this->objectManager->flush();
     }
@@ -118,9 +109,7 @@ class ManagingOrdersContext implements Context
         /** @var PaymentInterface $payment */
         $payment = $order->getPayments()->first();
 
-        /** @var StateMachineInterface $stateMachine */
-        $stateMachine = $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH);
-        $stateMachine->apply(PaymentTransitions::TRANSITION_CANCEL);
+        $this->applyTransitionToState($payment, PaymentTransitions::TRANSITION_CANCEL);
 
         $this->objectManager->flush();
     }
@@ -180,5 +169,22 @@ class ManagingOrdersContext implements Context
         $captureMethod = $details['capture_method'] ?? PaymentIntent::CAPTURE_METHOD_MANUAL;
 
         $this->stripeCheckoutSessionMocker->mockCaptureAuthorization($status, $captureMethod);
+    }
+
+    private function applyTransitionToState(PaymentInterface $payment, string $state): void
+    {
+        $transition = $this->stateMachine->getTransitionToState(
+            $payment,
+            PaymentTransitions::GRAPH,
+            $state,
+        );
+
+        Assert::notNull($transition, 'Transition cannot be null at this point.');
+
+        $this->stateMachine->apply(
+            $payment,
+            PaymentTransitions::GRAPH,
+            $transition,
+        );
     }
 }
