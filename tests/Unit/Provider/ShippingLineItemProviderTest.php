@@ -40,9 +40,9 @@ final class ShippingLineItemProviderTest extends TestCase
     {
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
-        $this->shippingLineItemNameProviderMock->expects($this->atLeastOnce())->method('getItemName')->with($orderMock)->willReturn('My shipping method');
-        $orderMock->expects($this->atLeastOnce())->method('getShippingTotal')->willReturn(1000);
-        $orderMock->expects($this->atLeastOnce())->method('getCurrencyCode')->willReturn('USD');
+        $this->shippingLineItemNameProviderMock->expects(self::atLeastOnce())->method('getItemName')->with($orderMock)->willReturn('My shipping method');
+        $orderMock->expects(self::atLeastOnce())->method('getShippingTotal')->willReturn(1000);
+        $orderMock->expects(self::atLeastOnce())->method('getCurrencyCode')->willReturn('USD');
         $this->assertSame([
             'price_data' => [
                 'unit_amount' => 1000,
@@ -62,7 +62,7 @@ final class ShippingLineItemProviderTest extends TestCase
     {
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
-        $orderMock->expects($this->atLeastOnce())->method('getShippingTotal')->willReturn(0);
+        $orderMock->expects(self::atLeastOnce())->method('getShippingTotal')->willReturn(0);
         $this->assertNull($this->shippingLineItemProvider->getLineItem($orderMock));
     }
 }

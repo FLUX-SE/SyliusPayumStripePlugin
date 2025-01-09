@@ -56,7 +56,11 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
         $contextMock = $this->createMock(Context::class);
         /** @var ActionInterface&MockObject $actionMock */
         $actionMock = $this->createMock(ActionInterface::class);
-        $contextMock->expects($this->atLeastOnce())->method('getAction')->willReturn($actionMock);
+        $contextMock->expects(self::atLeastOnce())->method('getAction')->willReturn($actionMock);
+
+        $this->allSessionRequestFactoryMock->expects(self::never())->method('createNew');
+        $this->expireSessionRequestFactoryMock->expects(self::never())->method('createNew');
+
         $this->cancelExistingPaymentIntentExtension->onExecute($contextMock);
     }
 
@@ -73,10 +77,14 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
         $requestMock = $this->createMock(Convert::class);
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
-        $contextMock->expects($this->atLeastOnce())->method('getAction')->willReturn($actionMock);
-        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->atLeastOnce())->method('getSource')->willReturn($paymentMock);
-        $paymentMock->expects($this->atLeastOnce())->method('getDetails')->willReturn([]);
+        $contextMock->expects(self::atLeastOnce())->method('getAction')->willReturn($actionMock);
+        $contextMock->expects(self::atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects(self::atLeastOnce())->method('getSource')->willReturn($paymentMock);
+        $paymentMock->expects(self::atLeastOnce())->method('getDetails')->willReturn([]);
+
+        $this->allSessionRequestFactoryMock->expects(self::never())->method('createNew');
+        $this->expireSessionRequestFactoryMock->expects(self::never())->method('createNew');
+
         $this->cancelExistingPaymentIntentExtension->onExecute($contextMock);
     }
 
@@ -93,12 +101,16 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
         $requestMock = $this->createMock(Convert::class);
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
-        $contextMock->expects($this->atLeastOnce())->method('getAction')->willReturn($actionMock);
-        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->atLeastOnce())->method('getSource')->willReturn($paymentMock);
-        $paymentMock->expects($this->atLeastOnce())->method('getDetails')->willReturn([
+        $contextMock->expects(self::atLeastOnce())->method('getAction')->willReturn($actionMock);
+        $contextMock->expects(self::atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects(self::atLeastOnce())->method('getSource')->willReturn($paymentMock);
+        $paymentMock->expects(self::atLeastOnce())->method('getDetails')->willReturn([
             'object' => SetupIntent::OBJECT_NAME,
         ]);
+
+        $this->allSessionRequestFactoryMock->expects(self::never())->method('createNew');
+        $this->expireSessionRequestFactoryMock->expects(self::never())->method('createNew');
+
         $this->cancelExistingPaymentIntentExtension->onExecute($contextMock);
     }
 
@@ -119,22 +131,25 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
         $gatewayMock = $this->createMock(GatewayInterface::class);
         /** @var AllInterface&MockObject $allSessionRequestMock */
         $allSessionRequestMock = $this->createMock(AllInterface::class);
-        $contextMock->expects($this->atLeastOnce())->method('getAction')->willReturn($actionMock);
-        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->atLeastOnce())->method('getSource')->willReturn($paymentMock);
-        $contextMock->expects($this->atLeastOnce())->method('getGateway')->willReturn($gatewayMock);
+        $contextMock->expects(self::atLeastOnce())->method('getAction')->willReturn($actionMock);
+        $contextMock->expects(self::atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects(self::atLeastOnce())->method('getSource')->willReturn($paymentMock);
+        $contextMock->expects(self::atLeastOnce())->method('getGateway')->willReturn($gatewayMock);
         $piId = 'pi_test_0000000000000000000';
-        $paymentMock->expects($this->atLeastOnce())->method('getDetails')->willReturn([
+        $paymentMock->expects(self::atLeastOnce())->method('getDetails')->willReturn([
             'id' => $piId,
             'object' => PaymentIntent::OBJECT_NAME,
         ]);
-        $this->allSessionRequestFactoryMock->expects($this->atLeastOnce())->method('createNew')
+        $this->allSessionRequestFactoryMock->expects(self::atLeastOnce())->method('createNew')
             ->willReturn($allSessionRequestMock);
-        $allSessionRequestMock->expects($this->atLeastOnce())->method('setParameters')->with([
+        $allSessionRequestMock->expects(self::atLeastOnce())->method('setParameters')->with([
             'payment_intent' => $piId,
         ]);
-        $allSessionRequestMock->expects($this->atLeastOnce())->method('getApiResources')->willReturn(Collection::constructFrom(['data' => []]));
-        $gatewayMock->expects($this->atLeastOnce())->method('execute')->with($allSessionRequestMock);
+        $allSessionRequestMock->expects(self::atLeastOnce())->method('getApiResources')->willReturn(Collection::constructFrom(['data' => []]));
+        $gatewayMock->expects(self::atLeastOnce())->method('execute')->with($allSessionRequestMock);
+
+        $this->expireSessionRequestFactoryMock->expects(self::never())->method('createNew');
+
         $this->cancelExistingPaymentIntentExtension->onExecute($contextMock);
     }
 
@@ -155,22 +170,22 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
         $gatewayMock = $this->createMock(GatewayInterface::class);
         /** @var AllInterface&MockObject $allSessionRequestMock */
         $allSessionRequestMock = $this->createMock(AllInterface::class);
-        $contextMock->expects($this->atLeastOnce())->method('getAction')->willReturn($actionMock);
-        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->atLeastOnce())->method('getSource')->willReturn($paymentMock);
-        $contextMock->expects($this->atLeastOnce())->method('getGateway')->willReturn($gatewayMock);
+        $contextMock->expects(self::atLeastOnce())->method('getAction')->willReturn($actionMock);
+        $contextMock->expects(self::atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects(self::atLeastOnce())->method('getSource')->willReturn($paymentMock);
+        $contextMock->expects(self::atLeastOnce())->method('getGateway')->willReturn($gatewayMock);
         $piId = 'pi_test_0000000000000000000';
         $csId = 'cs_test_0000000000000000000';
-        $paymentMock->expects($this->atLeastOnce())->method('getDetails')->willReturn([
+        $paymentMock->expects(self::atLeastOnce())->method('getDetails')->willReturn([
             'id' => $piId,
             'object' => PaymentIntent::OBJECT_NAME,
         ]);
-        $this->allSessionRequestFactoryMock->expects($this->atLeastOnce())->method('createNew')
+        $this->allSessionRequestFactoryMock->expects(self::atLeastOnce())->method('createNew')
             ->willReturn($allSessionRequestMock);
-        $allSessionRequestMock->expects($this->atLeastOnce())->method('setParameters')->with([
+        $allSessionRequestMock->expects(self::atLeastOnce())->method('setParameters')->with([
             'payment_intent' => $piId,
         ]);
-        $allSessionRequestMock->expects($this->atLeastOnce())->method('getApiResources')->willReturn(Collection::constructFrom([
+        $allSessionRequestMock->expects(self::atLeastOnce())->method('getApiResources')->willReturn(Collection::constructFrom([
             'data' => [
                 [
                     'id' => $csId,
@@ -178,7 +193,10 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
                 ],
             ],
         ]));
-        $gatewayMock->expects($this->atLeastOnce())->method('execute')->with($allSessionRequestMock);
+        $gatewayMock->expects(self::atLeastOnce())->method('execute')->with($allSessionRequestMock);
+
+        $this->expireSessionRequestFactoryMock->expects(self::never())->method('createNew');
+
         $this->cancelExistingPaymentIntentExtension->onExecute($contextMock);
     }
 
@@ -201,22 +219,22 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
         $allSessionRequestMock = $this->createMock(AllInterface::class);
         /** @var CustomCallInterface&MockObject $expireSessionRequestMock */
         $expireSessionRequestMock = $this->createMock(CustomCallInterface::class);
-        $contextMock->expects($this->atLeastOnce())->method('getAction')->willReturn($actionMock);
-        $contextMock->expects($this->atLeastOnce())->method('getRequest')->willReturn($requestMock);
-        $requestMock->expects($this->atLeastOnce())->method('getSource')->willReturn($paymentMock);
-        $contextMock->expects($this->atLeastOnce())->method('getGateway')->willReturn($gatewayMock);
+        $contextMock->expects(self::atLeastOnce())->method('getAction')->willReturn($actionMock);
+        $contextMock->expects(self::atLeastOnce())->method('getRequest')->willReturn($requestMock);
+        $requestMock->expects(self::atLeastOnce())->method('getSource')->willReturn($paymentMock);
+        $contextMock->expects(self::atLeastOnce())->method('getGateway')->willReturn($gatewayMock);
         $piId = 'pi_test_0000000000000000000';
         $csId = 'cs_test_0000000000000000000';
-        $paymentMock->expects($this->atLeastOnce())->method('getDetails')->willReturn([
+        $paymentMock->expects(self::atLeastOnce())->method('getDetails')->willReturn([
             'id' => $piId,
             'object' => PaymentIntent::OBJECT_NAME,
         ]);
-        $this->allSessionRequestFactoryMock->expects($this->once())->method('createNew')
+        $this->allSessionRequestFactoryMock->expects(self::once())->method('createNew')
             ->willReturn($allSessionRequestMock);
-        $allSessionRequestMock->expects($this->once())->method('setParameters')->with([
+        $allSessionRequestMock->expects(self::once())->method('setParameters')->with([
             'payment_intent' => $piId,
         ]);
-        $allSessionRequestMock->expects($this->atLeastOnce())->method('getApiResources')->willReturn(Collection::constructFrom([
+        $allSessionRequestMock->expects(self::atLeastOnce())->method('getApiResources')->willReturn(Collection::constructFrom([
             'data' => [
                 [
                     'id' => $csId,
@@ -224,10 +242,10 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
                 ],
             ],
         ]));
-        $this->expireSessionRequestFactoryMock->expects($this->once())->method('createNew')->with($csId)
+        $this->expireSessionRequestFactoryMock->expects(self::once())->method('createNew')->with($csId)
             ->willReturn($expireSessionRequestMock);
 
-        $matcher = $this->exactly(2);
+        $matcher = self::exactly(2);
         $gatewayMock
             ->expects($matcher)
             ->method('execute')
@@ -247,6 +265,10 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
     {
         /** @var Context&MockObject $contextMock */
         $contextMock = $this->createMock(Context::class);
+
+        $this->allSessionRequestFactoryMock->expects(self::never())->method('createNew');
+        $this->expireSessionRequestFactoryMock->expects(self::never())->method('createNew');
+
         $this->cancelExistingPaymentIntentExtension->onPreExecute($contextMock);
     }
 
@@ -257,6 +279,10 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
     {
         /** @var Context&MockObject $contextMock */
         $contextMock = $this->createMock(Context::class);
+
+        $this->allSessionRequestFactoryMock->expects(self::never())->method('createNew');
+        $this->expireSessionRequestFactoryMock->expects(self::never())->method('createNew');
+
         $this->cancelExistingPaymentIntentExtension->onPostExecute($contextMock);
     }
 }

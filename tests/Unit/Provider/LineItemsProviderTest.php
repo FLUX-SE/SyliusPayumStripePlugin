@@ -52,9 +52,9 @@ final class LineItemsProviderTest extends TestCase
         $orderItems = new ArrayCollection([
             $orderItemMock,
         ]);
-        $orderMock->expects($this->atLeastOnce())->method('getItems')->willReturn($orderItems);
-        $this->lineItemProviderMock->expects($this->atLeastOnce())->method('getLineItem')->with($orderItemMock)->willReturn($lineItem);
-        $this->shippingLineItemProviderMock->expects($this->atLeastOnce())->method('getLineItem')->with($orderMock)->willReturn(null);
+        $orderMock->expects(self::atLeastOnce())->method('getItems')->willReturn($orderItems);
+        $this->lineItemProviderMock->expects(self::atLeastOnce())->method('getLineItem')->with($orderItemMock)->willReturn($lineItem);
+        $this->shippingLineItemProviderMock->expects(self::atLeastOnce())->method('getLineItem')->with($orderMock)->willReturn(null);
         $this->assertSame([
             $lineItem,
         ], $this->lineItemsProvider->getLineItems($orderMock));
@@ -68,8 +68,8 @@ final class LineItemsProviderTest extends TestCase
         /** @var OrderInterface&MockObject $orderMock */
         $orderMock = $this->createMock(OrderInterface::class);
         $orderItems = new ArrayCollection([]);
-        $orderMock->expects($this->atLeastOnce())->method('getItems')->willReturn($orderItems);
-        $this->shippingLineItemProviderMock->expects($this->atLeastOnce())->method('getLineItem')->with($orderMock)->willReturn(null);
+        $orderMock->expects(self::atLeastOnce())->method('getItems')->willReturn($orderItems);
+        $this->shippingLineItemProviderMock->expects(self::atLeastOnce())->method('getLineItem')->with($orderMock)->willReturn(null);
         $this->assertSame([], $this->lineItemsProvider->getLineItems($orderMock));
     }
 }

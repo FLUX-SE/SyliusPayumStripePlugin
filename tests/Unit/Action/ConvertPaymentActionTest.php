@@ -50,32 +50,32 @@ final class ConvertPaymentActionTest extends TestCase
 
         $details = [];
         $paymentMock
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('getOrder')
             ->willReturn($orderMock)
         ;
 
         $requestMock
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('getSource')
             ->willReturn($paymentMock)
         ;
 
         $requestMock
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('getTo')
             ->willReturn('array')
         ;
 
         $this->detailsProviderMock
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('getDetails')
             ->with($orderMock)
             ->willReturn($details)
         ;
 
         $requestMock
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('setResult')
             ->with($details)
         ;
@@ -94,13 +94,13 @@ final class ConvertPaymentActionTest extends TestCase
         $paymentMock = $this->createMock(PaymentInterface::class);
 
         $requestMock
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('getSource')
             ->willReturn($paymentMock)
         ;
 
         $requestMock
-            ->expects($this->atLeastOnce())
+            ->expects(self::atLeastOnce())
             ->method('getTo')
             ->willReturn('array')
         ;

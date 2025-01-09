@@ -35,9 +35,9 @@ final class CaptureAuthorizedOrderProcessorTest extends TestCase
     {
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
-        $paymentMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
+        $paymentMock->expects(self::atLeastOnce())->method('getId')->willReturn(1);
         $command = new CaptureAuthorizedPayment(1);
-        $this->commandBusMock->expects($this->atLeastOnce())->method('dispatch')->with($command)->willReturn(new Envelope($command));
+        $this->commandBusMock->expects(self::atLeastOnce())->method('dispatch')->with($command)->willReturn(new Envelope($command));
         $this->captureAuthorizedOrderProcessor->__invoke($paymentMock, PaymentInterface::STATE_AUTHORIZED);
     }
 
@@ -48,6 +48,8 @@ final class CaptureAuthorizedOrderProcessorTest extends TestCase
     {
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
+        $paymentMock->expects(self::never())->method(self::anything());
+
         $this->captureAuthorizedOrderProcessor->__invoke($paymentMock, PaymentInterface::STATE_COMPLETED);
     }
 
@@ -58,6 +60,8 @@ final class CaptureAuthorizedOrderProcessorTest extends TestCase
     {
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
+        $paymentMock->expects(self::never())->method(self::anything());
+
         $this->captureAuthorizedOrderProcessor->__invoke($paymentMock, PaymentInterface::STATE_REFUNDED);
     }
 }

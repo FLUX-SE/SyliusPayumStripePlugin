@@ -35,9 +35,9 @@ final class CancelOrderProcessorTest extends TestCase
     {
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
-        $paymentMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
+        $paymentMock->expects(self::atLeastOnce())->method('getId')->willReturn(1);
         $command = new CancelPayment(1);
-        $this->commandBusMock->expects($this->atLeastOnce())->method('dispatch')->with($command)->willReturn(new Envelope($command));
+        $this->commandBusMock->expects(self::atLeastOnce())->method('dispatch')->with($command)->willReturn(new Envelope($command));
         $this->cancelOrderProcessor->__invoke($paymentMock, PaymentInterface::STATE_NEW);
     }
 
@@ -48,9 +48,9 @@ final class CancelOrderProcessorTest extends TestCase
     {
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
-        $paymentMock->expects($this->atLeastOnce())->method('getId')->willReturn(1);
+        $paymentMock->expects(self::atLeastOnce())->method('getId')->willReturn(1);
         $command = new CancelPayment(1);
-        $this->commandBusMock->expects($this->atLeastOnce())->method('dispatch')->with($command)->willReturn(new Envelope($command));
+        $this->commandBusMock->expects(self::atLeastOnce())->method('dispatch')->with($command)->willReturn(new Envelope($command));
         $this->cancelOrderProcessor->__invoke($paymentMock, PaymentInterface::STATE_AUTHORIZED);
     }
 
@@ -61,6 +61,8 @@ final class CancelOrderProcessorTest extends TestCase
     {
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
+        $paymentMock->expects(self::never())->method(self::anything());
+
         $this->cancelOrderProcessor->__invoke($paymentMock, PaymentInterface::STATE_COMPLETED);
     }
 
@@ -71,6 +73,8 @@ final class CancelOrderProcessorTest extends TestCase
     {
         /** @var PaymentInterface&MockObject $paymentMock */
         $paymentMock = $this->createMock(PaymentInterface::class);
+        $paymentMock->expects(self::never())->method(self::anything());
+
         $this->cancelOrderProcessor->__invoke($paymentMock, PaymentInterface::STATE_REFUNDED);
     }
 }
