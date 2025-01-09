@@ -175,12 +175,6 @@ jobs:
                 run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
 
             -
-                name: Fix build with PHP 8.3
-                if: matrix.php == '8.3'
-                run: |
-                    composer remove --dev "phpspec/phpspec" --no-update --no-scripts --no-interaction
-
-            -
                 name: Fix build with Symfony ^5.4
                 if: matrix.symfony == '^5.4'
                 run: |

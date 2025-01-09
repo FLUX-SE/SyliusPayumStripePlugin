@@ -1,5 +1,4 @@
 /features export-ignore
-/spec export-ignore
 /ecs.php export-ignore
 /behat.yml.dist export-ignore
 /phpspec.yml.dist export-ignore
