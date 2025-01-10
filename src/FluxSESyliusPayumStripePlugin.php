@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin;
 
+use FluxSE\SyliusPayumStripePlugin\DependencyInjection\Compiler\LiveTwigComponentCompilerPass;
 use FluxSE\SyliusPayumStripePlugin\DependencyInjection\Compiler\PayumGatewayConfigOverride;
 use FluxSE\SyliusPayumStripePlugin\DependencyInjection\Compiler\PayumStoragePaymentAliaser;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
@@ -26,6 +27,8 @@ class FluxSESyliusPayumStripePlugin extends Bundle
         ]));
 
         $container->addCompilerPass(new PayumStoragePaymentAliaser());
+        // Before SyliusUiBundle compiler pass
+        $container->addCompilerPass(new LiveTwigComponentCompilerPass(), priority: 501);
 
         parent::build($container);
     }
