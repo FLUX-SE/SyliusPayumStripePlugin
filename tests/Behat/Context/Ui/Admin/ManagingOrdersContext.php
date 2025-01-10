@@ -40,7 +40,7 @@ class ManagingOrdersContext implements Context
         ];
         $payment->setDetails($details);
 
-        $this->applyTransitionToState($payment, PaymentTransitions::TRANSITION_COMPLETE);
+        $this->applyTransitionToState($payment, PaymentInterface::STATE_COMPLETED);
 
         $this->objectManager->flush();
     }
@@ -61,7 +61,7 @@ class ManagingOrdersContext implements Context
         ];
         $payment->setDetails($details);
 
-        $this->applyTransitionToState($payment, PaymentTransitions::TRANSITION_AUTHORIZE);
+        $this->applyTransitionToState($payment, PaymentInterface::STATE_AUTHORIZED);
 
         $this->objectManager->flush();
     }
@@ -109,7 +109,7 @@ class ManagingOrdersContext implements Context
         /** @var PaymentInterface $payment */
         $payment = $order->getPayments()->first();
 
-        $this->applyTransitionToState($payment, PaymentTransitions::TRANSITION_CANCEL);
+        $this->applyTransitionToState($payment, PaymentInterface::STATE_CANCELLED);
 
         $this->objectManager->flush();
     }
