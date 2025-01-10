@@ -18,12 +18,9 @@ use Sylius\Behat\Service\Mocker\MockerInterface;
 
 final class CheckoutSessionMocker
 {
-    /** @var MockerInterface */
-    private $mocker;
-
-    public function __construct(MockerInterface $mocker)
-    {
-        $this->mocker = $mocker;
+    public function __construct(
+        private MockerInterface $mocker,
+    ){
     }
 
     public function mockCreateAction(): void

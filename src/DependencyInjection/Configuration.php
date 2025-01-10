@@ -12,7 +12,7 @@ class Configuration implements ConfigurationInterface
 {
     public const CONFIG_ROOT_NAME = 'flux_se_sylius_payum_stripe';
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(self::CONFIG_ROOT_NAME);
         $rootNode = $treeBuilder->getRootNode();
@@ -21,7 +21,7 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    protected function addGlobalSection(ArrayNodeDefinition $node)
+    protected function addGlobalSection(ArrayNodeDefinition $node): void
     {
         $node
             ->addDefaultsIfNotSet()

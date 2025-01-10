@@ -253,6 +253,7 @@ final class CancelExistingPaymentIntentExtensionTest extends TestCase
                 match ($matcher->numberOfInvocations()) {
                     1 =>  $this->assertEquals($allSessionRequestMock, $request),
                     2 =>  $this->assertEquals($expireSessionRequestMock, $request),
+                    default => self::fail('Number of invocations not expected!'),
                 };
             });
         $this->cancelExistingPaymentIntentExtension->onExecute($contextMock);

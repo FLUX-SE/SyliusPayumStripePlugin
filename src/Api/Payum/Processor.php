@@ -22,6 +22,7 @@ final readonly class Processor implements ProcessorInterface
     {
         $tokenFactory = $this->payum->getTokenFactory();
         $gatewayName = $this->getGatewayConfig($payment)->getGatewayName();
+        Assert::notNull($gatewayName, 'Unable to find a GatewayName on this GatewayConfig.');
 
         $gateway = $this->payum->getGateway($gatewayName);
 
