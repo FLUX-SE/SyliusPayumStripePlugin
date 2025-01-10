@@ -13,15 +13,11 @@ use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\RefundMocker;
 
 final readonly class StripeCheckoutSessionMocker
 {
-    private MockerInterface $mocker;
-
     public function __construct(
-        MockerInterface $mocker,
         private CheckoutSessionMocker $checkoutSessionMocker,
         private PaymentIntentMocker $paymentIntentMocker,
         private RefundMocker $refundMocker,
     ) {
-        $this->mocker = $mocker;
     }
 
     public function mockCaptureOrAuthorize(callable $action): void
@@ -38,7 +34,7 @@ final readonly class StripeCheckoutSessionMocker
 
     public function mockCancelPayment(string $status, string $captureMethod): void
     {
-        $this->mocker->unmockAll();
+        $this->unmockAll();
 
         $this->paymentIntentMocker->mockUpdateAction($status, $captureMethod);
         $this->paymentIntentMocker->mockCancelAction($captureMethod);
@@ -47,14 +43,14 @@ final readonly class StripeCheckoutSessionMocker
 
     public function mockRefundPayment(): void
     {
-        $this->mocker->unmockAll();
+        $this->unmockAll();
 
         $this->refundMocker->mockCreateAction();
     }
 
     public function mockExpirePayment(): void
     {
-        $this->mocker->unmockAll();
+        $this->unmockAll();
 
         $this->checkoutSessionMocker->mockExpireAction();
         $this->checkoutSessionMocker->mockRetrieveAction(Session::STATUS_EXPIRED, Session::PAYMENT_STATUS_UNPAID);
@@ -63,7 +59,7 @@ final readonly class StripeCheckoutSessionMocker
 
     public function mockCaptureAuthorization(string $status, string $captureMethod): void
     {
-        $this->mocker->unmockAll();
+        $this->unmockAll();
 
         $this->paymentIntentMocker->mockUpdateAction($status, $captureMethod);
         $this->paymentIntentMocker->mockCaptureAction(PaymentIntent::STATUS_SUCCEEDED);
@@ -129,7 +125,7 @@ final readonly class StripeCheckoutSessionMocker
 
         $action();
 
-        $this->mocker->unmockAll();
+        $this->unmockAll();
     }
 
     public function mockSessionSync(
@@ -146,5 +142,13 @@ final readonly class StripeCheckoutSessionMocker
     {
         $this->checkoutSessionMocker->mockAllAction($sessionStatus);
         $this->checkoutSessionMocker->mockExpireAction();
+    }
+
+    private function unmockAll(): void
+    {
+        $this->checkoutSessionMocker->unmock();
+        $this->paymentIntentMocker->unmock();
+        $this->refundMocker->unmock();
+
     }
 }

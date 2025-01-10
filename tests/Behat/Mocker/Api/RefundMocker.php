@@ -7,39 +7,31 @@ namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api;
 use ArrayObject;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractCreateAction;
 use FluxSE\PayumStripe\Request\Api\Resource\CreateRefund;
+use Mockery\MockInterface;
 use Stripe\Checkout\Session;
 use Stripe\Refund;
-use Sylius\Behat\Service\Mocker\MockerInterface;
 
 final class RefundMocker
 {
-    /** @var MockerInterface */
-    private $mocker;
-
-    public function __construct(MockerInterface $mocker)
-    {
-        $this->mocker = $mocker;
+    public function __construct(
+        private MockInterface&AbstractCreateAction $mockCreateRefundAction,
+    ){
     }
 
     public function mockCreateAction(): void
     {
-        $mockCreateSession = $this->mocker->mockService(
-            'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.create_refund',
-            AbstractCreateAction::class,
-        );
-
-        $mockCreateSession
+        $this->mockCreateRefundAction
             ->shouldReceive('setApi')
             ->once();
-        $mockCreateSession
+        $this->mockCreateRefundAction
             ->shouldReceive('setGateway')
             ->once();
 
-        $mockCreateSession
+        $this->mockCreateRefundAction
             ->shouldReceive('supports')
             ->andReturnUsing(fn($request) => $request instanceof CreateRefund);
 
-        $mockCreateSession
+        $this->mockCreateRefundAction
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (CreateRefund $request) {
@@ -51,5 +43,10 @@ final class RefundMocker
                 ], $rModel->getArrayCopy()));
                 $request->setApiResource($refund);
             });
+    }
+
+    public function unmock(): void
+    {
+        $this->mockCreateRefundAction->expects([]);
     }
 }
