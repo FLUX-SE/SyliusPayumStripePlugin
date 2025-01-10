@@ -22,6 +22,9 @@ final class StripeCheckoutSessionPaymentConfigProvider implements PaymentConfigu
         $this->__stripePaymentConfigProviderConstruct($factoryName);
     }
 
+    /**
+     * @return array<string, string|bool|int|float>
+     */
     public function provideConfiguration(PaymentInterface $payment): array
     {
         $config = $this->provideDefaultConfiguration($payment);

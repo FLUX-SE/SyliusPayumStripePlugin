@@ -43,7 +43,6 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
         if ($request->getModel() instanceof IdentityInterface) {
             $payment = $this->storage->find($request->getModel());
         } else {
-            /** @var PaymentInterface|mixed $payment */
             $payment = $request->getModel();
         }
 

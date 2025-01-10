@@ -20,7 +20,7 @@ final class StripePage extends Page implements StripePageInterface
     private array $deadTokens = [];
 
     /**
-     * @param array|ArrayAccess $minkParameters
+     * @param array<string, mixed>|ArrayAccess<string, mixed> $minkParameters
      */
     public function __construct(
         Session $session,
@@ -135,6 +135,9 @@ final class StripePage extends Page implements StripePageInterface
         return $foundToken;
     }
 
+    /**
+     * @param array<string, string> $urlParameters
+     */
     protected function getUrl(array $urlParameters = []): string
     {
         return 'https://stripe.com';

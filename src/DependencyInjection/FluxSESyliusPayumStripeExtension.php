@@ -14,7 +14,17 @@ class FluxSESyliusPayumStripeExtension extends Extension
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = $this->getConfiguration([], $container);
-        assert(null !== $configuration);
+
+        /** @var array{
+         *     refund_disabled: bool,
+         *     payment_method_types: array<string>,
+         *     line_item_image: array{
+         *       imagine_filter: string,
+         *       fallback_image: string,
+         *       localhost_pattern: string,
+         *     },
+         * } $configs
+         */
         $configs = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter(

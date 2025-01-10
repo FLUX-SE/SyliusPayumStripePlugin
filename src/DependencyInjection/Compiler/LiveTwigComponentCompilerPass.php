@@ -18,6 +18,7 @@ final class LiveTwigComponentCompilerPass implements CompilerPassInterface
             return;
         }
 
+        /** @var array<array-key, array<mixed>> $tagConfig */
         $tagConfig = $definition->getTag('sylius.twig_component');
 
         $definition

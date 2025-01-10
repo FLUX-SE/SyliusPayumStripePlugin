@@ -10,5 +10,8 @@ interface AfterUrlProviderInterface
 {
     public function getAfterPath(PaymentInterface $payment): string;
 
+    /**
+     * @return array<string, string>
+     */
     public function getAfterParameters(PaymentInterface $payment): array;
 }

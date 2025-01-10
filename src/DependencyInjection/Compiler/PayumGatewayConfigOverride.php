@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 final readonly class PayumGatewayConfigOverride implements CompilerPassInterface
 {
-    /** @param array<string, array> $gatewayConfigs */
+    /** @param array<string, array<mixed>> $gatewayConfigs */
     public function __construct(private array $gatewayConfigs)
     {
     }

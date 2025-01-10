@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Shop;
 
+use ArrayAccess;
 use Behat\Mink\Session;
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
 use Symfony\Component\Routing\RouterInterface;
 
 class PayumNotifyPage extends SymfonyPage implements PayumNotifyPageInterface
 {
+    /**
+     * @param array<string, mixed>|ArrayAccess<string, mixed> $minkParameters
+     */
     public function __construct(
         Session $session,
         $minkParameters,

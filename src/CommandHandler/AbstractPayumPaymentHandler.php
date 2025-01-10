@@ -16,6 +16,7 @@ use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 abstract class AbstractPayumPaymentHandler
 {
     /**
+     * @param PaymentRepositoryInterface<PaymentInterface> $paymentRepository
      * @param string[] $supportedGateways
      */
     public function __construct(
@@ -27,10 +28,7 @@ abstract class AbstractPayumPaymentHandler
 
     protected function retrievePayment(PaymentIdAwareCommandInterface $command): ?PaymentInterface
     {
-        /** @var PaymentInterface|null $payment */
-        $payment = $this->paymentRepository->find($command->getPaymentId());
-
-        return $payment;
+        return $this->paymentRepository->find($command->getPaymentId());
     }
 
     protected function getGatewayNameFromPayment(PaymentInterface $payment): ?string

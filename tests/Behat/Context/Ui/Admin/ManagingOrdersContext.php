@@ -123,7 +123,9 @@ class ManagingOrdersContext implements Context
         $payment = $order->getPayments()->first();
 
         $details = $payment->getDetails();
+        /** @var string $status */
         $status = $details['status'] ?? PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD;
+        /** @var string $captureMethod */
         $captureMethod = $details['capture_method'] ?? PaymentIntent::CAPTURE_METHOD_AUTOMATIC;
 
         $this->stripeCheckoutSessionMocker->mockCancelPayment($status, $captureMethod);
@@ -165,7 +167,9 @@ class ManagingOrdersContext implements Context
         $payment = $order->getPayments()->first();
 
         $details = $payment->getDetails();
+        /** @var string $status */
         $status = $details['status'] ?? PaymentIntent::STATUS_REQUIRES_CAPTURE;
+        /** @var string $captureMethod */
         $captureMethod = $details['capture_method'] ?? PaymentIntent::CAPTURE_METHOD_MANUAL;
 
         $this->stripeCheckoutSessionMocker->mockCaptureAuthorization($status, $captureMethod);

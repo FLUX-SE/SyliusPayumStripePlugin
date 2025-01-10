@@ -45,7 +45,7 @@ final readonly class PaymentIntentMocker
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (CreatePaymentIntent $request) {
-                /** @var \ArrayObject $rModel */
+                /** @var \ArrayObject<string, mixed> $rModel */
                 $rModel = $request->getModel();
                 $paymentIntent = PaymentIntent::constructFrom(array_merge([
                     'id' => 'pi_1',

@@ -14,8 +14,15 @@ use Webmozart\Assert\Assert;
 
 class StripeContext implements Context
 {
-    public function __construct(private readonly SharedStorageInterface $sharedStorage, private readonly PaymentMethodRepositoryInterface $paymentMethodRepository, private readonly ExampleFactoryInterface $paymentMethodExampleFactory, private readonly EntityManagerInterface $paymentMethodManager)
-    {
+    /**
+     * @param PaymentMethodRepositoryInterface<PaymentMethodInterface> $paymentMethodRepository
+     */
+    public function __construct(
+        private readonly SharedStorageInterface $sharedStorage,
+        private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
+        private readonly ExampleFactoryInterface $paymentMethodExampleFactory,
+        private readonly EntityManagerInterface $paymentMethodManager,
+    ) {
     }
 
     /**

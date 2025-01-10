@@ -16,9 +16,13 @@ final class PayumActionMocker
      */
     public function __invoke(string $name, string $className): MockInterface
     {
-        /** @var null|(MockInterface&T) $mock */
+        /** @var null|(MockInterface&ActionInterface) $mock */
         $mock = Mockery::fetchMock($name);
 
-        return $mock ?? Mockery::namedMock($name, $className);
+        if (null !== $mock) {
+            return $mock;
+        }
+
+        return Mockery::namedMock($name, $className);
     }
 }

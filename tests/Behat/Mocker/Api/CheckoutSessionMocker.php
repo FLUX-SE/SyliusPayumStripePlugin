@@ -42,7 +42,7 @@ final class CheckoutSessionMocker
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (CreateSession $request) {
-                /** @var \ArrayObject $rModel */
+                /** @var \ArrayObject<string, mixed> $rModel */
                 $rModel = $request->getModel();
                 $session = Session::constructFrom(array_merge([
                     'id' => 'cs_1',

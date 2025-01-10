@@ -35,7 +35,7 @@ final class RefundMocker
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (CreateRefund $request) {
-                /** @var ArrayObject $rModel */
+                /** @var ArrayObject<string, mixed> $rModel */
                 $rModel = $request->getModel();
                 $refund = Session::constructFrom(array_merge([
                     'id' => 're_1',

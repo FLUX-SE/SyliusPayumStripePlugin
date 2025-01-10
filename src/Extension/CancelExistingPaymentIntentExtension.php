@@ -76,9 +76,8 @@ final readonly class CancelExistingPaymentIntentExtension implements ExtensionIn
 
         $gateway->execute($allSessionRequest);
 
-        /** @var Collection $sessions */
+        /** @var Collection<Session> $sessions */
         $sessions = $allSessionRequest->getApiResources();
-        /** @var Session|null $session */
         $session = $sessions->first();
         if (null === $session) {
             return;

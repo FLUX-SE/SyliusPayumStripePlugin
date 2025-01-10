@@ -146,6 +146,7 @@ class StripeJsShopContext extends MinkContext implements Context
 
     private function assertNotification(string $expectedNotification): void
     {
+        /** @var string[] $notifications */
         $notifications = $this->orderDetails->getNotifications();
         $hasNotifications = '';
 

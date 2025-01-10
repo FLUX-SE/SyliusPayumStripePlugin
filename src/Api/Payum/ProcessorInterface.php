@@ -10,7 +10,10 @@ use Sylius\Component\Core\Model\PaymentInterface;
 interface ProcessorInterface
 {
     /**
-     * @return array{'reply': ReplyInterface|null, "details": array}
+     * @return array{
+     *     'reply': ReplyInterface|null,
+     *     'details': array<mixed>,
+     * }
      */
     public function __invoke(PaymentInterface $payment, bool $useAuthorize): array;
 }
