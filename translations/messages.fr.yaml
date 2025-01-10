@@ -1,7 +1,7 @@
 flux_se_sylius_payum_stripe_plugin:
     payum_gateway_factory:
-        stripe_checkout_session: Stripe Checkout Session (avec support SCA)
-        stripe_js: Stripe JS (avec support SCA)
+        stripe_checkout_session: Stripe Checkout Session
+        stripe_js: Stripe JS
     form:
         gateway_configuration:
             stripe:
@@ -9,9 +9,8 @@ flux_se_sylius_payum_stripe_plugin:
                 secret_key: Clé secrète
                 use_authorize: Utiliser "authorize"
                 webhook_secret_keys: Clés secrètes du webhook
-                help:
-                    use_authorize: >
-                        Lorsqu'un paiement est autorisé, la banque garantit le montant et le conserve sur la carte du client jusqu'à sept jours.
-                        <a href="https://stripe.com/docs/payments/capture-later" target="_blank">
-                            En savoir plus
-                        </a>
+                info:
+                    use_authorize: Lorsqu'un paiement est autorisé, la banque garantit le montant et le conserve sur la carte du client jusqu'à sept jours.
+                    webhook_secret_key: Créez un nouveau webhook endpoint pour créer une clé secrète de webhook sur le tableau de bord Stripe et écoutez plusieurs événements.
+                action:
+                    webhook_secret_key: Créez un nouveau webhook endpoint.
