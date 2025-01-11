@@ -15,7 +15,7 @@ final class RefundMocker
 {
     public function __construct(
         private MockInterface&AbstractCreateAction $mockCreateRefundAction,
-    ){
+    ) {
     }
 
     public function mockCreateAction(): void
@@ -29,7 +29,7 @@ final class RefundMocker
 
         $this->mockCreateRefundAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof CreateRefund);
+            ->andReturnUsing(fn ($request) => $request instanceof CreateRefund);
 
         $this->mockCreateRefundAction
             ->shouldReceive('execute')

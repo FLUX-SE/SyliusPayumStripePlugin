@@ -22,7 +22,7 @@ final class CheckoutSessionMocker
         private MockInterface&AbstractRetrieveAction $mockRetrieveSessionAction,
         private MockInterface&AbstractAllAction $mockAllSessionAction,
         private MockInterface&AbstractRetrieveAction $mockExpireSessionAction,
-    ){
+    ) {
     }
 
     public function mockCreateAction(): void
@@ -36,7 +36,7 @@ final class CheckoutSessionMocker
 
         $this->mockCreateSessionAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof CreateSession);
+            ->andReturnUsing(fn ($request) => $request instanceof CreateSession);
 
         $this->mockCreateSessionAction
             ->shouldReceive('execute')
@@ -65,7 +65,7 @@ final class CheckoutSessionMocker
 
         $this->mockRetrieveSessionAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof RetrieveSession);
+            ->andReturnUsing(fn ($request) => $request instanceof RetrieveSession);
 
         $this->mockRetrieveSessionAction
             ->shouldReceive('execute')
@@ -92,7 +92,7 @@ final class CheckoutSessionMocker
 
         $this->mockAllSessionAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof AllSession);
+            ->andReturnUsing(fn ($request) => $request instanceof AllSession);
 
         $this->mockAllSessionAction
             ->shouldReceive('execute')
@@ -121,7 +121,7 @@ final class CheckoutSessionMocker
 
         $this->mockExpireSessionAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof ExpireSession);
+            ->andReturnUsing(fn ($request) => $request instanceof ExpireSession);
 
         $this->mockExpireSessionAction
             ->shouldReceive('execute')

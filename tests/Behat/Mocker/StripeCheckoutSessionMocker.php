@@ -6,7 +6,6 @@ namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker;
 
 use Stripe\Checkout\Session;
 use Stripe\PaymentIntent;
-use Sylius\Behat\Service\Mocker\MockerInterface;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\CheckoutSessionMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\PaymentIntentMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\RefundMocker;
@@ -149,6 +148,5 @@ final readonly class StripeCheckoutSessionMocker
         $this->checkoutSessionMocker->unmock();
         $this->paymentIntentMocker->unmock();
         $this->refundMocker->unmock();
-
     }
 }

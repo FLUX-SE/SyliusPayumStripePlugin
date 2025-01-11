@@ -89,6 +89,7 @@ final readonly class CartContext implements Context
 
         /** @var array{payments: array<int, array{id: int}>} $responseContent */
         $responseContent = $this->responseChecker->getResponseContent($cart);
+
         return $responseContent;
     }
 
@@ -97,6 +98,7 @@ final readonly class CartContext implements Context
         if ($this->sharedStorage->has('cart_token')) {
             /** @var string $cartToken */
             $cartToken = $this->sharedStorage->get('cart_token');
+
             return $cartToken;
         }
 

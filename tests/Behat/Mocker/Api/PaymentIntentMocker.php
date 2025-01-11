@@ -7,8 +7,6 @@ namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractCreateAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractRetrieveAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractUpdateAction;
-use FluxSE\PayumStripe\Action\Api\Resource\CancelPaymentIntentAction;
-use FluxSE\PayumStripe\Action\Api\Resource\CapturePaymentIntentAction;
 use FluxSE\PayumStripe\Request\Api\Resource\CancelPaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\CapturePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\CreatePaymentIntent;
@@ -25,7 +23,7 @@ final readonly class PaymentIntentMocker
         private MockInterface&AbstractUpdateAction $mockUpdatePaymentIntentAction,
         private MockInterface&AbstractRetrieveAction $mockCancelPaymentIntentAction,
         private MockInterface&AbstractRetrieveAction $mockCapturePaymentIntentAction,
-    ){
+    ) {
     }
 
     public function mockCreateAction(): void
@@ -39,7 +37,7 @@ final readonly class PaymentIntentMocker
 
         $this->mockCreatePaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof CreatePaymentIntent);
+            ->andReturnUsing(fn ($request) => $request instanceof CreatePaymentIntent);
 
         $this->mockCreatePaymentIntentAction
             ->shouldReceive('execute')
@@ -67,7 +65,7 @@ final readonly class PaymentIntentMocker
 
         $this->mockRetrievePaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof RetrievePaymentIntent);
+            ->andReturnUsing(fn ($request) => $request instanceof RetrievePaymentIntent);
 
         $this->mockRetrievePaymentIntentAction
             ->shouldReceive('execute')
@@ -93,7 +91,7 @@ final readonly class PaymentIntentMocker
 
         $this->mockUpdatePaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof UpdatePaymentIntent);
+            ->andReturnUsing(fn ($request) => $request instanceof UpdatePaymentIntent);
 
         $this->mockUpdatePaymentIntentAction
             ->shouldReceive('execute')
@@ -120,7 +118,7 @@ final readonly class PaymentIntentMocker
 
         $this->mockCancelPaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof CancelPaymentIntent);
+            ->andReturnUsing(fn ($request) => $request instanceof CancelPaymentIntent);
 
         $this->mockCancelPaymentIntentAction
             ->shouldReceive('execute')
@@ -146,7 +144,7 @@ final readonly class PaymentIntentMocker
 
         $this->mockCapturePaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(fn($request) => $request instanceof CapturePaymentIntent);
+            ->andReturnUsing(fn ($request) => $request instanceof CapturePaymentIntent);
 
         $this->mockCapturePaymentIntentAction
             ->shouldReceive('execute')

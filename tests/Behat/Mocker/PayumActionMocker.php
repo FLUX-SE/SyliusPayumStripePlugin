@@ -12,11 +12,12 @@ final class PayumActionMocker
 {
     /**
      * @template T of ActionInterface
+     *
      * @param class-string<T> $className
      */
     public function __invoke(string $name, string $className): MockInterface
     {
-        /** @var null|(MockInterface&ActionInterface) $mock */
+        /** @var (MockInterface&ActionInterface)|null $mock */
         $mock = Mockery::fetchMock($name);
 
         if (null !== $mock) {
