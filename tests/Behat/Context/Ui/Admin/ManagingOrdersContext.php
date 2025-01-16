@@ -132,6 +132,27 @@ class ManagingOrdersContext implements Context
     }
 
     /**
+     * @Given /^(this order) payment has been expired$/
+     */
+    public function thisOrderPaymentHasBeenExpired(OrderInterface $order): void
+    {
+        /** @var PaymentInterface $payment */
+        $payment = $order->getPayments()->first();
+
+        $details = [
+            'expires_at' => 42,
+        ];
+
+        $payment->setDetails($details);
+
+        /** @var StateMachineInterface $stateMachine */
+        $stateMachine = $this->stateMachineFactory->get($payment, PaymentTransitions::GRAPH);
+        $stateMachine->apply(PaymentTransitions::TRANSITION_CANCEL);
+
+        $this->objectManager->flush();
+    }
+
+    /**
      * @Given /^I am prepared to cancel (this order)$/
      */
     public function iAmPreparedToCancelThisOrder(OrderInterface $order): void

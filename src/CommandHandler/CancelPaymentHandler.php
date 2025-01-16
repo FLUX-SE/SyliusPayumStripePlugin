@@ -39,6 +39,10 @@ final class CancelPaymentHandler extends AbstractPayumPaymentHandler
             return;
         }
 
+        if(array_key_exists('expires_at', $payment->getDetails()) && $payment->getDetails()['expires_at'] < time()) {
+            return;
+        }
+
         $gatewayName = $this->getGatewayNameFromPayment($payment);
 
         if (null === $gatewayName) {
