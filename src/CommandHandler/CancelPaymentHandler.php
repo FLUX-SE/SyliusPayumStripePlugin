@@ -7,15 +7,15 @@ namespace FluxSE\SyliusPayumStripePlugin\CommandHandler;
 use FluxSE\SyliusPayumStripePlugin\Command\CancelPayment;
 use FluxSE\SyliusPayumStripePlugin\Factory\CancelRequestFactoryInterface;
 use Payum\Core\Payum;
+use Sylius\Calendar\Provider\DateTimeProviderInterface;
 use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
-use Symfony\Component\Clock\ClockInterface;
 
 final class CancelPaymentHandler extends AbstractPayumPaymentHandler
 {
     /** @var CancelRequestFactoryInterface */
     private $cancelRequestFactory;
 
-    /** @var ClockInterface */
+    /** @var DateTimeProviderInterface */
     private $clock;
 
     /**
@@ -23,7 +23,7 @@ final class CancelPaymentHandler extends AbstractPayumPaymentHandler
      */
     public function __construct(
         CancelRequestFactoryInterface $cancelRequestFactory,
-        ClockInterface $clock,
+        DateTimeProviderInterface $clock,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
         array $supportedGateways
