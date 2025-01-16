@@ -46,7 +46,7 @@ final class CancelPaymentHandler extends AbstractPayumPaymentHandler
         }
 
         $details = $payment->getDetails();
-        if(isset($details['expires_at']) && $details['expires_at'] < $this->clock->now()->getTimestamp()) {
+        if (isset($details['expires_at']) && $details['expires_at'] < $this->clock->now()->getTimestamp()) {
             return;
         }
 
