@@ -8,22 +8,28 @@ use FluxSE\SyliusPayumStripePlugin\Command\CancelPayment;
 use FluxSE\SyliusPayumStripePlugin\Factory\CancelRequestFactoryInterface;
 use Payum\Core\Payum;
 use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
+use Symfony\Component\Clock\ClockInterface;
 
 final class CancelPaymentHandler extends AbstractPayumPaymentHandler
 {
     /** @var CancelRequestFactoryInterface */
     private $cancelRequestFactory;
 
+    /** @var ClockInterface */
+    private $clock;
+
     /**
      * @param string[] $supportedGateways
      */
     public function __construct(
         CancelRequestFactoryInterface $cancelRequestFactory,
+        ClockInterface $clock,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
         array $supportedGateways
     ) {
         $this->cancelRequestFactory = $cancelRequestFactory;
+        $this->clock = $clock;
 
         parent::__construct($paymentRepository, $payum, $supportedGateways);
     }
@@ -39,7 +45,8 @@ final class CancelPaymentHandler extends AbstractPayumPaymentHandler
             return;
         }
 
-        if(array_key_exists('expires_at', $payment->getDetails()) && $payment->getDetails()['expires_at'] < time()) {
+        $details = $payment->getDetails();
+        if(isset($details['expires_at']) && $details['expires_at'] < $this->clock->now()->getTimestamp()) {
             return;
         }
 
