@@ -7,7 +7,6 @@ namespace FluxSE\SyliusPayumStripePlugin\CommandHandler;
 use FluxSE\SyliusPayumStripePlugin\Command\CancelPayment;
 use FluxSE\SyliusPayumStripePlugin\Factory\CancelRequestFactoryInterface;
 use Payum\Core\Payum;
-use Sylius\Calendar\Provider\DateTimeProviderInterface;
 use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 
 final class CancelPaymentHandler extends AbstractPayumPaymentHandler
@@ -15,21 +14,16 @@ final class CancelPaymentHandler extends AbstractPayumPaymentHandler
     /** @var CancelRequestFactoryInterface */
     private $cancelRequestFactory;
 
-    /** @var DateTimeProviderInterface */
-    private $clock;
-
     /**
      * @param string[] $supportedGateways
      */
     public function __construct(
         CancelRequestFactoryInterface $cancelRequestFactory,
-        DateTimeProviderInterface $clock,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
         array $supportedGateways
     ) {
         $this->cancelRequestFactory = $cancelRequestFactory;
-        $this->clock = $clock;
 
         parent::__construct($paymentRepository, $payum, $supportedGateways);
     }
@@ -46,7 +40,7 @@ final class CancelPaymentHandler extends AbstractPayumPaymentHandler
         }
 
         $details = $payment->getDetails();
-        if (isset($details['expires_at']) && $details['expires_at'] < $this->clock->now()->getTimestamp()) {
+        if (isset($details['expires_at']) && $details['expires_at'] <= (new \DateTime())->getTimestamp()) {
             return;
         }
 

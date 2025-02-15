@@ -28,7 +28,6 @@ services:
     class: FluxSE\SyliusPayumStripePlugin\CommandHandler\CancelPaymentHandler
     arguments:
       $cancelRequestFactory: '@flux_se.sylius_payum_stripe.factory.cancel_request'
-      $clock: '@Sylius\Calendar\Provider\DateTimeProviderInterface'
     tags:
       - name: messenger.message_handler
         bus: sylius.command_bus
