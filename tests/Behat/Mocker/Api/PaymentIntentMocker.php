@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api;
 
-use ArrayObject;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractCreateAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractRetrieveAction;
 use FluxSE\PayumStripe\Action\Api\Resource\AbstractUpdateAction;
@@ -13,43 +12,38 @@ use FluxSE\PayumStripe\Request\Api\Resource\CapturePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\CreatePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\RetrievePaymentIntent;
 use FluxSE\PayumStripe\Request\Api\Resource\UpdatePaymentIntent;
+use Mockery\MockInterface;
 use Stripe\PaymentIntent;
-use Sylius\Behat\Service\Mocker\MockerInterface;
 
-final class PaymentIntentMocker
+final readonly class PaymentIntentMocker
 {
-    private MockerInterface $mocker;
-
-    public function __construct(MockerInterface $mocker)
-    {
-        $this->mocker = $mocker;
+    public function __construct(
+        private MockInterface&AbstractCreateAction $mockCreatePaymentIntentAction,
+        private MockInterface&AbstractRetrieveAction $mockRetrievePaymentIntentAction,
+        private MockInterface&AbstractUpdateAction $mockUpdatePaymentIntentAction,
+        private MockInterface&AbstractRetrieveAction $mockCancelPaymentIntentAction,
+        private MockInterface&AbstractRetrieveAction $mockCapturePaymentIntentAction,
+    ) {
     }
 
     public function mockCreateAction(): void
     {
-        $mockCreatePaymentIntent = $this->mocker->mockService(
-            'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.create_payment_intent',
-            AbstractCreateAction::class
-        );
-
-        $mockCreatePaymentIntent
+        $this->mockCreatePaymentIntentAction
             ->shouldReceive('setApi')
             ->once();
-        $mockCreatePaymentIntent
+        $this->mockCreatePaymentIntentAction
             ->shouldReceive('setGateway')
             ->once();
 
-        $mockCreatePaymentIntent
+        $this->mockCreatePaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof CreatePaymentIntent;
-            });
+            ->andReturnUsing(fn ($request) => $request instanceof CreatePaymentIntent);
 
-        $mockCreatePaymentIntent
+        $this->mockCreatePaymentIntentAction
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (CreatePaymentIntent $request) {
-                /** @var ArrayObject $rModel */
+                /** @var \ArrayObject<string, mixed> $rModel */
                 $rModel = $request->getModel();
                 $paymentIntent = PaymentIntent::constructFrom(array_merge([
                     'id' => 'pi_1',
@@ -62,25 +56,18 @@ final class PaymentIntentMocker
 
     public function mockRetrieveAction(string $status): void
     {
-        $mock = $this->mocker->mockService(
-            'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.retrieve_payment_intent',
-            AbstractRetrieveAction::class
-        );
-
-        $mock
+        $this->mockRetrievePaymentIntentAction
             ->shouldReceive('setApi')
             ->once();
-        $mock
+        $this->mockRetrievePaymentIntentAction
             ->shouldReceive('setGateway')
             ->once();
 
-        $mock
+        $this->mockRetrievePaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof RetrievePaymentIntent;
-            });
+            ->andReturnUsing(fn ($request) => $request instanceof RetrievePaymentIntent);
 
-        $mock
+        $this->mockRetrievePaymentIntentAction
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (RetrievePaymentIntent $request) use ($status) {
@@ -95,25 +82,18 @@ final class PaymentIntentMocker
 
     public function mockUpdateAction(string $status, string $captureMethod): void
     {
-        $mock = $this->mocker->mockService(
-            'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.update_payment_intent',
-            AbstractUpdateAction::class
-        );
-
-        $mock
+        $this->mockUpdatePaymentIntentAction
             ->shouldReceive('setApi')
             ->once();
-        $mock
+        $this->mockUpdatePaymentIntentAction
             ->shouldReceive('setGateway')
             ->once();
 
-        $mock
+        $this->mockUpdatePaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof UpdatePaymentIntent;
-            });
+            ->andReturnUsing(fn ($request) => $request instanceof UpdatePaymentIntent);
 
-        $mock
+        $this->mockUpdatePaymentIntentAction
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (UpdatePaymentIntent $request) use ($status, $captureMethod) {
@@ -129,25 +109,18 @@ final class PaymentIntentMocker
 
     public function mockCancelAction(string $captureMethod): void
     {
-        $mock = $this->mocker->mockService(
-            'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.cancel_payment_intent',
-            AbstractRetrieveAction::class
-        );
-
-        $mock
+        $this->mockCancelPaymentIntentAction
             ->shouldReceive('setApi')
             ->once();
-        $mock
+        $this->mockCancelPaymentIntentAction
             ->shouldReceive('setGateway')
             ->once();
 
-        $mock
+        $this->mockCancelPaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof CancelPaymentIntent;
-            });
+            ->andReturnUsing(fn ($request) => $request instanceof CancelPaymentIntent);
 
-        $mock
+        $this->mockCancelPaymentIntentAction
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (CancelPaymentIntent $request) use ($captureMethod) {
@@ -162,25 +135,18 @@ final class PaymentIntentMocker
 
     public function mockCaptureAction(string $status): void
     {
-        $mock = $this->mocker->mockService(
-            'tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.action.capture_payment_intent',
-            AbstractRetrieveAction::class
-        );
-
-        $mock
+        $this->mockCapturePaymentIntentAction
             ->shouldReceive('setApi')
             ->once();
-        $mock
+        $this->mockCapturePaymentIntentAction
             ->shouldReceive('setGateway')
             ->once();
 
-        $mock
+        $this->mockCapturePaymentIntentAction
             ->shouldReceive('supports')
-            ->andReturnUsing(function ($request) {
-                return $request instanceof CapturePaymentIntent;
-            });
+            ->andReturnUsing(fn ($request) => $request instanceof CapturePaymentIntent);
 
-        $mock
+        $this->mockCapturePaymentIntentAction
             ->shouldReceive('execute')
             ->once()
             ->andReturnUsing(function (CapturePaymentIntent $request) use ($status) {
@@ -191,5 +157,14 @@ final class PaymentIntentMocker
                     'capture_method' => PaymentIntent::CAPTURE_METHOD_MANUAL,
                 ]));
             });
+    }
+
+    public function unmock(): void
+    {
+        $this->mockCreatePaymentIntentAction->expects([]);
+        $this->mockRetrievePaymentIntentAction->expects([]);
+        $this->mockUpdatePaymentIntentAction->expects([]);
+        $this->mockCancelPaymentIntentAction->expects([]);
+        $this->mockCapturePaymentIntentAction->expects([]);
     }
 }

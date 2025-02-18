@@ -5,42 +5,18 @@ declare(strict_types=1);
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Admin;
 
 use Behat\Behat\Context\Context;
-use FriendsOfBehat\PageObjectExtension\Page\UnexpectedPageException;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Admin\PaymentMethod\CreatePageInterface;
 use Webmozart\Assert\Assert;
 
 class ManagingPaymentMethodsContext implements Context
 {
-    /** @var CreatePageInterface */
-    private $createPage;
-
-    public function __construct(CreatePageInterface $createPage)
-    {
-        $this->createPage = $createPage;
+    public function __construct(
+        private readonly CreatePageInterface $createPage,
+    ) {
     }
 
     /**
-     * @Given /^I want to create a new Stripe Checkout Session payment method$/
-     *
-     * @throws UnexpectedPageException
-     */
-    public function iWantToCreateANewStripeCheckoutSessionPaymentMethod(): void
-    {
-        $this->createPage->open(['factory' => 'stripe_checkout_session']);
-    }
-
-    /**
-     * @Given /^I want to create a new Stripe JS payment method$/
-     *
-     * @throws UnexpectedPageException
-     */
-    public function iWantToCreateANewStripeJsPaymentMethod(): void
-    {
-        $this->createPage->open(['factory' => 'stripe_js']);
-    }
-
-    /**
-     * @When I configure it with test stripe gateway data :secretKey, :publishableKey
+     * @When I configure it with test stripe gateway data :secretKey and :publishableKey
      */
     public function iConfigureItWithTestStripeGatewayData(string $secretKey, string $publishableKey): void
     {
@@ -53,7 +29,7 @@ class ManagingPaymentMethodsContext implements Context
      */
     public function iAddAWebhookSecretKey(string $webhookKey): void
     {
-        $this->createPage->setStripeWebhookSecretKey($webhookKey);
+        $this->createPage->addStripeWebhookSecretKey($webhookKey);
     }
 
     /**
@@ -81,9 +57,9 @@ class ManagingPaymentMethodsContext implements Context
     }
 
     /**
-     * @Given /^I shouldn't see a warning message under the use authorize field$/
+     * @Given /^I should not see a warning message under the use authorize field$/
      */
-    public function iShouldntSeeAWarningMessageUnderTheUseAuthorizeField(): void
+    public function iShouldNotSeeAWarningMessageUnderTheUseAuthorizeField(): void
     {
         Assert::false($this->createPage->isUseAuthorizeWarningMessageDisplayed());
     }

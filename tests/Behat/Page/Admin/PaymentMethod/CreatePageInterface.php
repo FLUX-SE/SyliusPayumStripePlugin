@@ -12,7 +12,7 @@ interface CreatePageInterface extends BaseCreatePageInterface
 
     public function setStripePublishableKey(string $publishableKey): void;
 
-    public function setStripeWebhookSecretKey(string $webhookSecretKey): void;
+    public function addStripeWebhookSecretKey(string $webhookSecretKey): void;
 
     public function setStripeIsAuthorized(bool $isAuthorized): void;
 

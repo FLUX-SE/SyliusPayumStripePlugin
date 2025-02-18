@@ -9,26 +9,21 @@ use Sylius\Component\Core\Model\PaymentInterface;
 use Symfony\Component\Workflow\Event\CompletedEvent;
 use Webmozart\Assert\Assert;
 
-final class PaymentCompletedStateListener
+final readonly class PaymentCompletedStateListener
 {
-    private PaymentStateProcessorInterface $paymentStateProcessor;
-
-    public function __construct(PaymentStateProcessorInterface $paymentStateProcessor)
+    public function __construct(private PaymentStateProcessorInterface $paymentStateProcessor)
     {
-        $this->paymentStateProcessor = $paymentStateProcessor;
     }
 
     public function __invoke(CompletedEvent $event): void
     {
-        /** @var PaymentInterface $payment */
         $payment = $event->getSubject();
         Assert::isInstanceOf($payment, PaymentInterface::class);
 
         $transition = $event->getTransition();
         Assert::notNull($transition);
-        // state machine transition from list always contains 1 element
+        // state machine transition froms will always contain 1 element
         $fromState = $transition->getFroms()[0];
-        Assert::notNull($fromState);
 
         $this->paymentStateProcessor->__invoke($payment, $fromState);
     }

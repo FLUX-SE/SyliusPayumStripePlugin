@@ -1,0 +1,40 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_admin.payment_method.create.content': &component
+            form:
+                props:
+                    factoryName: '@=_context.resource.getGatewayConfig().getFactoryName()'
+        'sylius_admin.payment_method.update.content': *component
+
+        'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.stripe_checkout_session': &form
+            form:
+                template: '@FluxSESyliusPayumStripePlugin/admin/payment_method/form.html.twig'
+                priority: 0
+        'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.stripe_js': *form
+        'sylius_admin.payment_method.update.content.form.sections.gateway_configuration.stripe_checkout_session': *form
+        'sylius_admin.payment_method.update.content.form.sections.gateway_configuration.stripe_js': *form
+
+        'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.stripe_checkout_session.form': &form_inner
+            publishable_key:
+                template: '@FluxSESyliusPayumStripePlugin/admin/payment_method/form/publishable_key.html.twig'
+                priority: 400
+            secret_key:
+                template: '@FluxSESyliusPayumStripePlugin/admin/payment_method/form/secret_key.html.twig'
+                priority: 300
+            use_authorize:
+                template: '@FluxSESyliusPayumStripePlugin/admin/payment_method/form/use_authorize.html.twig'
+                priority: 200
+            webhook_secret_keys:
+                template: '@FluxSESyliusPayumStripePlugin/admin/payment_method/form/webhook_secret_keys.html.twig'
+                priority: 100
+        'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.stripe_js.form': *form_inner
+        'sylius_admin.payment_method.update.content.form.sections.gateway_configuration.stripe_checkout_session.form': *form_inner
+        'sylius_admin.payment_method.update.content.form.sections.gateway_configuration.stripe_js.form': *form_inner
+
+        'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.stripe_checkout_session.form.webhook_secret_keys': &webhook_secret_keys
+            webhook_secret_key:
+                template: '@FluxSESyliusPayumStripePlugin/admin/payment_method/form/webhook_secret_keys/webhook_secret_key.html.twig'
+                priority: 0
+        'sylius_admin.payment_method.create.content.form.sections.gateway_configuration.stripe_js.form.webhook_secret_keys': *webhook_secret_keys
+        'sylius_admin.payment_method.update.content.form.sections.gateway_configuration.stripe_checkout_session.form.webhook_secret_keys': *webhook_secret_keys
+        'sylius_admin.payment_method.update.content.form.sections.gateway_configuration.stripe_js.form.webhook_secret_keys': *webhook_secret_keys

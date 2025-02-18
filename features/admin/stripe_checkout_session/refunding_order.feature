@@ -22,4 +22,4 @@ Feature: Refunding an order with Stripe Checkout Session
     When I mark this order's payment as refunded
     Then I should be notified that the order's payment has been successfully refunded
     And it should have payment with state refunded
-    And it's payment state should be refunded
+    And it should have payment state "Refunded"

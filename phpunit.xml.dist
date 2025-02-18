@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/8.1/phpunit.xsd"
-         backupGlobals="false"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          colors="true"
-         bootstrap="vendor/autoload.php">
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         bootstrap="vendor/autoload.php"
+>
     <testsuites>
         <testsuite name="FluxSESyliusPayumStripePlugin Test Suite">
             <directory>tests</directory>
@@ -12,7 +13,16 @@
     </testsuites>
 
     <php>
+        <ini name="error_reporting" value="-1" />
+
+        <!-- ###+ symfony/framework-bundle ### -->
+        <env name="APP_DEBUG" value="0"/>
+        <env name="APP_ENV" value="test"/>
+        <env name="SHELL_VERBOSITY" value="-1" />
+        <!-- ###- symfony/framework-bundle ### -->
+
         <server name="KERNEL_CLASS_PATH" value="/tests/Application/AppKernel.php" />
         <server name="IS_DOCTRINE_ORM_SUPPORTED" value="true" />
+        <server name="ESCAPE_JSON" value="true" />
     </php>
 </phpunit>

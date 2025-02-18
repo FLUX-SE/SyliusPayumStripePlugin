@@ -13,20 +13,15 @@ use Webmozart\Assert\Assert;
 
 final class CaptureAuthorizedPaymentHandler extends AbstractPayumPaymentHandler
 {
-    /** @var ModelAggregateFactoryInterface */
-    private $captureRequestFactory;
-
     /**
      * @param string[] $supportedGateways
      */
     public function __construct(
-        ModelAggregateFactoryInterface $captureRequestFactory,
+        private readonly ModelAggregateFactoryInterface $captureRequestFactory,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
-        array $supportedGateways
+        array $supportedGateways,
     ) {
-        $this->captureRequestFactory = $captureRequestFactory;
-
         parent::__construct($paymentRepository, $payum, $supportedGateways);
     }
 

@@ -16,24 +16,8 @@ use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\External\StripePage;
 
 class StripeCheckoutSessionShopContext extends MinkContext implements Context
 {
-    private StripeCheckoutSessionMocker $stripeCheckoutSessionMocker;
-
-    private CompletePageInterface $summaryPage;
-
-    private ShowPageInterface $orderDetails;
-
-    private StripePage $paymentPage;
-
-    public function __construct(
-        StripeCheckoutSessionMocker $stripeCheckoutSessionMocker,
-        CompletePageInterface $summaryPage,
-        ShowPageInterface $orderDetails,
-        StripePage $paymentPage
-    ) {
-        $this->stripeCheckoutSessionMocker = $stripeCheckoutSessionMocker;
-        $this->summaryPage = $summaryPage;
-        $this->orderDetails = $orderDetails;
-        $this->paymentPage = $paymentPage;
+    public function __construct(private readonly StripeCheckoutSessionMocker $stripeCheckoutSessionMocker, private readonly CompletePageInterface $summaryPage, private readonly ShowPageInterface $orderDetails, private readonly StripePage $paymentPage)
+    {
     }
 
     /**
@@ -75,7 +59,7 @@ class StripeCheckoutSessionShopContext extends MinkContext implements Context
             },
             function () {
                 $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
-            }
+            },
         );
     }
 
@@ -107,7 +91,7 @@ class StripeCheckoutSessionShopContext extends MinkContext implements Context
             },
             function () {
                 $this->paymentPage->captureOrAuthorizeThenGoToAfterUrl();
-            }
+            },
         );
     }
 
@@ -162,6 +146,7 @@ class StripeCheckoutSessionShopContext extends MinkContext implements Context
 
     private function assertNotification(string $expectedNotification): void
     {
+        /** @var string[] $notifications */
         $notifications = $this->orderDetails->getNotifications();
         $hasNotifications = '';
 

@@ -11,20 +11,15 @@ use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 
 final class RefundPaymentHandler extends AbstractPayumPaymentHandler
 {
-    /** @var RefundRequestFactoryInterface */
-    private $refundRequestFactory;
-
     /**
      * @param string[] $supportedGateways
      */
     public function __construct(
-        RefundRequestFactoryInterface $refundRequestFactory,
+        private readonly RefundRequestFactoryInterface $refundRequestFactory,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
-        array $supportedGateways
+        array $supportedGateways,
     ) {
-        $this->refundRequestFactory = $refundRequestFactory;
-
         parent::__construct($paymentRepository, $payum, $supportedGateways);
     }
 

@@ -1,5 +1,0 @@
-imports:
-  - { resource: 'app/twig.yaml' }
-  - { resource: 'app/winzou_state_machine.yaml' }
-
-

@@ -14,24 +14,15 @@ use Webmozart\Assert\Assert;
 
 class StripeContext implements Context
 {
-    private SharedStorageInterface $sharedStorage;
-
-    private PaymentMethodRepositoryInterface $paymentMethodRepository;
-
-    private ExampleFactoryInterface $paymentMethodExampleFactory;
-
-    private EntityManagerInterface $paymentMethodManager;
-
+    /**
+     * @param PaymentMethodRepositoryInterface<PaymentMethodInterface> $paymentMethodRepository
+     */
     public function __construct(
-        SharedStorageInterface $sharedStorage,
-        PaymentMethodRepositoryInterface $paymentMethodRepository,
-        ExampleFactoryInterface $paymentMethodExampleFactory,
-        EntityManagerInterface $paymentMethodManager
+        private readonly SharedStorageInterface $sharedStorage,
+        private readonly PaymentMethodRepositoryInterface $paymentMethodRepository,
+        private readonly ExampleFactoryInterface $paymentMethodExampleFactory,
+        private readonly EntityManagerInterface $paymentMethodManager,
     ) {
-        $this->sharedStorage = $sharedStorage;
-        $this->paymentMethodRepository = $paymentMethodRepository;
-        $this->paymentMethodExampleFactory = $paymentMethodExampleFactory;
-        $this->paymentMethodManager = $paymentMethodManager;
     }
 
     /**
@@ -41,13 +32,13 @@ class StripeContext implements Context
     public function theStoreHasAPaymentMethodWithACodeAndStripeCheckoutSessionPaymentGateway(
         string $paymentMethodName,
         string $paymentMethodCode,
-        bool $useAuthorize = false
+        bool $useAuthorize = false,
     ): void {
         $paymentMethod = $this->createPaymentMethodStripe(
             $paymentMethodName,
             $paymentMethodCode,
             'stripe_checkout_session',
-            'Stripe Checkout Session'
+            'Stripe Checkout Session',
         );
 
         $this->createPaymentMethod($paymentMethod, $useAuthorize);
@@ -58,7 +49,7 @@ class StripeContext implements Context
      */
     public function theStoreHasAPaymentMethodWithACodeAndStripeCheckoutSessionPaymentGatewayUsingAuthorize(
         string $paymentMethodName,
-        string $paymentMethodCode
+        string $paymentMethodCode,
     ): void {
         $this->theStoreHasAPaymentMethodWithACodeAndStripeCheckoutSessionPaymentGateway($paymentMethodName, $paymentMethodCode, true);
     }
@@ -70,13 +61,13 @@ class StripeContext implements Context
     public function theStoreHasAPaymentMethodWithACodeAndStripeJsPaymentGateway(
         string $paymentMethodName,
         string $paymentMethodCode,
-        bool $useAuthorize = false
+        bool $useAuthorize = false,
     ): void {
         $paymentMethod = $this->createPaymentMethodStripe(
             $paymentMethodName,
             $paymentMethodCode,
             'stripe_js',
-            'Stripe JS'
+            'Stripe JS',
         );
 
         $this->createPaymentMethod($paymentMethod, $useAuthorize);
@@ -87,7 +78,7 @@ class StripeContext implements Context
      */
     public function theStoreHasAPaymentMethodWithACodeAndStripeJsPaymentGatewayUsingAuthorize(
         string $paymentMethodName,
-        string $paymentMethodCode
+        string $paymentMethodCode,
     ): void {
         $this->theStoreHasAPaymentMethodWithACodeAndStripeJsPaymentGateway($paymentMethodName, $paymentMethodCode, true);
     }
@@ -98,7 +89,7 @@ class StripeContext implements Context
         string $factoryName,
         string $description = '',
         bool $addForCurrentChannel = true,
-        int $position = null
+        int $position = null,
     ): PaymentMethodInterface {
         /** @var PaymentMethodInterface $paymentMethod */
         $paymentMethod = $this->paymentMethodExampleFactory->create([

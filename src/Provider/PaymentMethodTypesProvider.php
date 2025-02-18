@@ -6,17 +6,13 @@ namespace FluxSE\SyliusPayumStripePlugin\Provider;
 
 use Sylius\Component\Core\Model\OrderInterface;
 
-final class PaymentMethodTypesProvider implements PaymentMethodTypesProviderInterface
+final readonly class PaymentMethodTypesProvider implements PaymentMethodTypesProviderInterface
 {
-    /** @var string[] */
-    private $paymentMethodTypes;
-
     /**
      * @param string[] $paymentMethodTypes
      */
-    public function __construct(array $paymentMethodTypes)
+    public function __construct(private array $paymentMethodTypes)
     {
-        $this->paymentMethodTypes = $paymentMethodTypes;
     }
 
     public function getPaymentMethodTypes(OrderInterface $order): array

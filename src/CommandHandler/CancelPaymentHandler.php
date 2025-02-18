@@ -11,20 +11,15 @@ use Sylius\Component\Core\Repository\PaymentRepositoryInterface;
 
 final class CancelPaymentHandler extends AbstractPayumPaymentHandler
 {
-    /** @var CancelRequestFactoryInterface */
-    private $cancelRequestFactory;
-
     /**
      * @param string[] $supportedGateways
      */
     public function __construct(
-        CancelRequestFactoryInterface $cancelRequestFactory,
+        private readonly CancelRequestFactoryInterface $cancelRequestFactory,
         PaymentRepositoryInterface $paymentRepository,
         Payum $payum,
-        array $supportedGateways
+        array $supportedGateways,
     ) {
-        $this->cancelRequestFactory = $cancelRequestFactory;
-
         parent::__construct($paymentRepository, $payum, $supportedGateways);
     }
 

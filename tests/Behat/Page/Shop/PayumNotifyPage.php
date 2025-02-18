@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Shop;
 
+use ArrayAccess;
 use Behat\Mink\Session;
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
 use Symfony\Component\Routing\RouterInterface;
 
 class PayumNotifyPage extends SymfonyPage implements PayumNotifyPageInterface
 {
-    private string $routeName;
-
+    /**
+     * @param array<string, mixed>|ArrayAccess<string, mixed> $minkParameters
+     */
     public function __construct(
         Session $session,
         $minkParameters,
         RouterInterface $router,
-        string $routeName
+        private readonly string $routeName,
     ) {
         parent::__construct($session, $minkParameters, $router);
-        $this->routeName = $routeName;
     }
 
     public function getNotifyUrl(array $urlParameters): string

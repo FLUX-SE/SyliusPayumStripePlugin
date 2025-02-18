@@ -8,18 +8,12 @@ use Behat\Mink\Driver\PantherDriver;
 use Behat\Mink\Session;
 use Sylius\Behat\Service\Setter\CookieSetterInterface;
 
-final class PantherCookieSetter implements CookieSetterInterface
+final readonly class PantherCookieSetter implements CookieSetterInterface
 {
-    private Session $minkSession;
-
-    private CookieSetterInterface $decoratedCookieSetter;
-
     public function __construct(
-        Session $minkSession,
-        CookieSetterInterface $decoratedCookieSetter
+        private Session $minkSession,
+        private CookieSetterInterface $decoratedCookieSetter,
     ) {
-        $this->decoratedCookieSetter = $decoratedCookieSetter;
-        $this->minkSession = $minkSession;
     }
 
     public function setCookie($name, $value): void

@@ -31,10 +31,17 @@ trait StripePaymentConfigProviderTrait
         return $factory === $this->factoryName;
     }
 
+    /**
+     * @return array{
+     *       'publishable_key': string,
+     *       'use_authorize': bool,
+     *   }
+     */
     public function provideDefaultConfiguration(PaymentInterface $payment): array
     {
         $gatewayConfig = $this->getGatewayConfig($payment);
 
+        /** @var array{'publishable_key': string, 'use_authorize'?: bool} $config */
         $config = $gatewayConfig->getConfig();
 
         return [
@@ -47,11 +54,11 @@ trait StripePaymentConfigProviderTrait
     {
         /** @var PaymentMethodInterface|null $paymentMethod */
         $paymentMethod = $payment->getMethod();
-        Assert::notNull($paymentMethod, 'Unable to found a PaymentMethod on this Payment.');
+        Assert::notNull($paymentMethod, 'Unable to find a PaymentMethod on this Payment.');
 
         /** @var GatewayConfigInterface|null $gatewayConfig */
         $gatewayConfig = $paymentMethod->getGatewayConfig();
-        Assert::notNull($gatewayConfig, 'Unable to found a GatewayConfig on this PaymentMethod.');
+        Assert::notNull($gatewayConfig, 'Unable to find a GatewayConfig on this PaymentMethod.');
 
         return $gatewayConfig;
     }

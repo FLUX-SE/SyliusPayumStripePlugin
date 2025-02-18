@@ -12,32 +12,17 @@ use Sylius\Component\Core\Model\PaymentInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Webmozart\Assert\Assert;
 
-final class Processor implements ProcessorInterface
+final readonly class Processor implements ProcessorInterface
 {
-    private Payum $payum;
-
-    private ModelAggregateFactoryInterface $captureRequestFactory;
-
-    private ModelAggregateFactoryInterface $authorizeRequestFactory;
-
-    private AfterUrlProviderInterface $afterUrlProvider;
-
-    public function __construct(
-        Payum $payum,
-        ModelAggregateFactoryInterface $captureRequestFactory,
-        ModelAggregateFactoryInterface $authorizeRequestFactory,
-        AfterUrlProviderInterface $afterUrlProvider
-    ) {
-        $this->payum = $payum;
-        $this->captureRequestFactory = $captureRequestFactory;
-        $this->authorizeRequestFactory = $authorizeRequestFactory;
-        $this->afterUrlProvider = $afterUrlProvider;
+    public function __construct(private Payum $payum, private ModelAggregateFactoryInterface $captureRequestFactory, private ModelAggregateFactoryInterface $authorizeRequestFactory, private AfterUrlProviderInterface $afterUrlProvider)
+    {
     }
 
     public function __invoke(PaymentInterface $payment, bool $useAuthorize): array
     {
         $tokenFactory = $this->payum->getTokenFactory();
         $gatewayName = $this->getGatewayConfig($payment)->getGatewayName();
+        Assert::notNull($gatewayName, 'Unable to find a GatewayName on this GatewayConfig.');
 
         $gateway = $this->payum->getGateway($gatewayName);
 
@@ -46,7 +31,7 @@ final class Processor implements ProcessorInterface
                 $gatewayName,
                 $payment,
                 $this->afterUrlProvider->getAfterPath($payment),
-                $this->afterUrlProvider->getAfterParameters($payment)
+                $this->afterUrlProvider->getAfterParameters($payment),
             );
             $request = $this->authorizeRequestFactory->createNewWithToken($token);
         } else {
@@ -54,7 +39,7 @@ final class Processor implements ProcessorInterface
                 $gatewayName,
                 $payment,
                 $this->afterUrlProvider->getAfterPath($payment),
-                $this->afterUrlProvider->getAfterParameters($payment)
+                $this->afterUrlProvider->getAfterParameters($payment),
             );
             $request = $this->captureRequestFactory->createNewWithToken($token);
         }

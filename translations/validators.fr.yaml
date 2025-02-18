@@ -1,0 +1,8 @@
+flux_se_sylius_payum_stripe_plugin:
+    stripe:
+        webhook_secret_keys:
+            not_blank: Veuillez saisir la clé secrète du webhook Stripe.
+        secret_key:
+            not_blank: Veuillez entrer votre clé secrète Stripe.
+        publishable_key:
+            not_blank: Veuillez entrer votre clé publique Stripe.

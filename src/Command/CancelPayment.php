@@ -6,11 +6,8 @@ namespace FluxSE\SyliusPayumStripePlugin\Command;
 
 class CancelPayment implements PaymentIdAwareCommandInterface
 {
-    protected int $paymentId;
-
-    public function __construct(int $paymentId)
+    public function __construct(protected int $paymentId)
     {
-        $this->paymentId = $paymentId;
     }
 
     public function getPaymentId(): int

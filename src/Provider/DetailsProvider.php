@@ -6,30 +6,10 @@ namespace FluxSE\SyliusPayumStripePlugin\Provider;
 
 use Sylius\Component\Core\Model\OrderInterface;
 
-final class DetailsProvider implements DetailsProviderInterface
+final readonly class DetailsProvider implements DetailsProviderInterface
 {
-    /** @var CustomerEmailProviderInterface */
-    private $customerEmailProvider;
-
-    /** @var LineItemsProviderInterface */
-    private $lineItemsProvider;
-
-    /** @var PaymentMethodTypesProviderInterface */
-    private $paymentMethodTypesProvider;
-
-    /** @var ModeProviderInterface */
-    private $modeProvider;
-
-    public function __construct(
-        CustomerEmailProviderInterface $customerEmailProvider,
-        LineItemsProviderInterface $lineItemsProvider,
-        PaymentMethodTypesProviderInterface $paymentMethodTypesProvider,
-        ModeProviderInterface $modeProvider
-    ) {
-        $this->customerEmailProvider = $customerEmailProvider;
-        $this->lineItemsProvider = $lineItemsProvider;
-        $this->paymentMethodTypesProvider = $paymentMethodTypesProvider;
-        $this->modeProvider = $modeProvider;
+    public function __construct(private CustomerEmailProviderInterface $customerEmailProvider, private LineItemsProviderInterface $lineItemsProvider, private PaymentMethodTypesProviderInterface $paymentMethodTypesProvider, private ModeProviderInterface $modeProvider)
+    {
     }
 
     public function getDetails(OrderInterface $order): array

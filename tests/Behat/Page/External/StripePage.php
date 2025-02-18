@@ -16,34 +16,21 @@ use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Page\Shop\PayumNotifyPageInterfac
 
 final class StripePage extends Page implements StripePageInterface
 {
-    private RepositoryInterface $securityTokenRepository;
-
-    private HttpKernelBrowser $client;
-
-    private PayumNotifyPageInterface $payumNotifyPage;
-
     /** @var string[] */
     private array $deadTokens = [];
 
-    private string $gatewayName;
-
     /**
-     * @param array|ArrayAccess $minkParameters
+     * @param array<string, mixed>|ArrayAccess<string, mixed> $minkParameters
      */
     public function __construct(
         Session $session,
         $minkParameters,
-        RepositoryInterface $securityTokenRepository,
-        HttpKernelBrowser $client,
-        PayumNotifyPageInterface $payumNotifyPage,
-        string $gatewayName
+        private readonly RepositoryInterface $securityTokenRepository,
+        private readonly HttpKernelBrowser $client,
+        private readonly PayumNotifyPageInterface $payumNotifyPage,
+        private readonly string $gatewayName,
     ) {
         parent::__construct($session, $minkParameters);
-
-        $this->securityTokenRepository = $securityTokenRepository;
-        $this->client = $client;
-        $this->payumNotifyPage = $payumNotifyPage;
-        $this->gatewayName = $gatewayName;
     }
 
     /**
@@ -53,7 +40,7 @@ final class StripePage extends Page implements StripePageInterface
     {
         try {
             $token = $this->findToken();
-        } catch (RuntimeException $e) {
+        } catch (RuntimeException) {
             // No easy way to know if we need authorize or not
             $token = $this->findToken('authorize');
         }
@@ -100,7 +87,7 @@ final class StripePage extends Page implements StripePageInterface
             [],
             [],
             $this->generateSignature($payload),
-            $payload
+            $payload,
         );
     }
 
@@ -114,7 +101,7 @@ final class StripePage extends Page implements StripePageInterface
                 continue;
             }
 
-            if (false === strpos($token->getTargetUrl(), $type)) {
+            if (!str_contains($token->getTargetUrl(), $type)) {
                 continue;
             }
 
@@ -132,7 +119,7 @@ final class StripePage extends Page implements StripePageInterface
         if ($type !== 'notify') {
             $relatedToken = null;
             foreach ($tokens as $token) {
-                if (false === strpos($foundToken->getAfterUrl(), $token->getHash())) {
+                if (!str_contains($foundToken->getAfterUrl(), $token->getHash())) {
                     continue;
                 }
                 $relatedToken = $token;
@@ -148,6 +135,9 @@ final class StripePage extends Page implements StripePageInterface
         return $foundToken;
     }
 
+    /**
+     * @param array<string, string> $urlParameters
+     */
     protected function getUrl(array $urlParameters = []): string
     {
         return 'https://stripe.com';

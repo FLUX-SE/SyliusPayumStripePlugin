@@ -1,0 +1,16 @@
+flux_se_sylius_payum_stripe_plugin:
+    payum_gateway_factory:
+        stripe_checkout_session: Stripe Checkout Sessie
+    form:
+        gateway_configuration:
+            stripe:
+                publishable_key: Openbare sleutel
+                secret_key: Geheime sleutel
+                use_authorize: Gebruik autorisatie
+                webhook_secret_keys: Webhook geheime sleutels
+                help:
+                    use_authorize: >
+                        Wanneer een betaling is geautoriseerd, garandeert de bank het bedrag en houdt het vast op de kaart van de klant gedurende maximaal zeven dagen.
+                        <a href="https://stripe.com/docs/payments/capture-later" target="_blank">
+                            Lees meer
+                        </a>

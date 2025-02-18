@@ -1,0 +1,13 @@
+flux_se_sylius_payum_stripe_plugin:
+    payum_gateway_factory:
+        stripe_checkout_session: Stripe Checkout-Session
+        stripe_js: Stripe JS
+    form:
+        gateway_configuration:
+            stripe:
+                publishable_key: Öffentlicher Schlüssel
+                secret_key: Geheimschlüssel
+                use_authorize: Autorisierung verwenden
+                webhook_secret_keys: Geheimschlüssel für Webhooks
+                info:
+                    use_authorize: Wenn eine Zahlung autorisiert wird, garantiert die Bank den Betrag und reserviert ihn bis zu sieben Tage auf der Karte des Kunden.

@@ -1,0 +1,21 @@
+{% set form = hookable_metadata.context.form.gatewayConfig.config.use_authorize %}
+
+<div class="col-12">
+    {{ form_row(form, sylius_test_form_attribute('use-authorize')) }}
+</div>
+<div class="col-12 alert alert-info {{ form.vars.data ? '' : ' d-none' }}" {{ sylius_test_html_attribute('use-authorize-info') }}>
+    <div class="d-flex align-items-center">
+        <div>{{ ux_icon('tabler:info-circle', {'class': 'icon alert-icon'}) }}</div>
+        <div>
+            <p>
+                {{ 'flux_se_sylius_payum_stripe_plugin.form.gateway_configuration.stripe.info.use_authorize'|trans }}
+            </p>
+            <p>
+                <a href="https://stripe.com/docs/payments/capture-later" target="_blank" rel="noopener noreferrer">
+                    {{ 'sylius.ui.view_more'|trans }}
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+

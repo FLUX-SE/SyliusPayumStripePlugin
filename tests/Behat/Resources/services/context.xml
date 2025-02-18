@@ -4,6 +4,18 @@
     <services>
         <defaults public="true" />
 
+        <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.context.ui.admin.managing_payment_methods.stripe"
+                 class="Sylius\Behat\Context\Ui\Admin\ManagingPaymentMethodsContext">
+            <argument type="service" id="sylius.behat.page.admin.payment_method.create" />
+            <argument type="service" id="sylius.behat.page.admin.payment_method.index" />
+            <argument type="service" id="sylius.behat.page.admin.payment_method.update" />
+            <argument type="service" id="sylius.behat.current_page_resolver" />
+            <argument type="collection">
+                <argument key="stripe_checkout_session">Stripe Checkout Session</argument>
+                <argument key="stripe_js">Stripe JS</argument>
+            </argument>
+        </service>
+
         <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.context.setup.stripe"
                  class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Setup\StripeContext">
             <argument type="service" id="sylius.behat.shared_storage" />
@@ -19,7 +31,7 @@
 
         <service id="tests.flux_se.sylius_payum_stripe_plugin.behat.context.ui.admin.managing_orders"
                  class="Tests\FluxSE\SyliusPayumStripePlugin\Behat\Context\Ui\Admin\ManagingOrdersContext">
-            <argument type="service" id="sm.factory" />
+            <argument type="service" id="sylius_abstraction.state_machine" />
             <argument type="service" id="sylius.manager.order" />
             <argument type="service" id="tests.flux_se.sylius_payum_stripe_plugin.behat.mocker.stripe_checkout_session_mocker" />
         </service>

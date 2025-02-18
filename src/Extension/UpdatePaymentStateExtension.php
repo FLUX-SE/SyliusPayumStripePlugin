@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace FluxSE\SyliusPayumStripePlugin\Extension;
 
-use FluxSE\SyliusPayumStripePlugin\Abstraction\StateMachine\StateMachineInterface;
 use Payum\Core\Extension\Context;
 use Payum\Core\Extension\ExtensionInterface;
 use Payum\Core\Model\ModelAggregateInterface;
 use Payum\Core\Storage\IdentityInterface;
 use Payum\Core\Storage\StorageInterface;
+use Sylius\Abstraction\StateMachine\StateMachineInterface;
 use Sylius\Bundle\PayumBundle\Factory\GetStatusFactoryInterface;
 use Sylius\Component\Payment\Model\PaymentInterface;
 use Sylius\Component\Payment\PaymentTransitions;
 
 /**
- * Reproduction of the Payum Core StorageExtension behaviour for Sylius payments
+ * Reproduction of the Payum Core StorageExtension behavior for Sylius payments
  *
  * @see \Payum\Core\Extension\StorageExtension
  */
@@ -24,20 +24,11 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
     /** @var PaymentInterface[] */
     private array $scheduledPaymentsToProcess = [];
 
-    private StateMachineInterface $stateMachine;
-
-    private StorageInterface $storage;
-
-    private GetStatusFactoryInterface $getStatusRequestFactory;
-
     public function __construct(
-        StateMachineInterface $stateMachine,
-        StorageInterface $storage,
-        GetStatusFactoryInterface $getStatusRequestFactory
+        private readonly StateMachineInterface $stateMachine,
+        private readonly StorageInterface $storage,
+        private readonly GetStatusFactoryInterface $getStatusRequestFactory,
     ) {
-        $this->getStatusRequestFactory = $getStatusRequestFactory;
-        $this->storage = $storage;
-        $this->stateMachine = $stateMachine;
     }
 
     public function onPreExecute(Context $context): void
@@ -52,7 +43,6 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
         if ($request->getModel() instanceof IdentityInterface) {
             $payment = $this->storage->find($request->getModel());
         } else {
-            /** @var PaymentInterface|mixed $payment */
             $payment = $request->getModel();
         }
 
@@ -118,7 +108,7 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
         $transition = $this->stateMachine->getTransitionToState(
             $payment,
             PaymentTransitions::GRAPH,
-            $nextState
+            $nextState,
         );
         if (null === $transition) {
             return;
@@ -127,7 +117,7 @@ final class UpdatePaymentStateExtension implements ExtensionInterface
         $this->stateMachine->apply(
             $payment,
             PaymentTransitions::GRAPH,
-            $transition
+            $transition,
         );
     }
 

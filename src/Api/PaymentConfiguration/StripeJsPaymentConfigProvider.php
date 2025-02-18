@@ -15,16 +15,20 @@ final class StripeJsPaymentConfigProvider implements PaymentConfigurationProvide
         StripePaymentConfigProviderTrait::__construct as private __stripePaymentConfigProviderConstruct;
     }
 
-    private ProcessorInterface $captureProcessor;
-
     public function __construct(
-        ProcessorInterface $captureProcessor,
-        string $factoryName
+        private ProcessorInterface $captureProcessor,
+        string $factoryName,
     ) {
-        $this->captureProcessor = $captureProcessor;
         $this->__stripePaymentConfigProviderConstruct($factoryName);
     }
 
+    /**
+     * @return array{
+     *       'publishable_key': string,
+     *       'use_authorize': bool,
+     *       'stripe_payment_intent_client_secret': string|null,
+     *   }
+     */
     public function provideConfiguration(PaymentInterface $payment): array
     {
         $config = $this->provideDefaultConfiguration($payment);

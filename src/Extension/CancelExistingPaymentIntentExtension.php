@@ -25,20 +25,10 @@ use Sylius\Component\Core\Model\PaymentInterface;
  * You cannot cancel the PaymentIntent for a Checkout Session. Expire the Checkout Session instead
  * @see https://github.com/FLUX-SE/SyliusPayumStripePlugin/issues/32
  */
-final class CancelExistingPaymentIntentExtension implements ExtensionInterface
+final readonly class CancelExistingPaymentIntentExtension implements ExtensionInterface
 {
-    /** @var ExpireSessionRequestFactoryInterface */
-    private $expireSessionRequestFactory;
-
-    /** @var AllSessionRequestFactoryInterface */
-    private $allSessionRequestFactory;
-
-    public function __construct(
-        ExpireSessionRequestFactoryInterface $expireSessionRequestFactory,
-        AllSessionRequestFactoryInterface $allSessionRequestFactory
-    ) {
-        $this->expireSessionRequestFactory = $expireSessionRequestFactory;
-        $this->allSessionRequestFactory = $allSessionRequestFactory;
+    public function __construct(private ExpireSessionRequestFactoryInterface $expireSessionRequestFactory, private AllSessionRequestFactoryInterface $allSessionRequestFactory)
+    {
     }
 
     public function onPreExecute(Context $context): void
@@ -86,9 +76,8 @@ final class CancelExistingPaymentIntentExtension implements ExtensionInterface
 
         $gateway->execute($allSessionRequest);
 
-        /** @var Collection $sessions */
+        /** @var Collection<Session> $sessions */
         $sessions = $allSessionRequest->getApiResources();
-        /** @var Session|null $session */
         $session = $sessions->first();
         if (null === $session) {
             return;

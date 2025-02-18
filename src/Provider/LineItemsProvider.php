@@ -6,20 +6,10 @@ namespace FluxSE\SyliusPayumStripePlugin\Provider;
 
 use Sylius\Component\Core\Model\OrderInterface;
 
-final class LineItemsProvider implements LineItemsProviderInterface
+final readonly class LineItemsProvider implements LineItemsProviderInterface
 {
-    /** @var LineItemProviderInterface */
-    private $lineItemProvider;
-
-    /** @var ShippingLineItemProviderInterface */
-    private $shippingLineItemProvider;
-
-    public function __construct(
-        LineItemProviderInterface $lineItemProvider,
-        ShippingLineItemProviderInterface $shippingLineItemProvider
-    ) {
-        $this->lineItemProvider = $lineItemProvider;
-        $this->shippingLineItemProvider = $shippingLineItemProvider;
+    public function __construct(private LineItemProviderInterface $lineItemProvider, private ShippingLineItemProviderInterface $shippingLineItemProvider)
+    {
     }
 
     public function getLineItems(OrderInterface $order): ?array

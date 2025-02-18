@@ -7,15 +7,11 @@ namespace FluxSE\SyliusPayumStripePlugin\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-final class PayumGatewayConfigOverride implements CompilerPassInterface
+final readonly class PayumGatewayConfigOverride implements CompilerPassInterface
 {
-    /** @var array<string, array> */
-    private $gatewayConfigs;
-
-    /** @param array<string, array> $gatewayConfigs */
-    public function __construct(array $gatewayConfigs)
+    /** @param array<string, array<mixed>> $gatewayConfigs */
+    public function __construct(private array $gatewayConfigs)
     {
-        $this->gatewayConfigs = $gatewayConfigs;
     }
 
     public function process(ContainerBuilder $container): void

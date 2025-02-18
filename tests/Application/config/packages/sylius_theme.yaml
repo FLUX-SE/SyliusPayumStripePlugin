@@ -1,0 +1,6 @@
+when@test: &sylius_theme_test
+    sylius_theme:
+        sources:
+            test: ~
+
+when@test_cached: *sylius_theme_test

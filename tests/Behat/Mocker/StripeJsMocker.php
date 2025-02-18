@@ -5,42 +5,31 @@ declare(strict_types=1);
 namespace Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker;
 
 use Stripe\PaymentIntent;
-use Sylius\Behat\Service\Mocker\MockerInterface;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\PaymentIntentMocker;
 use Tests\FluxSE\SyliusPayumStripePlugin\Behat\Mocker\Api\RefundMocker;
 
-final class StripeJsMocker
+final readonly class StripeJsMocker
 {
-    private MockerInterface $mocker;
-
-    private PaymentIntentMocker $paymentIntentMocker;
-
-    private RefundMocker $refundMocker;
-
     public function __construct(
-        MockerInterface $mocker,
-        PaymentIntentMocker $paymentIntentMocker,
-        RefundMocker $refundMocker
+        private PaymentIntentMocker $paymentIntentMocker,
+        private RefundMocker $refundMocker,
     ) {
-        $this->mocker = $mocker;
-        $this->paymentIntentMocker = $paymentIntentMocker;
-        $this->refundMocker = $refundMocker;
     }
 
     public function mockCaptureOrAuthorize(callable $action): void
     {
-        $this->mocker->unmockAll();
+        $this->unmockAll();
 
         $this->paymentIntentMocker->mockCreateAction();
         $this->mockPaymentIntentSync(
             $action,
-            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD
+            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
         );
     }
 
     public function mockCancelPayment(string $status, string $captureMethod): void
     {
-        $this->mocker->unmockAll();
+        $this->unmockAll();
 
         $this->paymentIntentMocker->mockUpdateAction($status, $captureMethod);
         $this->paymentIntentMocker->mockCancelAction($captureMethod);
@@ -49,14 +38,14 @@ final class StripeJsMocker
 
     public function mockRefundPayment(): void
     {
-        $this->mocker->unmockAll();
+        $this->unmockAll();
 
         $this->refundMocker->mockCreateAction();
     }
 
     public function mockCaptureAuthorization(string $status, string $captureMethod): void
     {
-        $this->mocker->unmockAll();
+        $this->unmockAll();
 
         $this->paymentIntentMocker->mockUpdateAction($status, $captureMethod);
         $this->paymentIntentMocker->mockCaptureAction(PaymentIntent::STATUS_SUCCEEDED);
@@ -67,7 +56,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $action,
-            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD
+            PaymentIntent::STATUS_REQUIRES_PAYMENT_METHOD,
         );
     }
 
@@ -75,7 +64,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $notifyAction,
-            PaymentIntent::STATUS_SUCCEEDED
+            PaymentIntent::STATUS_SUCCEEDED,
         );
         $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_SUCCEEDED);
     }
@@ -84,7 +73,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $notifyAction,
-            PaymentIntent::STATUS_REQUIRES_CAPTURE
+            PaymentIntent::STATUS_REQUIRES_CAPTURE,
         );
         $this->mockPaymentIntentSync($action, PaymentIntent::STATUS_REQUIRES_CAPTURE);
     }
@@ -93,7 +82,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $action,
-            PaymentIntent::STATUS_SUCCEEDED
+            PaymentIntent::STATUS_SUCCEEDED,
         );
     }
 
@@ -101,7 +90,7 @@ final class StripeJsMocker
     {
         $this->mockPaymentIntentSync(
             $action,
-            PaymentIntent::STATUS_REQUIRES_CAPTURE
+            PaymentIntent::STATUS_REQUIRES_CAPTURE,
         );
     }
 
@@ -111,6 +100,11 @@ final class StripeJsMocker
 
         $action();
 
-        $this->mocker->unmockAll();
+        $this->unmockAll();
+    }
+
+    private function unmockAll(): void
+    {
+        $this->paymentIntentMocker->unmock();
     }
 }
