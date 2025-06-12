@@ -6,8 +6,6 @@
 !/etc/build/.gitignore
 drivers
 
-/tests/Application/yarn.lock
-
 /.phpunit.result.cache
 /phpunit.xml
 /phpstan.neon
