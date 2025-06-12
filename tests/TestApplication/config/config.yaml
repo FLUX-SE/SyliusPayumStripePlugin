@@ -1,0 +1,3 @@
+imports:
+    - { resource: "packages/*.yaml" }
+    - { resource: "services_test.php" }

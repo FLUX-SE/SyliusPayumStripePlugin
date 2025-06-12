@@ -1,0 +1,5 @@
+imports:
+    - { resource: "@FluxSESyliusPayumStripePlugin/Resources/config/config.yaml" }
+
+flux_se_sylius_payum_stripe:
+    refund_disabled: false

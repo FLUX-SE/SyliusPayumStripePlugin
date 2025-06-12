@@ -11,12 +11,6 @@ parameters:
         # Makes PHPStan crash
         - 'src/DependencyInjection/Configuration.php'
 
-        - tests/Application/Kernel.php
-        - tests/Application/public/index.php
-        - tests/Application/config/**.php
-        - tests/Application/var/**.php
-        - tests/Application/node_modules/**.php
-
     ignoreErrors:
         - identifier: missingType.iterableValue
         - identifier: missingType.generics

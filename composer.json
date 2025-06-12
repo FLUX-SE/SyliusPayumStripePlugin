@@ -43,7 +43,8 @@
         "symfony/intl": "^5.4|^6.4",
         "symfony/runtime": "^5.4|^6.4",
         "symfony/web-profiler-bundle": "^5.4|^6.4",
-        "symfony/webpack-encore-bundle": "^1|^2"
+        "symfony/webpack-encore-bundle": "^1|^2",
+        "sylius/test-application": "1.14.x-dev"
     },
     "autoload": {
         "psr-4": { "FluxSE\\SyliusPayumStripePlugin\\": "src/" }
@@ -51,8 +52,7 @@
     "autoload-dev": {
         "psr-4": {
             "spec\\FluxSE\\SyliusPayumStripePlugin\\": "spec/",
-            "Tests\\FluxSE\\SyliusPayumStripePlugin\\": "tests/",
-            "Tests\\FluxSE\\SyliusPayumStripePlugin\\App\\": "tests/Application/src/"
+            "Tests\\FluxSE\\SyliusPayumStripePlugin\\": "tests/"
         }
     },
     "scripts": {
@@ -78,10 +78,6 @@
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
-        },
-        "runtime": {
-            "project_dir": "tests/Application",
-            "dotenv_path": "tests/Application/.env"
         }
     }
 }

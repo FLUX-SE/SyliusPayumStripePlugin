@@ -28,7 +28,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: [ "7.4", "8.1" ]
+                php: [ "8.2" ]
                 symfony: [ "^5.4", "^6.4" ]
                 exclude:
                     -
@@ -112,25 +112,11 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                php: ["8.0", "8.1", "8.2", "8.3"]
+                php: ["8.2", "8.3"]
                 symfony: ["^5.4", "^6.4"]
-                sylius: ["~1.12.0", "~1.13.0"]
+                sylius: ["~1.14.0"]
                 node: ["20.x"]
                 mysql: ["8.0"]
-
-                exclude:
-                    -
-                        sylius: "~1.12.0"
-                        php: "7.4"
-                    -
-                        sylius: "~1.13.0"
-                        php: "7.4"
-                    -
-                        sylius: "~1.13.0"
-                        php: "8.0"
-                    -
-                        php: "8.0"
-                        symfony: "^6.4"
 
         env:
             APP_ENV: test
@@ -175,10 +161,6 @@ jobs:
                 run: symfony server:ca:install
 
             -
-                name: Run webserver
-                run: (cd tests/Application && symfony server:start --port=8080 --dir=public --daemon)
-
-            -
                 name: Get Composer cache directory
                 id: composer-cache
                 run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
@@ -198,16 +180,16 @@ jobs:
                 run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
 
             -
+                name: Restrict Sylius Test Aplication version
+                if: matrix.sylius == '~1.14.0'
+                run: composer require "sylius/test-application:1.14.x-dev" --dev --no-update --no-scripts --no-interaction
+
+            -
                 name: Fix build with PHP 8.3
                 if: matrix.php == '8.3'
                 run: |
                     composer remove --dev "phpspec/phpspec" --no-update --no-scripts --no-interaction
 
-            -
-                name: Fix build with Symfony ^5.4
-                if: matrix.symfony == '^5.4'
-                run: |
-                    composer require --dev "doctrine/annotations:^1.14" --no-update --no-scripts --no-interaction
             -
                 name: Install PHP dependencies
                 run: composer install --no-interaction
@@ -217,6 +199,10 @@ jobs:
             -
                 name: Install Behat driver
                 run: vendor/bin/bdi browser:google-chrome drivers
+
+            -
+                name: Run webserver
+                run: symfony serve --dir=vendor/sylius/test-application/public --port=8080 --daemon
 
             -
                 name: Get Yarn cache directory
@@ -234,34 +220,38 @@ jobs:
 
             -
                 name: Install JS dependencies
-                run: (cd tests/Application && yarn install)
+                run: (cd vendor/sylius/test-application && yarn install)
 
             -
                 name: Prepare test application database
                 run: |
-                    (cd tests/Application && bin/console doctrine:database:create -vvv)
-                    (cd tests/Application && bin/console doctrine:migrations:migrate -n -vvv -q)
+                    vendor/bin/console doctrine:database:create -vvv
+                    vendor/bin/console doctrine:migrations:migrate -n -vvv -q
+
+            -
+                name: Validate database schema
+                run: vendor/bin/console doctrine:schema:validate -vvv
 
             -
                 name: Prepare test application assets
                 run: |
-                    (cd tests/Application && bin/console assets:install public -vvv)
-                    (cd tests/Application && yarn build:prod)
+                    vendor/bin/console assets:install -vvv
+                    (cd vendor/sylius/test-application && yarn build)
 
             -
                 name: Prepare test application cache
-                run: (cd tests/Application && bin/console cache:warmup -vvv)
+                run: vendor/bin/console cache:warmup -vvv
 
             -
                 name: Load fixtures in test application
-                run: (cd tests/Application && bin/console sylius:fixtures:load -n)
+                run: vendor/bin/console sylius:fixtures:load -n
             -
                 name: Validate composer.json
                 run: composer validate --ansi --strict
 
             -
-                name: Validate database schema
-                run: (cd tests/Application && bin/console doctrine:schema:validate)
+                name: Validate container
+                run: vendor/bin/console lint:container
 
             -
                 name: Run security check
@@ -283,5 +273,5 @@ jobs:
                     name: Logs for Sylius ${{ matrix.sylius }}, PHP ${{ matrix.php }}, Symfony ${{ matrix.symfony }}, MySQL ${{ matrix.mysql }}
                     path: |
                         etc/build/
-                        tests/Application/var/log
+                        vendor/sylius/test-application/var/log
                     if-no-files-found: ignore
