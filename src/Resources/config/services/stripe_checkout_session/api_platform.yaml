@@ -3,7 +3,7 @@ services:
   flux_se.sylius_payum_stripe.api.payment_provider.stripe_checkout_session:
     class: FluxSE\SyliusPayumStripePlugin\Api\PaymentConfiguration\StripeCheckoutSessionPaymentConfigProvider
     arguments:
-      $captureProcessor: '@flux_se.sylius_payum_stripe.api.payum.processor.stripe_js'
+      $captureProcessor: '@flux_se.sylius_payum_stripe.api.payum.processor.stripe_checkout_session'
       $factoryName: 'stripe_checkout_session'
     tags:
       - name: sylius.api.payment_method_handler
