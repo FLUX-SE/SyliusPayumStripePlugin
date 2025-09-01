@@ -27,6 +27,15 @@ final class ConvertPaymentAction implements ConvertPaymentActionInterface
 
         /** @var PaymentInterface $payment */
         $payment = $request->getSource();
+
+        $details = $payment->getDetails();
+
+        $id = $details['id'] ?? null;
+        if (is_string($id) && $id !== '') {
+            $request->setResult($details);
+            return;
+        }
+
         /** @var OrderInterface $order */
         $order = $payment->getOrder();
 
