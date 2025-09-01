@@ -33,6 +33,7 @@ final class ConvertPaymentAction implements ConvertPaymentActionInterface
         $id = $details['id'] ?? null;
         if (is_string($id) && $id !== '') {
             $request->setResult($details);
+
             return;
         }
 

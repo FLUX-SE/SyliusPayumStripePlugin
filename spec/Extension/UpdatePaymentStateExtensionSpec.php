@@ -14,7 +14,6 @@ use Payum\Core\Model\ModelAggregateInterface;
 use Payum\Core\Model\PaymentInterface as PayumPaymentInterface;
 use Payum\Core\Request\GetStatusInterface;
 use Payum\Core\Security\TokenAggregateInterface;
-use Payum\Core\Storage\IdentityInterface;
 use Payum\Core\Storage\StorageInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Bundle\PayumBundle\Factory\GetStatusFactoryInterface;
