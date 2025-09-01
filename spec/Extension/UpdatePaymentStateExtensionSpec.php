@@ -9,6 +9,7 @@ use FluxSE\SyliusPayumStripePlugin\Abstraction\StateMachine\StateMachineInterfac
 use Payum\Core\Extension\Context;
 use Payum\Core\Extension\ExtensionInterface;
 use Payum\Core\GatewayInterface;
+use Payum\Core\Model\Identity;
 use Payum\Core\Model\ModelAggregateInterface;
 use Payum\Core\Model\PaymentInterface as PayumPaymentInterface;
 use Payum\Core\Request\GetStatusInterface;
@@ -38,15 +39,15 @@ final class UpdatePaymentStateExtensionSpec extends ObjectBehavior
     public function it_onPreExecute_with_Identity_finds_the_related_payment_and_stores_it(
         Context $context,
         ModelAggregateInterface $request,
-        IdentityInterface $model,
         StorageInterface $storage,
         PaymentInterface $payment
     ): void {
+        $model = new Identity(1, $payment->getWrappedObject());
+
         $context->getRequest()->willReturn($request);
         $request->getModel()->willReturn($model);
 
         $storage->find($model)->willReturn($payment);
-        $model->getId()->willReturn(1);
 
         $this->onPreExecute($context);
     }

@@ -48,6 +48,7 @@ final class ConvertPaymentActionSpec extends ObjectBehavior
         DetailsProviderInterface $detailsProvider
     ): void {
         $details = [];
+        $payment->getDetails()->willReturn($details);
         $payment->getOrder()->willReturn($order);
         $request->getSource()->willReturn($payment);
         $request->getTo()->willReturn('array');
